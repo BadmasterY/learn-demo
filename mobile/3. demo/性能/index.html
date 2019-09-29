@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Demo</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        .page {
+            height: 50%;
+            text-align: center;
+            position: relative;
+        }
+
+        .page:nth-child(2n) {
+            background: #eee;
+        }
+
+        .number {
+            display: block;
+            width: 200px;
+            height: 100px;
+            margin: auto;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            line-height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page page_1">
+        <span>防抖</span>
+        <span class="number number_1">0</span>
+    </div>
+    <div class="page page_2">
+        <span>节流</span>
+        <span class="number number_2">0</span>
+    </div>
+    <script src="./js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,9 @@
+.img {
+    position: relative;
+    top: -600px;
+    transition: top ease 1s 300ms;
+}
+
+.img.show {
+    top: 20px;
+}

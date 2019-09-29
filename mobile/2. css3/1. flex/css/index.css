@@ -1,0 +1,38 @@
+footer {
+    border-top: 1px solid #e7e7e7;
+    border-bottom: 1px solid #f8f8f8;
+    /* 兼容性 使用webpack之类的工具可以忽略 */
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify; /* 平均分配水平空间给每个元素 */
+    -moz-box-pack: justify;
+    -ms-flex-pack: justify;
+    -webkit-box-align: center; /* 垂直居中 */
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    justify-content: space-between; /* 平均分布在一行 */
+    align-content: center; /* 垂直居中 */
+    padding-top: 0.5em;
+}
+
+footer a {
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1; /* 每一项宽度相等 */
+    text-align: center;
+    text-decoration: none;
+    color: #5d656b;
+}
+
+footer a span {
+    font-size: 1.5em;
+}
+
+footer a p {
+    font-size: 10px;
+    margin: 0;
+}

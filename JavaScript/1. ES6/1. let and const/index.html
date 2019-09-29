@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Let and Const</title>
+</head>
+
+<body>
+  <script>
+    // let vs var
+    {
+      let a = 1;
+      var b = 2;
+    }
+
+    // console.log(`a: ${a}`); // ==> ReferenceError: a is not defined
+    console.log(`b: ${b}`); // ==> b: 2
+
+    var c = 3;
+    let d = 4;
+
+    console.log(window.c); // ==> 3
+    console.log(window.d); // ==> undefined
+
+    // const
+    const PI = 3.1415;
+
+    console.log(PI); // ==> 3.1415
+    
+    PI = 3.14; // ==> TypeError: Assignment to constant variable
+  </script>
+</body>
+
+</html>

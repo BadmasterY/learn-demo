@@ -1,0 +1,65 @@
+html,body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-flow: column; /* 子列纵向排列 */
+    min-height: 100vh; /* 最小高度为当前页面高度 */
+}
+
+.container {
+    flex: 1; /* 容器高度自适应 */
+    display: flex; /* 方便容器内部布局 */
+}
+
+nav,aside {
+    width: 200px; /* 导航栏与侧边栏宽度固定 */
+    height: auto;
+}
+
+nav {
+    background: #aaa;
+}
+
+aside {
+    background: #515a6e;
+}
+
+main {
+    flex: 1; /* 内容宽度自适应 */
+}
+
+footer {
+    text-align: center;
+    line-height: 40px; /* 底部高度 */
+    background: #eee;
+}
+
+/* 宽度不大于1000px时,侧边栏隐藏 */
+@media (max-width:1000px) {
+    aside {
+        display: none;
+    }
+}
+
+/* 宽度不大于768px时 */
+@media (max-width:768px) {
+    .container {
+        flex-direction: column; /* 纵向排列 */
+    }
+
+    nav,aside {
+        width: 100%;
+    }
+
+    aside {
+        display: block; /* 将不大于1000px时隐藏的侧边栏显示 */
+    }
+
+    main {
+        min-width: 90vw;
+        min-height: 90vh;
+    }
+}

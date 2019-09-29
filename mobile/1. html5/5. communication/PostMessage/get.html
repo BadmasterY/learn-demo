@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>消息接收端</title>
+    <style>
+        #messageList {
+            border: 1px solid #333;
+            border-radius: 4px;
+            width: 200px;
+            min-height: 150px;
+        }
+        #postWindow {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h3>消息接收端</h3>
+    <ul id="messageList"></ul>
+    <iframe id="postWindow" src="post.html" frameborder="0"></iframe>
+    <script src="./get.js"></script>
+</body>
+</html>

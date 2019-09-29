@@ -1,0 +1,28 @@
+html,body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+header {
+    position: fixed;
+    z-index: 9;
+    left: 50%;
+    transform: translateX(-70px);
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+#control {
+    width: 150px;
+    height: 200px;
+    position: absolute;
+    top: 0;
+    background: #fff;
+    z-index: 9;
+    overflow-x: hidden;
+    overflow-y: auto;
+}

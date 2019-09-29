@@ -1,0 +1,102 @@
+body {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    font-family: "Helvetica Neue",Helvetica,sans-serif;
+    font-size: 17px;
+    line-height: 21px;
+    color: #000;
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+  }
+  
+  .barrage-input-container {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 30px;
+    display: flex;
+    z-index: 100;
+  }
+  .barrage-input-text {
+    flex: 8;
+    border:1px solid #d2a000;
+  }
+  .barrage-input-submit {
+    flex: 2;
+    background-color: #d2a000;
+    color: #fff;
+    border:1px solid #d2a000;
+    box-shadow: 0 1px 2px #fedd71 inset,0 -1px 0 #a38b39 inset,0 -2px 3px #fedd71 inset;
+  }
+  
+  .barrages{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99;
+  }
+  
+  .barrages div{
+    opacity: 0;
+    position: absolute;
+  }
+  
+  .barrage-enter {
+    display: inline-block;
+    position: absolute;
+    opacity: 0;
+    animation: barrage 4s linear;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 1px solide #ff0000;
+    padding: 5px 10px;
+    border-radius: 5px;
+    height: 25px;
+    line-height: 25px;
+    overflow: hidden;
+  }
+  
+  .barrage-enter.barrage-enter-active {
+    opacity: 1;
+  }
+  
+  .barrage-0{
+    top: 10%;
+  }
+  .barrage-1{
+    top: 20%;
+  }
+  .barrage-2{
+    top: 30%;
+  }
+  .barrage-3{
+    top: 40%;
+  }
+  .barrage-4{
+    top: 50%;
+  }
+  .barrage-5{
+    top: 60%;
+  }
+  .barrage-6{
+    top: 70%;
+  }
+  .barrage-7{
+    top: 80%;
+  }
+  
+  @keyframes barrage {
+    from {
+      left:100%;;
+    }
+    to {
+      left:-100%;
+    }
+  }
+  

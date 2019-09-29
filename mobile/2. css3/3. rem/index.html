@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Rem</title>
+    <link rel="stylesheet" href="./css/index.css">
+</head>
+<body>
+    <div class="btns">
+        <a href="#">
+            <i></i>
+            <span>英语</span>
+        </a>
+        <a href="#">
+            <i></i>
+            <span>日语</span>
+        </a>
+        <a href="#">
+            <i></i>
+            <span>韩语</span>
+        </a>
+        <a href="#">
+            <i></i>
+            <span>小语种</span>
+        </a>
+        <a href="#">
+            <i></i>
+            <span>留学</span>
+        </a>
+        <a href="#">
+            <i></i>
+            <span>职场</span>
+        </a>
+        <a href="#">
+            <i></i>
+            <span>中小幼</span>
+        </a>
+        <a href="#">
+            <i></i>
+            <span>全部分类</span>
+        </a>
+    </div>
+    <script>
+        window.addEventListener('load', e => {
+            let dom = document.documentElement;
+            resetFontSize();
+
+            window.addEventListener('resize', resetFontSize, false);
+
+            function resetFontSize() {
+                // 浏览器宽度
+                let width = dom.getBoundingClientRect().width;
+                if(width > 640) width = 640; // 设置一个最大值
+                dom.style.fontSize = (width / 10) + 'px';
+            }
+        }, false);
+    </script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Demo</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        .parent {
+            width: 100%;
+            height: 50%;
+            box-sizing: border-box;
+        }
+
+        .parent:nth-child(2n) {
+            background: #eee;
+        }
+
+        .child {
+            width: 200px;
+            height: 100px;
+            border: 1px solid #f40;
+        }
+
+        /* 居中1 */
+        .child_1 {
+            margin: 0 auto;
+        }
+
+        /* 居中2 */
+        .child_2 {
+            display: table;
+            margin: 0 auto;
+        }
+
+        /* 居中3 */
+        .parent_3 {
+            position: relative;
+        }
+
+        .child_3 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* 居中4 */
+        .parent_4 {
+            display: flex;
+            justify-content: center;
+        }
+
+        /* 居中5 */
+        .parent_5 {
+            display: flex;
+        }
+
+        .child_5 {
+            margin: 0 auto;
+        }
+
+        /* 居中6 */
+        .parent_6 {
+            display: flex;
+            justify-content: center;
+        }
+        /* 居中7 */
+        .parent_7 {
+            text-align: center;
+        }
+
+        .child_7 {
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="parent parent_1">
+        <div class="child child_1">
+            块级居中-1<br />
+            margin: 0 auto;
+        </div>
+    </div>
+    <div class="parent parent_2">
+        <span class="child child_2">
+            块级居中-2<br />
+            table + margin<br />
+            我是行内元素
+        </span>
+    </div>
+    <div class="parent parent_3">
+        <div class="child child_3">
+            块级居中-3<br />
+            absolute + transform
+        </div>
+    </div>
+    <div class="parent parent_4">
+        <div class="child child_4">
+            块级居中-4<br />
+            flex + justify-content
+        </div>
+    </div>
+    <div class="parent parent_5">
+        <span class="child child_5">
+            块级居中-5<br />
+            flex + margin<br />
+            我是行内元素
+        </span>
+    </div>
+    <div class="parent parent_6">
+        <div class="child child_6">
+            多块级居中-1<br />
+            flex布局<br />
+            我是第一块
+        </div>
+        <div class="child child_6">
+            多块级居中-1<br />
+            flex布局<br />
+            我是第二块
+        </div>
+        <div class="child child_6">
+            多块级居中-1<br />
+            flex布局<br />
+            我是第三块
+        </div>
+    </div>
+    <div class="parent parent_7">
+        <div class="child child_7">
+            多块级居中-2<br />
+            inline-block布局<br />
+            我是第一块
+        </div>
+        <div class="child child_7">
+            多块级居中-2<br />
+            inline-block布局<br />
+            我是第二块
+        </div>
+        <div class="child child_7">
+            多块级居中-2<br />
+            inline-block布局<br />
+            我是第三块
+        </div>
+    </div>
+</body>
+
+</html>

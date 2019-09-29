@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Demo</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        .parent {
+            height: 50%;
+            box-sizing: border-box;
+        }
+
+        .parent:nth-child(2n) {
+            background: #eee;
+        }
+
+        .child {
+            border: 1px solid #f40;
+            box-sizing: border-box;
+        }
+
+        .red {
+            color: red;
+        }
+
+        /* 居中1 */
+        .parent_1 {
+            position: relative;
+        }
+
+        .child_1 {
+            width: 200px;
+            height: 100px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: -50px 0 0 -100px;
+        }
+
+        /* 居中2 */
+        .parent_2 {
+            position: relative;
+        }
+
+        .child_2 {
+            width: 200px;
+            height: 100px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+        }
+
+        /* 居中3 */
+        .parent_3 {
+            position: relative;
+        }
+
+        .child_3 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* 居中4 */
+        .parent_4 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 居中5 */
+        .parent_5 {
+            display: grid;
+        }
+
+        .child_5 {
+            width: 200px;
+            height: 100px;
+            margin: auto;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="parent parent_1">
+        <div class="child child_1">
+            绝对定位与负边距实现<br />
+            已知<span class="red">居中元素</span>宽高
+        </div>
+    </div>
+    <div class="parent parent_2">
+        <div class="child child_2">
+            绝对定位与margin:auto<br />
+            已知<span class="red">父元素</span>宽高
+        </div>
+    </div>
+    <div class="parent parent_3">
+        <div class="child child_3">
+            绝对定位+CSS3<br />
+            未知宽高
+        </div>
+    </div>
+    <div class="parent parent_4">
+        <div class="child child_4">
+            flex布局<br />
+            未知宽高
+        </div>
+    </div>
+    <div class="parent parent_5">
+        <div class="child child_5">
+            flex/grid与margin:auto<br />
+            最简单,<span>父元素</span>必须有高度
+        </div>
+    </div>
+</body>
+
+</html>

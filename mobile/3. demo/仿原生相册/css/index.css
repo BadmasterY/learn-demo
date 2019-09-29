@@ -1,0 +1,38 @@
+html,body,div {
+    margin: 0;
+    padding: 0;
+    background: #acacac;
+}
+#gallery {
+    width: 100vw; /* 设置相册宽度为屏幕宽度 */
+    display: flex;
+    flex-flow: row wrap; /* 设置每一项横向排列,且换行 */
+    box-sizing: border-box;
+}
+
+.item {
+    flex: 1;
+}
+
+.item img {
+    width: 33vw; /* 每一张图片占整个屏幕宽度的1/3 */
+}
+
+/* 预览模式样式 */
+#gallery.preview{
+    touch-action: none; /* 禁用浏览器默认触摸行为 */
+}
+#gallery.preview .item {
+    display: flex;
+}
+
+#gallery.preview .item img {
+    max-width: 100vw;
+    max-height: 100vh;
+    width: initial;
+    margin: auto;
+}
+
+.animation {
+    transition: transform 300ms;
+}

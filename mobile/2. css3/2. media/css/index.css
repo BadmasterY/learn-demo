@@ -1,0 +1,19 @@
+html, body{
+    margin: 0;
+    padding: 0;
+}
+
+.wrapper {
+    width: 100%;
+    text-align: center;
+    line-height: 50px;
+    background: #aaa;
+}
+
+/* 屏幕分辨率不小于640px时触发 */
+@media screen and (min-width: 640px) {
+    .wrapper {
+        width: 480px;
+        margin: 0 auto;
+    }
+}

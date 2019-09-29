@@ -1,0 +1,14 @@
+.img {
+    position: relative;
+    top: -100px;
+}
+
+.img.show {
+    animation: move 2s ease infinite;
+}
+
+@keyframes move {
+    0% {top: -100px;}
+    50% {top: 20px;}
+    100% {width: 600px;}
+}

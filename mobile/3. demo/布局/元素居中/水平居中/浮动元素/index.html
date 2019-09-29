@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Demo</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        .parent {
+            height: 50%;
+        }
+
+        .parent:nth-child(2n) {
+            background: #eee;
+        }
+
+        .child {
+            float: left;
+            box-sizing: border-box;
+            border: 1px solid #f40;
+        }
+
+        .clearfloat:after {
+            display: block;
+            clear: both;
+            content: "";
+            visibility: hidden;
+            height: 0;
+        }
+
+        /* 浮动居中1 */
+        .child_1 {
+            width: 200px;
+            height: 100px;
+
+            position: relative;
+            left: 50%;
+            margin-left: -100px;
+        }
+
+        /* 浮动居中2 */
+        .parent_2 {
+            float: left;
+            position: relative;
+            left: 50%;
+            background: #aaa;
+        }
+
+        .child_2 {
+            position: relative;
+            right: 50%;
+        }
+
+        /* 浮动居中3 */
+        .parent_3 {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="parent parent_1">
+        <span class="child child_1">
+            定宽浮动元素居中<br />
+            relative + 负margin
+        </span>
+    </div>
+    <div class="parent">
+        <div class="parent parent_2 clearfloat">
+            <span class="child child_2">
+                非定宽浮动元素居中<br />
+                使浮动元素相对父元素偏移
+            </span>
+        </div>
+    </div>
+    <div class="parent parent_3">
+        <span class="child child_3">
+            通用浮动元素居中<br />
+            flex布局
+        </span>
+    </div>
+</body>
+
+</html>

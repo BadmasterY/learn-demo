@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Demo</title>
+    <style>
+        .parent {
+            position: relative;
+        }
+
+        .child {
+            /*绝对定位*/
+            position: absolute;
+            /* 固定定位也可以 */
+            /* position: fixed; */
+            width: 200px;
+            height: 100px;
+            background: yellow;
+            margin: 0 auto;
+            /*水平居中*/
+            left: 0;
+            /*此处不能省略，且为0*/
+            right: 0;
+            /*此处不能省略，且为0*/
+        }
+    </style>
+</head>
+
+<body>
+    <div class="parent">
+        <div class="child">
+            绝对定位元素水平居中
+        </div>
+    </div>
+</body>
+
+</html>

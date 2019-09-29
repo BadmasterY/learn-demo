@@ -1,0 +1,72 @@
+.notes {
+    box-sizing: border-box;
+}
+
+.notes .add {
+    width: 150px;
+    height: 150px;
+    border: 1px solid #e2e2e2;
+    display: inline-block;
+    box-sizing: border-box;
+    cursor: pointer;
+    background: #fff;
+    margin: 5px;
+    overflow: hidden;
+    transition: all 300ms;
+}
+
+.notes .add:hover {
+    background: #fbfbfb;
+}
+
+.notes .add .ic_add {
+    text-align: center;
+    margin: 0;
+    font-size: 50px;
+    line-height: 148px;
+    transition: color 300ms;
+}
+
+.notes .add:hover .ic_add {
+    color: #a0a0a0;
+}
+
+.notes .note {
+    position: relative;
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+    box-sizing: border-box;
+    margin: 5px;
+    border: 1px solid #e2e2e2;
+    overflow: hidden;
+}
+
+.notes .note .close {
+    position: absolute;
+    z-index: 9;
+    display: block;
+    width: 16px;
+    height: 16px;
+    text-align: center;
+    background: #f40;
+    color: #fff;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 300ms;
+}
+
+.notes .note .close:hover {
+    background: #b73100;
+}
+
+.notes .note textarea {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    resize: none;
+    border: none;
+    outline: none;
+}

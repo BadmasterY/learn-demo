@@ -1,0 +1,10 @@
+.text-overflow {
+    border: 1px solid #aaa;
+    box-sizing: border-box;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    overflow: hidden; /* 容器超出隐藏 */
+    text-overflow: ellipsis; /* string 未实现 */
+    white-space: nowrap; /* 段落中的文本不换行 */
+}

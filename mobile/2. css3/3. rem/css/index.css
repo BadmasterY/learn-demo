@@ -1,0 +1,30 @@
+body {
+    font-size: 12px; /* 设置页面基础字号 */
+    margin: 0;
+}
+
+.btns {
+    width: 10rem;
+    margin: 0 auto;
+}
+
+.btns a {
+    float: left;
+    width: 2.5rem;
+    text-align: center;
+    padding-top: 0.2rem;
+}
+
+.btns a i {
+    display: inline-block;
+    width: 1.2rem;
+    height: 1.2rem;
+    background: gray;
+    border-radius: 50%;
+}
+
+.btns a span {
+    display: block;
+    line-height: 0.8rem;
+    font-size: 14px;
+}

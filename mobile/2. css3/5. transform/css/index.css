@@ -1,0 +1,64 @@
+/* 定义容器,且指定观察者距离为100px */
+.box {
+    width: 640px;
+    margin: 0 auto;
+    perspective: 100px; /* 配合 3d 效果 */
+}
+
+.box div {
+    float: left;
+    width: 120px;
+    height: 80px;
+    margin: 40px 20px;
+    background-color: gray;
+}
+
+.box a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: bisque;
+    text-align: center;
+    color: #000;
+    text-decoration: none;
+}
+
+/* 设置 class=none 的效果 */
+.box .none {
+    transform: none;
+}
+
+/* 设置 class=translate 的效果 */
+.box .translate {
+    transform: translate(10px, 10px);
+}
+
+/* 设置 class=translate3d 的效果 */
+.box .translate3d {
+    transform: translate3d(0, 0, -30px);
+}
+
+/* 设置 class=scale 的效果 */
+.box .scale {
+    transform: scale(0.8, 1.2);
+}
+
+/* 设置 class=scale3d 的效果 */
+.box .scale3d {
+    transform: scale3d(1, 1, 1.5) rotateX(10deg);
+}
+
+/* 设置 class=rotate 的效果 */
+.box .rotate {
+    transform: rotate(30deg);
+}
+
+/* 设置 class=rotate3d 的效果 */
+.box .rotate3d {
+    transform: rotate3d(1, 0.2, 0, 30deg);
+}
+
+/* 设置 class=skew 的效果 */
+.box .skew {
+    transform: skew(30deg, 0);
+}

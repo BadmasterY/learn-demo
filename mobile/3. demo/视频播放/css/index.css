@@ -1,0 +1,19 @@
+video {
+    width: 375px;
+    height: 667px;
+    border: 1px solid #aaa;
+    display: block;
+    margin: 0 auto;
+}
+
+#control {
+    width: 375px;
+    line-height: 30px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+input {
+    padding: 8px 12px;
+    cursor: pointer;
+}

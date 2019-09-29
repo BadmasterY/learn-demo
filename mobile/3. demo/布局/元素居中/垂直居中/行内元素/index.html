@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Demo</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        .parent {
+            height: 50%;
+            box-sizing: border-box;
+            border-bottom: 3px solid #000;
+        }
+
+        .parent:nth-child(2n) {
+            background: #eee;
+        }
+
+        .child {
+            box-sizing: border-box;
+            border: 1px solid #f40;
+        }
+
+        /* 居中1 */
+        .parent_1 {
+            height: 200px;
+            line-height: 200px;
+        }
+
+        /* 居中2 */
+        .parent_2 {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* 居中3 */
+        .parent_3 {
+            display: table;
+        }
+
+        .child_3 {
+            display: table-cell;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="parent parent_1">
+        <span class="child child_1">单行内元素垂直居中</span>
+    </div>
+    <div class="parent parent_2">
+        <span class="child child_2">多行内元素垂直居中-1</span>
+        <span class="child child_2">多行内元素垂直居中-2</span>
+        <span class="child child_2">多行内元素垂直居中-3</span>
+    </div>
+    <div class="parent parent_3">
+        <span class="child child_3">利用tabel<br />行内元素垂直居中-1</span>
+        <span class="child child_3">利用tabel<br />行内元素垂直居中-2</span>
+        <span class="child child_3">利用tabel<br />行内元素垂直居中-3</span>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,8 @@
+.pikachu {
+    width: 600px;
+    height: 657.5px;
+    border: 1px solid #aaa;
+    box-sizing: border-box;
+    background: url('../images/1.jpg') no-repeat;
+    background-size: cover;
+}

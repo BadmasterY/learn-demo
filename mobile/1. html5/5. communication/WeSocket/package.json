@@ -1,0 +1,15 @@
+{
+  "name": "wesocket",
+  "version": "1.0.0",
+  "description": "新的协议\r 基于 TCP 连接进行的全双工通信",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ws": "^7.0.1"
+  }
+}

@@ -1,0 +1,33 @@
+.draggable {
+    width: 100px;
+    height: 100px;
+    box-sizing: border-box;
+    line-height: 100px;
+    text-align: center;
+    border: 1px solid #eee;
+    border-radius: 50%;
+    margin: 0 auto;
+}
+
+.text {
+    width: 100%;
+    height: 100px;
+    margin-top: 10px;
+}
+
+.text div{
+    width: 50%;
+    height: 100px;
+    float: left;
+    text-align: center;
+    line-height: 100px;
+    box-sizing: border-box;
+}
+
+.text .t-red {
+    background: rgba(255,0,0,0.3);
+}
+
+.text .t-green {
+    background: rgba(0,255,0,0.3);
+}

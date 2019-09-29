@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Demo</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        .parent {
+            height: 50%;
+            box-sizing: border-box;
+        }
+
+        .parent:nth-child(2n) {
+            background: #eee;
+        }
+
+        .child {
+            border: 1px solid #f40;
+        }
+
+        /* 居中1 */
+        .parent_1 {
+            position: relative;
+        }
+
+        .child_1 {
+            width: 200px;
+            height: 100px;
+            position: absolute;
+            top: 50%;
+            margin-top: -50px;
+        }
+
+        /* 居中2 */
+        .parent_2 {
+            position: relative;
+        }
+
+        .child_2 {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* 居中3 */
+        .parent_3 {
+            display: flex;
+            align-items: center;
+        }
+
+        /* 居中4 */
+        .parent_4 {
+            display: table-cell;
+            vertical-align: middle;
+            /* 这里需要固定高度 */
+            height: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="parent parent_1">
+        <div class="child child_1">
+            已知宽高的块级元素居中<br />
+            absolute + 负margin
+        </div>
+    </div>
+    <div class="parent parent_2">
+        <div class="child child_2">
+            未知高度块级元素居中<br />
+            absolute + transform
+        </div>
+    </div>
+    <div class="parent parent_3">
+        <div class="child child_3">
+            未知高度块级元素居中<br />
+            flex + align-items
+        </div>
+    </div>
+    <div class="parent parent_4">
+        <div class="child child_4">
+            未知高度块级元素居中<br />
+            父元素需要固定的高度<br />
+            table-cell + vertical-align
+        </div>
+    </div>
+</body>
+
+</html>

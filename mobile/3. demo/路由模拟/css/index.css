@@ -1,0 +1,43 @@
+html,body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+.pages {
+    height: 100%;
+}
+
+.page {
+    height: 100%;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.page:nth-child(2n) {
+    background: #eee;
+}
+
+.enter {
+    position: absolute;
+    background: #aaa;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 9;
+    animation: slideIn .5s forwards;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translate3d(100%, 0, 0);
+        opacity: 0;
+    }
+
+    to {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+    }
+}

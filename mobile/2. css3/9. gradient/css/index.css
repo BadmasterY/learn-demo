@@ -1,0 +1,15 @@
+#linear {
+    background-image: linear-gradient(135deg, #5fa4ee, #56e7ca);
+    color: #fff;
+    width: 100%;
+    line-height: 100px;
+    text-align: center;
+}
+
+#radial {
+    background-image: radial-gradient(230px, #5fa4ee, #56e7ca);
+    color: #fff;
+    width: 500px;
+    line-height: 500px;
+    text-align: center;
+}

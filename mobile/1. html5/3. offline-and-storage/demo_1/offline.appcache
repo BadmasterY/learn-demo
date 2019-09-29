@@ -1,0 +1,8 @@
+﻿CACHE MANIFEST
+#chache 之后的资源都会被缓存
+CACHE:
+favicon.ico
+#network 之后的资源总是从线上获取
+NETWORK:
+index.html
+index.js

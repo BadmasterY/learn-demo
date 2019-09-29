@@ -1,0 +1,48 @@
+html,body {
+    margin: 0;
+    padding: 0;
+}
+
+.entry {
+    background: #eee;
+}
+
+.box {
+    display: block;
+    width: 20vw; /* 一行5个 */
+    float: left;
+    text-decoration: none;
+    position: relative;
+    padding: .2rem 0;
+    box-sizing: border-box;
+}
+
+.box img {
+    display: block;
+    width: .8rem;
+    height: .8rem;
+    margin: 0 auto;
+    padding-bottom: .1rem;
+}
+
+.box span {
+    font-size: .28rem;
+    float: left;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #f40;
+}
+
+.clearfloat:after {
+    display: block;
+    clear: both;
+    content: "";
+    visibility: hidden;
+    height: 0;
+}
+
+p {
+    font-size: .4rem;
+    text-align: center;
+}

@@ -1,0 +1,10 @@
+#col {
+    /* 直接分成三列,每一列宽度不等 */
+    /* column-count: 3; */
+    /* 固定每列文本宽度为200px,如果同时存在column-count,以column-count为准 */
+    column-width: 200px;
+    /* 列间距为30px */
+    column-gap: 30px;
+    /* 列之间分隔符的样式 */
+    column-rule: 10px solid #aaa;
+}
