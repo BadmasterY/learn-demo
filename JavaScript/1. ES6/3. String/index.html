@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>String</title>
+</head>
+
+<body>
+  <p>请查看控制台</p>
+  <script>
+    // fromCodePoint
+    console.log(`
+    fromCodePoint() 静态方法返回使用指定的代码点序列创建的字符串:
+      - String.fromCodePoint(42): ${String.fromCodePoint(42)},
+      - String.fromCodePoint(65, 90): ${String.fromCodePoint(65, 90)},
+      - String.fromCodePoint(0x20BB7): ${String.fromCodePoint(0x20BB7)},
+      - String.fromCodePoint(0x0BB7): ${String.fromCodePoint(0x0BB7)}
+    `);
+
+    // raw
+    console.log(`
+    raw() 是一个模板字符串的标签函数，它的作用类似于 Python 中的字符串前缀 r 和 C# 中的字符串前缀 @:
+      - String.raw\`Hi\\n${2 + 3}!\`: ${String.raw`Hi\n${2 + 3}!`},
+      - String.raw({ raw: 'test' }, 0, 1, 2): ${String.raw({ raw: 'test' }, 0, 1, 2)}
+    `);
+
+    // codePointAt
+    console.log(`
+    codePointAt() 方法返回 一个 Unicode 编码点值的非负整数:
+      - 'ABC'.codePointAt(1): ${'ABC'.codePointAt(1)},
+      - 'XYZ'.codePointAt(42): ${'XYZ'.codePointAt(42)}
+    `);
+
+    // normalize
+    let a = '\u004F\u030C';
+    let b = '\u01D1';
+    console.log(`
+    normalize() 方法会按照指定的一种 Unicode 正规形式将当前字符串正规化:
+      - a => '\\u004F\\u030C': ${'\u004F\u030C'},
+      - b => '\\u01D1': ${'\u01D1'}
+      - a == b: ${a == b}
+      - a.normalize() == b.normalize(): ${a.normalize() == b.normalize()}
+    `);
+
+    // includes
+    let str = 'Hello world!';
+
+    console.log(`
+    includes() 方法用于判断一个字符串是否包含在另一个字符串中，根据情况返回 true 或 false:
+      - str: ${str},
+      - str.includes('Hello'): ${str.includes('Hello')},
+      - str.includes('o'): ${str.includes('o')},
+      - str.includes('hello'): ${str.includes('hello')}
+    `);
+
+    // startsWith
+    console.log(`
+    startsWith() 方法用来判断当前字符串是否以另外一个给定的子字符串开头，并根据判断结果返回 true 或 false:
+      - str: ${str},
+      - str.startsWith('Hello'): ${str.startsWith('Hello')},
+      - str.startsWith('H'): ${str.startsWith('H')},
+      - str.startsWith('hello'): ${str.startsWith('hello')} 
+    `);
+
+    // endsWith
+    console.log(`
+    endsWith() 方法用来判断当前字符串是否是以另外一个给定的子字符串结尾，根据判断结果返回 true 或 false:
+      - str: ${str},
+      - str.endsWith('!'): ${str.endsWith('!')},
+      - str.endsWith('world!'): ${str.endsWith('world!')},
+      - str.endsWith('World!'): ${str.endsWith('World!')} 
+    `);
+
+    // repeat
+    console.log(`
+    repeat() 构造并返回一个新字符串，该字符串包含被连接在一起的指定数量的字符串的副本:
+      - 'Mr.'.repeat(0): ${'Mr.'.repeat(0)},
+      - 'Mr.'.repeat(1): ${'Mr.'.repeat(1)},
+      - 'Mr.'.repeat(1.9): ${'Mr.'.repeat(1.9)},
+      - 'Mr.'.repeat('1'): ${'Mr.'.repeat('1')},
+      - 'Mr.'.repeat(-1): ${'Uncaught RangeError: Invalid count value'},
+      - 'Mr.'.repeat(Infinity): ${'Uncaught RangeError: Invalid count value'},
+    `);
+  </script>
+</body>
+
+</html>
