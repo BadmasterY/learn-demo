@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Number</title>
+</head>
+
+<body>
+  <p>请查看控制台</p>
+  <script>
+    // isFinite
+    console.log(`
+    Number.isFinite() 方法用来检测传入的参数是否是一个有穷数和其类型是 Number:
+      - Number.isFinite(Infinity): ${Number.isFinite(Infinity)},
+      - Number.isFinite(NaN): ${Number.isFinite(NaN)},
+      - Number.isFinite(12): ${Number.isFinite(12)},
+      - Number.isFinite('10'): ${Number.isFinite('10')}
+    `);
+
+    // isNaN
+    console.log(`
+    Number.isNaN() 方法确定传递的值是否为 NaN 和其类型是 Number:
+      - Number.isNaN(NaN): ${Number.isNaN(NaN)},
+      - Number.isNaN(Number.NaN): ${Number.isNaN(Number.NaN)},
+      - Number.isNaN(0 / 0): ${Number.isNaN(0 / 0)},
+      - Number.isNaN('NaN'): ${Number.isNaN('NaN')}
+    `);
+
+    // isInteger
+    console.log(`
+    Number.isInteger() 方法用来判断给定的参数是否为整数:
+     - Number.isInteger(0): ${Number.isInteger(0)},
+     - Number.isInteger(10): ${Number.isInteger(10)},
+     - Number.isInteger(-10): ${Number.isInteger(-10)},
+     - Number.isInteger(Math.PI): ${Number.isInteger(Math.PI)},
+     - Number.isInteger(Infinity): ${Number.isInteger(Infinity)},
+     - Number.isInteger(3.0000000000000002): ${Number.isInteger(3.0000000000000002)}
+    `);
+
+    // isSafeInteger
+    console.log(`
+    Number.isSafeInteger() 方法用来判断传入的参数值是否是一个"安全整数":
+      - Number.isSafeInteger(3): ${Number.isSafeInteger(3)},
+      - Number.isSafeInteger(Math.pow(2, 53)): ${Number.isSafeInteger(Math.pow(2, 53))},
+      - Number.isSafeInteger(Math.pow(2, 53) - 1): ${Number.isSafeInteger(Math.pow(2, 53) - 1)},
+      - Number.isSafeInteger(NaN): ${Number.isSafeInteger(NaN)},
+      - Number.isSafeInteger(Infinity): ${Number.isSafeInteger(Infinity)},
+      - Number.isSafeInteger('3'): ${Number.isSafeInteger('3')}
+    `);
+
+    // MAX_SAFE_INTEGER
+    console.log(`
+      Number.MAX_SAFE_INTEGER: ${Number.MAX_SAFE_INTEGER}
+    `);
+
+    // MIN_SAFE_INTEGER
+    console.log(`
+      Number.MIN_SAFE_INTEGER: ${Number.MIN_SAFE_INTEGER}
+    `);
+  </script>
+</body>
+
+</html>
