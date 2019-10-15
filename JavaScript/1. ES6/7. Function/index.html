@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Function</title>
+</head>
+
+<body>
+  <p>请查看控制台</p>
+  <script>
+    // 默认值
+    function log(x, y = 'haha') {
+      return `${x} ${y}`;
+    }
+    console.log(`
+    ES6 允许为函数的参数设置默认值，即直接写在参数定义的后面:
+      - log(): ${log()},
+      - log('wa'): ${log('wa')},
+      - log('wa', ''): ${log('wa', '')}
+    `);
+
+    // 解构赋值
+    function foo({ x = 1, y = 2 } = {}) {
+      return `${x} ${y}`;
+    }
+
+    console.log(`
+    结合默认值的解构赋值:
+      - foo(): ${foo()},
+      - foo({}): ${foo({})},
+      - foo({x: 2}): ${foo({ x: 2 })}
+    `);
+
+    // length 属性
+    console.log(`
+    函数的 length 属性，将返回没有指定默认值的参数个数:
+      - (function (a, b){}).length: ${(function (a, b) { }).length},
+      - (function (a = 1, b){}).length: ${(function (a = 1, b) { }).length}
+    `);
+
+    // rest 参数
+    function add(...values) {
+      let sum = 0;
+      for (let val of values) {
+        sum += val;
+      }
+      return sum;
+    }
+
+    console.log(`
+    rest 参数:
+      - add(1,2,3,4,5): ${add(1,2,3,4,5)}
+    `);
+
+    // name 属性
+    let a = function() {};
+    let b = function fun() {};
+    console.log(`
+    name 属性，返回该函数的函数名:
+      - a.name: ${a.name},
+      - b.name: ${b.name},
+      - a.bind({}).name: ${a.bind({}).name},
+      - b.bind({}).name: ${b.bind({}).name}
+    `);
+
+    // 箭头函数
+    let c = num => num;
+    let d = (num1, num2) => { return num1 + num2; };
+    console.log(`
+    ES6 允许使用"箭头"(=>)定义函数:
+      - c(1): ${c(1)},
+      - d(1, 2): ${d(1, 2)}
+    `);
+  </script>
+</body>
+
+</html>
