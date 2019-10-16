@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Array</title>
+</head>
+
+<body>
+  <p>请查看控制台</p>
+  <script>
+    // from
+    console.log(`
+    Array.from() 方法从一个类似数组或可迭代对象创建一个新的，浅拷贝的数组实例:
+      - Array.from('foo'): [${Array.from('foo')}],
+      - Array.from({'0':1, '1': 2, 'length': 2}): [${Array.from({ '0': 1, '1': 2, 'length': 2 })}]
+    `);
+
+    // of
+    console.log(`
+    Array.of() 方法创建一个具有可变数量参数的新数组实例，而不考虑参数的数量或类型:
+      - Array(3): [${Array(3)}],
+      - Array.of(3): [${Array.of(3)}]
+    `);
+
+    // copyWithin
+    let numbers = [1, 2, 3, 4, 5];
+    console.log(`
+    copyWithin() 方法浅复制数组的一部分到同一数组中的另一个位置(会覆盖原有成员)，并返回它，不会改变原数组的长度，但是会改变原数组:
+      - numbers: [${numbers}],
+      - numbers.copyWithin(-2): [${numbers.copyWithin(-2)}],
+      - numbers.copyWithin(0, 3): [${numbers.copyWithin(0, 3)}],
+      - numbers.copyWithin(0, 2, 4): [${numbers.copyWithin(0, 2, 4)}]
+    `);
+
+    // find
+    let arr = [
+      { name: 'Mr.', age: '18' },
+      { name: 'Jack', age: '20' },
+      { name: 'ming', age: '17' }
+    ];
+    function findMr(element, index) {
+      return element.name === 'Mr.';
+    }
+    console.log(`
+    find() 方法，用于找出第一个符合条件的数组成员。方法不会改变数组:
+      - arr.find(findMr): ${JSON.stringify(arr.find(findMr))}
+    `);
+
+    // findIndex
+    console.log(`
+    findIndex() 方法返回数组中满足提供的测试函数的第一个元素的索引:
+      - arr.findIndex(findMr): ${arr.findIndex(findMr)}
+    `);
+
+    // fill
+    console.log(`
+    fill() 方法用一个固定值填充一个数组中从起始索引到终止索引内的全部元素。不包括终止索引:
+      - [1, 2, 3].fill(4): [${[1, 2, 3].fill(4)}],
+      - [1, 2, 3].fill(4, 1): [${[1, 2, 3].fill(4, 1)}],
+      - [1, 2, 3].fill(4, 1, 2): [${[1, 2, 3].fill(4, 1, 2)}],
+      - [1, 2, 3].fill(4, 1, 1): [${[1, 2, 3].fill(4, 1, 1)}]
+    `);
+
+    // entries
+    let iterator = arr.entries();
+    console.log(`
+    entries() 方法返回一个新的 Array Iterator 对象，该对象包含数组中每个索引的键/值对:
+      - iterator.next().value: ${iterator.next().value},
+      - iterator.next().value: ${iterator.next().value},
+      - iterator.next().value: ${iterator.next().value},
+      - iterator.next().value: ${iterator.next().value}
+    `);
+  </script>
+</body>
+
+</html>
