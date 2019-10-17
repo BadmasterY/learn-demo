@@ -68,10 +68,40 @@
     let iterator = arr.entries();
     console.log(`
     entries() 方法返回一个新的 Array Iterator 对象，该对象包含数组中每个索引的键/值对:
+      - iterator.next().value: ${JSON.stringify(iterator.next().value)},
+      - iterator.next().value: ${JSON.stringify(iterator.next().value)},
+      - iterator.next().value: ${JSON.stringify(iterator.next().value)},
+      - iterator.next().value: ${JSON.stringify(iterator.next().value)}
+    `);
+
+    // keys
+    iterator = arr.keys();
+    console.log(`
+    keys() 方法返回一个包含数组中每个索引键的 Array Iterator 对象:
       - iterator.next().value: ${iterator.next().value},
       - iterator.next().value: ${iterator.next().value},
       - iterator.next().value: ${iterator.next().value},
       - iterator.next().value: ${iterator.next().value}
+    `);
+
+    // values
+    iterator = arr.values();
+    console.log(`
+    values() 方法返回一个包含数组中每个索引的值的 Array Iterator 对象:
+      - iterator.next().value: ${JSON.stringify(iterator.next().value)},
+      - iterator.next().value: ${JSON.stringify(iterator.next().value)},
+      - iterator.next().value: ${JSON.stringify(iterator.next().value)},
+      - iterator.next().value: ${JSON.stringify(iterator.next().value)}
+    `);
+
+    // sort
+    function compareFn(a, b) {
+      if (a.name < b.name) return -1;
+      return 1;
+    }
+    console.log(`
+    排序稳定性（stable sorting）是排序算法的重要属性，指的是排序关键字相同的项目，排序前后的顺序不变:
+    - arr.sort(compareFn): ${JSON.stringify(arr.sort(compareFn))}
     `);
   </script>
 </body>
