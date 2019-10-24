@@ -276,3 +276,110 @@ myIterable[Symbol.iterator] = function* () {
 };
 [...myIterable] // [1, 2, 3]
 ```
+
+## 12. Symbol.toPrimitive
+`Symbol.toPrimitive` 是一个内置的 `Symbol` 值，它是作为对象的函数值属性存在的，当一个对象转换为对应的原始值时，会调用此函数。
+
+`Symbol.toPrimitive` 被调用时，会接受一个字符串参数，表示当前运算的模式，一共有三种模式。
+- `Number`：该场合需要转成数值
+- `String`：该场合需要转成字符串
+- `Default`：该场合可以转成数值，也可以转成字符串
+
+#### 属性特性:
+特性 | default
+-- | --
+writable | false
+enumerable | false
+configurable | false
+
+#### 例子:
+```js
+let obj = {};
+
+console.log(+obj); // ==> NaN
+console.log(`${obj}`); // ==> [object Object]
+console.log(obj + ''); // ==> [object Object]
+
+obj[Symbol.toPrimitive] = function(hint) {
+  if(hint == 'number') { return 18; }
+  if(hint == 'string') { return 'I\'m Mr.'; }
+  return 'ok, you are right...';
+}
+
+console.log(+obj); // ==> 18
+console.log(`${obj}`); // ==> I'm Mr.
+console.log(obj + ''); // ==> ok, you are right...
+```
+
+## 13. Symbol.toStringTag
+`Symbol.toStringTag` 是一个内置 `symbol`，它通常作为对象的属性键使用，对应的属性值应该为字符串类型，这个字符串用来表示该对象的自定义类型标签，通常只有内置的 `Object.prototype.toString()` 方法会去读取这个标签并把它包含在自己的返回值里。
+
+许多内置的 JavaScript 对象类型即便没有 `toStringTag` 属性，也能被 `toString()` 方法识别并返回特定的类型标签。
+
+#### 属性特性:
+特性 | default
+-- | --
+writable | false
+enumerable | false
+configurable | false
+
+#### 例子:
+```js
+// 带有友好默认
+Object.prototype.toString.call('foo'); // ==> "[object String]"
+Object.prototype.toString.call([1, 2]); // ==> "[object Array]"
+Object.prototype.toString.call(3); // ==> "[object Number]"
+Object.prototype.toString.call(true); // ==> "[object Boolean]"
+Object.prototype.toString.call(undefined); // ==> "[object Undefined]"
+Object.prototype.toString.call(null); // ==> "[object Null]"
+// ... and more
+
+// 引擎友好默认
+Object.prototype.toString.call(new Map()) // ==> "[object Map]"
+Object.prototype.toString.call(function* () {}); // ==> "[object GeneratorFunction]"
+Object.prototype.toString.call(Promise.resolve()); // ==> "[object Promise]"
+// ... and more
+
+// 自定义创建的类
+class User {}
+
+Object.prototype.toString.call(new User()); // ==> "[object Object]"
+
+class NewUser {
+  get [Symbol.toStringTag]() { return 'NewUser'; }
+}
+Object.prototype.toString.call(new NewUser()); // ==> "[object NewUser]"
+```
+
+## 14. Symbol.unscopables
+`Symbol.unscopables` 属性，指向一个对象。该对象指定了使用 `with` 关键字时，哪些属性会被with环境排除。
+
+#### 属性特性:
+特性 | default
+-- | --
+writable | false
+enumerable | false
+configurable | false
+
+#### 例子:
+```js
+let obj = {
+  name: 'Mr.',
+  age: '18',
+}
+
+with(obj) {
+  console.log(name); // ==> 'Mr.'
+  console.log(age); // ==> '18'
+}
+
+obj[Symbol.unscopables] = {
+  name: false,
+  age: true,
+}
+
+with(obj) {
+  console.log(name); // ==> 'Mr.'
+  console.log(age); // ==> ReferenceError: age is not defined
+}
+```
