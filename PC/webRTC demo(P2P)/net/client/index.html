@@ -4,13 +4,49 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>location webRTC(video to video)</title>
+  <title>webRTC(server)</title>
 </head>
+<style>
+  #rooms,#users,#userInfo {
+    width: 100%;
+    height: 150px;
+    margin-bottom: 8px;
+    border: 1px solid #dcdee2;
+    box-sizing: border-box;
+    border-radius: 5px;
+  }
+
+  #userInfo, #roomid {
+    width: 50%;
+    height: 30px;
+    margin-bottom: 8px;
+    border: 1px solid #dcdee2;
+    box-sizing: border-box;
+    border-radius: 5px;
+  }
+
+  .room,.user {
+    float: left;
+    padding: 15px;
+    border: 1px solid #dcdee2;
+    border-radius: 5px;
+    margin: 8px;
+    cursor: pointer;
+  }
+</style>
 <body>
-  <video id="rtcA" autoplay controls></video>
-  <video id="rtcB" autoplay controls></video>
+  <div id="rooms"></div>
+  <div id="users"></div>
+  <div id="roomid"></div>
+  <div id="userInfo"></div>
+  <video id="rtc" autoplay controls></video>
+  <button id="link">连接服务器</button>
   <button id="callBtn">通话</button>
   <button id="closeBtn">结束</button>
+  
+  <script src="http://wzrd.in/standalone/uuid%2Fv4@latest"></script>
+  <script src="./node_modules/socket.io-client/dist/socket.io.js"></script>
   <script src="./index.js"></script>
+  </script>
 </body>
 </html>

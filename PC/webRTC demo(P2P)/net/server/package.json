@@ -13,6 +13,9 @@
   "author": "Mr.",
   "license": "ISC",
   "dependencies": {
+    "koa": "^2.11.0",
+    "koa-body": "^4.1.1",
+    "koa2-cors": "^2.0.6",
     "socket.io": "^2.3.0"
   }
 }

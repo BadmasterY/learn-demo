@@ -1,164 +1,267 @@
-/**
- * 整体流程
- * 接收端生成媒体流 -> 生成 peer 实例 -> 接收端创建 offer -> 
- * 呼叫端接收 offer -> 接收端创建本地 offer 描述 -> 呼叫端设置远程 offer 描述 ->
- * 呼叫端创建 answer -> 呼叫端设置本地 answer 描述 -> 接收端设置远程 answer 描述
- */
+const website = 'http://127.0.0.1:3001'; // 服务器地址
 
-let localstream, peerA, peerB;
+let rooms = []; // 房间列表
+let online = []; // 在线成员列表
 
-const peerConfig = {
-  iceServers: [
-    { url: 'stun:stun.voipstunt.com' },
-    { url: 'stun:stun1.l.google.com:19302' },
-    {
-      urls: 'turn:39.105.208.159:3478',
-      username: 'iris',
-      credential: '123456',
-    },
-  ],
-};
+let roomID = null; // 房间id
+let userName = uuidv4(); // 用户名
+let otherUserId = null; // 呼叫的用户id
+let stream = null; // 媒体流
+let peer = null; // RTCPeerConnection 实例
 
-async function createMedia() {
-  // 流保存至全局
-  localstream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
-  let video = document.querySelector('#rtcA');
-  if ('srcObject' in video) { // 判断是否支持 srcObject 属性
-    video.srcObject = localstream;
-  } else {
-    video.src = window.URL.createObjectURL(localstream);
+let callBtn = document.querySelector('#callBtn');
+let closeBtn = document.querySelector('#closeBtn');
+let linkBtn = document.querySelector('#link');
+
+let roomsBox = document.querySelector('#rooms');
+let usersBox = document.querySelector('#users');
+let roomidBox = document.querySelector('#roomid');
+let userInfo = document.querySelector('#userInfo');
+
+let video = document.querySelector('#rtc');
+
+roomsBox.addEventListener('click', e => {
+  if (e.target.className == 'room') {
+    let dom = e.target;
+    roomID = dom.innerText;
+    roomidBox.innerText = dom.innerText;
+    join();
   }
+});
 
-  // 获取流媒体之后，初始化 RTCPeerConnection
-  initPeer();
+usersBox.addEventListener('click', e => {
+  if (e.target.className == 'user') {
+    let dom = e.target;
+    userInfo.innerText = dom.innerText;
+    otherUserId = dom.innerText;
+  }
+});
+
+const socket = io.connect(website, {
+  autoConnect: false, // 自动连接
+  transports: ['websocket']
+});
+
+socket.on('connect', async () => {
+  await socket.emit('online', { userName }); // 告诉服务器  谁上线了
+  await socket.emit('getRoom');
+  await socket.emit('getOnline');
+});
+
+socket.on('onlineChange', data => {
+  online = data;
+  usersBox.innerHTML = '';
+  online.forEach(user => {
+    const div = document.createElement('div');
+    div.className = 'user';
+    div.innerText = user;
+    if (user === userName) return;
+    usersBox.appendChild(div);
+  });
+});
+
+// 获取房间信息
+socket.on('getRoom', data => {
+  rooms = data;
+  rooms.forEach(room => {
+    const div = document.createElement('div');
+    div.className = 'room';
+    div.innerText = room;
+    roomsBox.appendChild(div);
+  });
+});
+// 获取在线成员信息
+socket.on('getOnline', data => {
+  online = data;
+  console.log(usersBox.innerHTML);
+  usersBox.innerHTML = '';
+  online.forEach(user => {
+    const div = document.createElement('div');
+    div.className = 'user';
+    div.innerText = user;
+    if (user === userName) return;
+    usersBox.appendChild(div);
+  });
+});
+
+// 来电
+socket.on('apply', data => {
+  console.log(data);
+  if (confirm('是否接听?')) {
+    //接听,因为时来电  对方id放在 self 下
+    reply(data.selfId, '1');
+    // 收到消息，同意之后创建 peer
+    createP2P(data);
+  } else {
+    reply(data.selfId, '2');
+  }
+});
+
+// 结果
+socket.on('reply', async data => {
+  switch (data.type) {
+    case '1': // 同意
+      console.log('同意...');
+      // 收到答复  创建 peer 与 offer
+      await createP2P(data);
+      await createOffer(data);
+      break;
+    case '2': // 拒绝
+      console.log('拒绝...');
+      break;
+  }
+});
+
+// 接收到 offer
+socket.on('offer', data => {
+  onOffer(data);
+});
+
+// 接收到 answer
+socket.on('answer', data => {
+  onAnswer(data);
+});
+
+// 接收到 ICE
+socket.on('ICE', data => {
+  onICE(data);
+});
+
+// 结束通话
+socket.on('close', data => {
+  onClose();
+});
+
+// 有人加入房间
+socket.on('joined', data => {
+  console.log(data);
+});
+
+linkBtn.addEventListener('click', e => {
+  socket.connect();
+});
+
+callBtn.addEventListener('click', async e => {
+  call(otherUserId);
+});
+
+closeBtn.addEventListener('click', e => {
+  close();
+});
+
+// 加入房间
+function join() {
+  if (!roomID) {
+    console.error('请检查是否选择了房间');
+    return;
+  }
+  console.log({ roomid: roomID, userName: userName });
+  socket.emit('join', { roomid: roomID, userName: userName });
 }
 
-function initPeer() {
+// 呼叫远端
+function call(otherUserId) {
+  if (!otherUserId) {
+    console.error('请选择需要呼叫的成员!');
+    return;
+  }
+  console.log('正在呼叫...');
+  socket.emit('apply', { otherId: otherUserId, selfId: userName });
+}
+
+// 处理回复
+function reply(otherUserId, type) {
+  socket.emit('reply', { otherId: otherUserId, selfId: userName, type: type });
+}
+
+// 初始化
+async function createP2P(data) {
+  await createMedia(data);
+}
+
+// 获取流媒体
+async function createMedia(data) {
+  stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+
+  // 获取流媒体之后，初始化 RTCPeerConnection
+  initPeer(data);
+}
+
+// 创建 peer
+function initPeer(data) {
   let PeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
   // 分别创建实例
-  peerA = new PeerConnection();
-  peerB = new PeerConnection();
+  peer = new PeerConnection();
+  // 添加媒体流
+  peer.addStream(stream);
 
-  peerA.oniceconnectionstatechange = (evt) => {
-    console.log('A ICE state change: ' + evt.target.iceConnectionState);
-  };
-
-  peerB.oniceconnectionstatechange = (evt) => {
-    console.log('B ICE state change: ' + evt.target.iceConnectionState);
-  };
-
-  // 添加本地流
-  peerA.addStream(localstream);
-  // 触发 icecandidate 事件时触发
-  peerA.onicecandidate = event => {
-    // 监听 A 的 ICE候选 信息
-    // 如果收集到，就添加给 B
-    console.log(peerA);
-    console.log('A', event.candidate)
+  // 监听 ice候选 信息
+  peer.onicecandidate = event => {
     if (event.candidate) {
-      peerB.addIceCandidate(event.candidate);
+      // 发送到远端
+      socket.emit('ICE', { otherId: data.selfId, selfId: data.otherId, sdp: event.candidate });
     }
   }
 
-  // 监听是否有流传入
-  peerB.onaddstream = event => {
-    let video = document.querySelector('#rtcB');
+  // 监听是否有媒体流接入
+  peer.onaddstream = event => {
     if ('srcObject' in video) { // 判断是否支持 srcObject 属性
       video.srcObject = event.stream;
     } else {
       video.src = window.URL.createObjectURL(event.stream);
     }
   }
-
-  peerB.onicecandidate = event => {
-    // 监听 b 的 ICE候选 信息
-    // 如果收集到，就添加给 A
-    console.log('B', event.candidate)
-    if (event.candidate) {
-      peerA.addIceCandidate(event.candidate);
-    }
-  }
 }
 
-// 创建连接
-async function call() {
-  // 判断是是否有对应实例，没有就重新创建
-  // 为了挂断之后重新创建准备
-  if (!peerA || !peerB) {
-    initPeer();
-  }
+// 创建 offer
+async function createOffer(data) {
+  let offer = await peer.createOffer(); // 创建 offer
+  await peer.setLocalDescription(offer); // 设置本地 offer 信息(谁创建的谁放本地)
 
-  try {
-    let offer = await peerA.createOffer(); // 接收端创建 offer
-    await onCreateOffer(offer);
-  } catch (e) {
-    console.error('createOffer', e);
-  }
+  // 通过 socket 发送
+  socket.emit('offer', { otherId: data.selfId, selfId: data.otherId, sdp: offer });
 }
 
-async function onCreateOffer(desc) {
-  console.log(desc);
-  try {
-    await peerA.setLocalDescription(desc); // 接收端设置本地 offer 描述
-  } catch (e) {
-    console.error('peerB-Offer-setLocalDescription: ', e);
-  }
+// 接收到 offer
+async function onOffer(data) {
+  await peer.setRemoteDescription(data.sdp); // 设置远端 offer 信息
 
-  try {
-    await peerB.setRemoteDescription(desc); // 呼叫端设置远程 offer 描述
-  } catch (e) {
-    console.error('peerA-Offer-setRemoteDescription: ', e);
-  }
-
-  try {
-    let answer = await peerB.createAnswer(); // 呼叫端创建 answer
-    await onCreateAnswer(answer);
-  } catch (e) {
-    console.error('createAnswer: ', e);
-  }
+  createAnswer(data);
 }
 
-async function onCreateAnswer(desc) {
-  try {
-    await peerB.setLocalDescription(desc); // 接收端创建本地 answer 描述
-  } catch (e) {
-    console.error('peerA-Answer-setLocalDescription: ', e);
-  }
+// 创建 answer
+async function createAnswer(data) {
+  let answer = await peer.createAnswer(); // 创建 answer
+  await peer.setLocalDescription(answer); // 设置本地 answer 信息
 
-  try {
-    await peerA.setRemoteDescription(desc); // 呼叫端创建远程 answer 描述
-  } catch (e) {
-    console.error('peerB-Answer-setRemoteDescription: ', e);
-  }
+  // 通过 socket 发送
+  socket.emit('answer', { otherId: data.selfId, selfId: data.otherId, sdp: answer });
 }
 
-async function close() {
-  console.log(`close webRTC`);
-  // 关闭连接
-  peerA.close();
-  peerB.close();
-  
-  // 清理过期 peer
-  peerA = null;
-  peerB = null;
+// 接收到 answer
+async function onAnswer(data) {
+  peer.setRemoteDescription(data.sdp); // 设置远端 answer 信息
+}
 
-  // 呼叫端清理媒体流
-  let video = document.querySelector('#rtcB');
+// 接收到 ICE
+async function onICE(data) {
+  peer.addIceCandidate(data.sdp); // 添加 ice
+}
+
+// 结束通话
+function close() {
+  onClose();
+
+  socket.emit('close', {otherId: otherUserId, selfId: userName});
+}
+
+// 应答结束
+function onClose() {
+  peer.close();
+  peer = null;
   if ('srcObject' in video) { // 判断是否支持 srcObject 属性
     video.srcObject = null;
   } else {
     video.src = null;
   }
 }
-
-createMedia();
-
-let callBtn = document.querySelector('#callBtn');
-let closeBtn = document.querySelector('#closeBtn');
-callBtn.addEventListener('click', e => {
-  call();
-});
-
-closeBtn.addEventListener('click', e => {
-  close();
-});
