@@ -444,3 +444,217 @@ let proxy = new Proxy({age: 18}, {
 
 console.log(Object.getOwnPropertyDescriptor(proxy, 'age').value); // ==> called: age  18
 ```
+
+## 10. handler.getPrototypeOf()
+`handler.getPrototypeOf` 是一个代理方法，当读取代理对象的原型时，该方法会被触发。
+
+该方法会**拦截**目标对象的以下操作：
+- `Object.getPrototypeOf()`;
+- `Reflect.getPrototypeOf()`;
+- `__proto__`;
+- `Object.prototype.isPrototypeOf()`;
+- `instanceof`。
+
+但是该方法也必须遵循以下**约束**，否则抛出 `TypeError`:
+- `getPrototypeOf()` 方法必需返回的一个对象或者 `null`;
+- 如果目标对象是不可扩展的，则 `getPrototypeof()` 方法应当返回目标对象本身的原型。
+
+#### 语法:
+```js
+let proxy = new Proxy(obj, {
+  getPrototypeOf(target) {...},
+});
+```
+
+#### 参数:
+`target`: 
+目标对象。
+
+#### 返回值:
+`getPrototypeOf` 方法必需返回一个对象或者 `null`。
+
+#### 例子:
+```js
+let obj = {};
+let proto = {};
+let handler = {
+  getPrototypeOf(target) {
+    console.log(target === obj);
+    console.log(this === handler);
+    return proto;
+  }
+}
+
+let proxy = new Proxy(obj, handler);
+console.log(Object.getPrototypeOf(proxy) === proto); // ==> true true true
+```
+
+## 11. handler.isExtensible()
+`handler.isExtensible` 方法用于拦截对对象的 `Object.isExtensible()`。
+
+该方法会**拦截**目标对象的以下操作：
+- `Object.isExtensible()`;
+- `Reflect.isExtensible()`。
+
+但是该方法也必须遵循以下**约束**，否则抛出 `TypeError`:
+- `Object.isExtensible(proxy)` 必需同 `Object.isExtensible(target)` 返回相同的值，即返回 `true` 或者 `truely` 的值。但返回 `flase` 或者 `falsely` 的值会报错。
+
+#### 语法:
+```js
+let proxy = new Proxy(target, {
+  isExtensible(target) {...},
+});
+```
+
+#### 参数:
+`target`: 
+目标对象。
+
+#### 返回值:
+`isExtensible` 方法必需返回一个 `Boolean`  值或可转换成 `Boolean` 的值。
+
+#### 例子:
+```js
+let proxy = new Proxy({}, {
+  isExtensible(target) {
+    console.log('called');
+    return true;
+  }
+});
+
+console.log(Object.isExtensible(proxy)); // ==> 'called' true
+```
+
+## 12. handler.ownKeys()
+`handler.ownKeys` 方法用于拦截 `Reflect.ownKeys()`。
+
+该方法会**拦截**目标对象的以下操作：
+- `Object.getOwnPropertyNames()`;
+- `Object.getOwnPropertySymbols()`;
+- `Object.keys()`;
+- `Relect.ownKeys()`。
+
+但是该方法也必须遵循以下**约束**，否则抛出 `TypeError`:
+- `ownKeys` 的结果必需是一个数组;
+- 数组的元素类型要么是一个 `String`，要么是一个 `Symbol`;
+- 结果列表必需包含目标对象的所有不可配置、自有属性的 `key`;
+- 如果目标对象不可扩展，那么结果列表必需包含目标对象的所有自有属性的 `key`，不能有其他值。
+
+#### 语法:
+```js
+let proxy = new Proxy(target, {
+  ownKeys(target) {...},
+});
+```
+
+#### 参数:
+`target`: 
+目标对象。
+
+#### 返回值:
+`ownKeys` 方法必需返回一个可枚举的对象。
+
+#### 例子:
+```js
+let proxy = new Proxy({}, {
+  ownKeys(target) {
+    console.log('called');
+    return ['a', 'b', 'c'];
+  },
+});
+
+console.log(Object.getOwnPropertyNames(proxy)); // ==> 'called' ['a', 'b', 'c']
+```
+
+## 13. handler.preventExtensions()
+`handler.preventExtensions` 方法用于设置对 `Object.preventExtensions()` 的拦截。
+
+该方法会**拦截**目标对象的以下操作：
+- `Object.preventExtensions()`;
+- `Relect.preventExtensions()`。
+
+但是该方法也必须遵循以下**约束**，否则抛出 `TypeError`:
+- 如果`Object.isExtensible(proxy)` 是 `false`，`Object.preventExtensions(proxy)` 只能返回 `true`。
+
+#### 语法:
+```js
+let proxy = new Proxy(target, {
+  preventExtensions(target) {...},
+});
+```
+
+#### 参数:
+`target`: 
+目标对象。
+
+#### 返回值:
+`Boolean`。
+
+#### 例子:
+```js
+let proxy = new Proxy({}, {
+  preventExtensions(target) {
+    console.log('called');
+    Object.preventExtensions(target);
+    return true;
+  },
+});
+
+console.log(Object.preventExtensions(proxy)); // ==> 'called'  Proxy{}
+```
+
+## 14. handler.setPrototypeOf()
+`handler.setPrototypeOf` 方法用来拦截 `Object.setPrototypeOf()` 。
+
+该方法会**拦截**目标对象的以下操作：
+- `Object.setPrototypeOf()`;
+- `Relect.setPrototypeOf()`。
+
+但是该方法也必须遵循以下**约束**，否则抛出 `TypeError`:
+- 如果`target` 不可扩展，原型参数必须与 `Object.getPrototypeOf(target)` 的值相同。
+
+#### 语法:
+```js
+let proxy = new Proxy(target, {
+  setPrototypeOf(target, prototype) {...},
+});
+```
+
+#### 参数:
+`target`: 
+目标对象。
+
+`prototype`: 
+对象的新原型或为 `null`。
+
+#### 返回值:
+如果成功修改了 `[[Prototype]]`，返回 `true`，否则返回 `fasle`。
+
+#### 例子:
+```js
+// 如果不想为目标对象设置一个新的原型
+// 可以考虑抛出异常或者返回 false
+let returnFalse = {
+  setPrototypeOf(target, newProto) {
+    return false;
+  }
+};
+
+let throwError = {
+  setPrototypeOf(target, newProto) {
+    throw new Error('>_<~ error');
+  }
+};
+
+let target = {};
+let newProto = {};
+
+let proxy_1 = new Proxy(target, returnFalse);
+let proxy_2 = new Proxy(target, throwError);
+
+Object.setPrototypeOf(proxy_1, newProto); // ==> TypeError
+Reflect.setPrototypeOf(proxy_1, newProto); // ==> false
+
+Object.setPrototypeOf(proxy_2, newProto); // ==> Uncaught Error: >_<~ error
+Reflect.setPrototypeOf(proxy_2, newProto); // ==> Uncaught Error: >_<~ error
+```
