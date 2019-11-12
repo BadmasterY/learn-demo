@@ -166,3 +166,7 @@ let peer = new PeerConnection(iceServers);
 - **呼叫端** 拿到 `answer` 后，再次调用 `setRemoteDescription` 设置远端 `answer` 描述。
 
 到这里点对点连接还缺一步，也就是网络信息 `ICE候选` 交换。不过这一步和 `offer`、`answer` 信息的交换并没有先后顺序，流程也是一样的。即：在**呼叫端**和**接收端**的 `ICE候选` 信息准备完成后，进行交换，并互相保存对方的信息，这样就完成了一次连接。
+
+
+#### demo 查看顺序
+`media API` => `location(NoSserver)` => `net`
