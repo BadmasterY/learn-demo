@@ -9,13 +9,7 @@ let localstream, peerA, peerB;
 
 const peerConfig = {
   iceServers: [
-    { url: 'stun:stun.voipstunt.com' },
     { url: 'stun:stun1.l.google.com:19302' },
-    {
-      urls: 'turn:39.105.208.159:3478',
-      username: 'iris',
-      credential: '123456',
-    },
   ],
 };
 
