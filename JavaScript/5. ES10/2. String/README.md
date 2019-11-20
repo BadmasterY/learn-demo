@@ -27,3 +27,45 @@ while ((match = regexp.exec(str)) !== null) {
 // ==> 'Found football start=6 end=14.'
 // ==> 'Found foosball start=16 end=24.'
 ```
+
+## 2. String.prototype.trimStart()
+`String.prototype.trimStart` 方法从字符串的开头删除空格。`trimLeft` 是此方法的别名。
+
+#### 语法:
+```js
+str.trimStatr();
+```
+
+#### 返回值:
+返回一个 `String`，表示从开头(左端)去除空格的调用字符串。
+
+#### 例子:
+```js
+let str = '  Mr.  ';
+console.log(str.length); // ==> 7
+
+str = str.trimStart();
+console.log(str.length); // ==> 5
+console.log(str); // ==> 'Mr.  '
+```
+
+## 3. String.prototype.trimEnd()
+`String.prototype.trimEnd` 方法从字符串的结尾删除空格。`trimRight` 是此方法的别名。
+
+#### 语法:
+```js
+str.trimEnd();
+```
+
+#### 返回值:
+返回一个 `String`，表示从结尾(右端)去除空格的调用字符串。
+
+#### 例子:
+```js
+let str = '  Mr.  ';
+console.log(str.length); // ==> 7
+
+str = str.trimEnd();
+console.log(str.length); // ==> 5
+console.log(str); // ==> '  Mr.'
+```
