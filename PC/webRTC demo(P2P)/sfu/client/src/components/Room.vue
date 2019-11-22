@@ -2,7 +2,7 @@
   <div class="room">
     <div class="sidbar">
       <ul>
-        <li v-for="user in roomInfo.users" :key="user.id" @click='call(user)'>{{ user.nickname }}</li>
+        <li v-for="user in roomInfo.users" :key="user.id" @click="call(user)">{{ user.nickname }}</li>
       </ul>
     </div>
     <div class="content">
@@ -20,7 +20,17 @@ export default {
     };
   },
   computed: {},
-  methods: {}
+  methods: {
+    call(user) {
+      const state =this.$store.state;
+      if (state.user.id === user.id) {
+        console.warn(`Can't call yourself...`);
+        return;
+      }
+      
+      this.$socket.emit('call', user);
+    }
+  }
 };
 </script>
 

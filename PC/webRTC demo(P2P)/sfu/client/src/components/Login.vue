@@ -39,6 +39,8 @@ export default {
           .catch(err => {
             console.error(err);
           });
+
+          this.$socket.connect();
       } else {
         console.warn("check roomid or nickname");
       }

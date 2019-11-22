@@ -8,6 +8,8 @@ export default new Vuex.Store({
     user: null,
     room: null,
     peer: null,
+    anwser: null,
+    offer: null,
   },
   mutations: {
     setUser(state, data) {

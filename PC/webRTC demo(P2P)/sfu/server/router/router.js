@@ -34,11 +34,4 @@ router.post('/login', async ctx => {
   ctx.body = res;
 });
 
-router.post('/logout', async ctx => {
-  console.log(ctx.request.body);
-  const { phone, roomid } = ctx.request.body;
-  const res = await logout(phone, roomid);
-  ctx.body = res;
-});
-
 exports.routers = router.routes();
