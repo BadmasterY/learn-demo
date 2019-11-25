@@ -2,18 +2,21 @@
   <div id="app">
     <Login v-if="!isLogin"/>
     <Room v-else />
+    <Calling v-if='isCalling' />
   </div>
 </template>
 
 <script>
 import Login from "./components/Login.vue";
 import Room from "./components/Room.vue";
+import Calling from './components/Calling';
 
 export default {
   name: "app",
   components: {
     Login,
-    Room
+    Room,
+    Calling,
   },
   data() {
     return {
@@ -22,6 +25,9 @@ export default {
   computed: {
     isLogin() {
       return this.$store.state.user;
+    },
+    isCalling() {
+      return this.$store.state.isCalling;
     }
   },
 };

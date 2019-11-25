@@ -28,7 +28,7 @@ export default {
         return;
       }
       
-      this.$socket.emit('call', user);
+      this.$socket.emit('call', {otherUser: user, self: state.user});
     }
   }
 };

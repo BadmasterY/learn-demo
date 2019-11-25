@@ -5,11 +5,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    user: null,
-    room: null,
-    peer: null,
+    user: null, // 用户
+    room: null, // 房间
+    peer: null, // peer
     anwser: null,
     offer: null,
+    isCalling: false, // 正在呼叫
+    caller: null, // 呼叫方
   },
   mutations: {
     setUser(state, data) {
@@ -20,7 +22,13 @@ export default new Vuex.Store({
     },
     setPeer(state, data) {
       state.peer = data;
-    }
+    },
+    setCalling(state, data) {
+      state.isCalling = data;
+    },
+    setCaller(state, data) {
+      state.caller = data;
+    },
   },
   actions: {
   },

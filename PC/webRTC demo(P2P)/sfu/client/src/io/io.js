@@ -8,12 +8,19 @@ const socket = io.connect('/socket', {
 
 // 连接成功
 socket.on('connect', function () {
-  console.log(`连接成功! socket 功能已启用...`)
+  console.log(`连接成功! socket 功能已启用...`);
+  console.log(store.state.user);
+  socket.emit('online', store.state.user);
+});
+
+socket.on('online', data => {
+  console.log(data);
 });
 
 socket.on('call', data => {
   console.log(data);
-  store.commit('setCall');
+  store.commit('setCalling', true);
+  store.commit('setCaller', data);
 });
 
 export default socket;

@@ -4,11 +4,10 @@ const { uuid } = require('uuidv4');
 
 router.post('/login', async ctx => {
   const { roomid, nickname } = ctx.request.body;
-  const { userMap, roomMap } = utilMaps;
+  const { roomMap } = utilMaps;
   let res;
   if (roomid && nickname) {
     const userid = uuid();
-    userMap.set(userid, nickname);
 
     if (roomMap.get(roomid)) {
       let users = roomMap.get(roomid).users;
