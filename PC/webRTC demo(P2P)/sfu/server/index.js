@@ -4,6 +4,7 @@ const koaBody = require('koa-body');
 const routers = require('./router/router');
 const app = new Koa();
 const { utilMaps } = require('./util/maps');
+const { initPeer, onOffer, onICE } = require('./rtc/rtc');
 
 app.use(cors({ origin: true })); // 跨域
 app.use(koaBody()); // 解析body
@@ -48,15 +49,13 @@ io.of('/socket').on('connection', socket => {
     const { sendMap, socketMap } = utilMaps;
     socketMap.get(data.otherUser.id).emit('reply', data);
 
-    // 初始化 webRTC，创建 peer 信息并发送
-    if(data.accept) {
+    // 初始化 webRTC，创建 peer 信息
+    if (data.accept) {
       // 放入转发 map
       let tempArr_1 = sendMap.get(data.self.id) || [];
       let tempArr_2 = sendMap.get(data.otherUser.id) || [];
       sendMap.set(data.self.id, tempArr_1.concat(data.otherUser));
       sendMap.set(data.otherUser.id, tempArr_2.concat(data.self));
-
-      
     }
   });
 });

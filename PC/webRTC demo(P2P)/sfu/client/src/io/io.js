@@ -1,5 +1,6 @@
 import io from 'socket.io-client'
 import store from '../store/index'
+import { initPeer, createOffer, onAnswer, onICE } from '../util/webrtc';
 
 const socket = io.connect('/socket', {
   autoConnect: false, // 自动连接
