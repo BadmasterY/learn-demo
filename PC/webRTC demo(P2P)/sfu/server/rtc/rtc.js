@@ -17,7 +17,7 @@ exports.initPeer = function initPeer(userid) {
 
   peer.onicecandidate = event => {
     if (event.candidate) {
-      socketMap.get(userid).emit('ICE', { sdp: event.candidate });
+      socketMap.get(userid).emit('ice', { sdp: event.candidate });
     }
   }
 

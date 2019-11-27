@@ -47,6 +47,7 @@ io.of('/socket').on('connection', socket => {
   // accept
   socket.on('accept', data => {
     const { sendMap, socketMap } = utilMaps;
+    socket.emit('reply', data);
     socketMap.get(data.otherUser.id).emit('reply', data);
 
     // 初始化 webRTC，创建 peer 信息
@@ -57,5 +58,9 @@ io.of('/socket').on('connection', socket => {
       sendMap.set(data.self.id, tempArr_1.concat(data.otherUser));
       sendMap.set(data.otherUser.id, tempArr_2.concat(data.self));
     }
+  });
+
+  socket.on('offer', data => {
+
   });
 });

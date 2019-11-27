@@ -31,16 +31,17 @@ export default {
             nickname: this.nickname
           })
           .then(response => {
+            console.log(response);
             const data = response.data.content;
 
             store.commit('setUser', data.user);
             store.commit('setRoom', data.room);
+            this.$socket.connect();
           })
           .catch(err => {
             console.error(err);
           });
 
-          this.$socket.connect();
       } else {
         console.warn("check roomid or nickname");
       }

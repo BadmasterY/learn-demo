@@ -10,7 +10,7 @@ const socket = io.connect('/socket', {
 // 连接成功
 socket.on('connect', function () {
   console.log(`连接成功! socket 功能已启用...`);
-  console.log(store.state.user);
+  console.log(`欢迎 ${store.state.user.nickname}`);
   socket.emit('online', store.state.user);
 });
 
@@ -22,6 +22,27 @@ socket.on('call', data => {
   console.log(data);
   store.commit('setCalling', true);
   store.commit('setCaller', data);
+});
+
+socket.on('reply',async data => {
+  console.log(data);
+  if(data.accept) {
+    let peer = await initPeer();
+    let offer = createOffer(peer);
+
+    socket.emit('offer', {id: store.state.user.id, offer: offer});
+    store.commit('setPeer', peer);
+  }else {
+    console.log('no! other reject...');
+  }
+});
+
+socket.on('answer', data => {
+  onAnswer(data);
+});
+
+socket.on('ice', data => {
+  onICE(data);
 });
 
 export default socket;
