@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  overflow: hidden;
 }
 
 .App-header {
@@ -11,4 +12,61 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.App-link {
+  color: #09d3ac;
+}
+
+.App-content {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  background: #eee;
+}
+
+.Content-sidbar {
+  width: 20vw;
+  height: 100vh;
+  float: left;
+  box-sizing: border-box;
+  border-right: 1px solid #aaa;
+  background: #fff;
+}
+
+.Content-sidbar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.Content-sidbar ul li {
+  padding: 10px 25px;
+  cursor: pointer;
+  height: 30px;
+  line-height: 30px;
+  border-bottom: 1px solid #aaa;
+  transition: background 300ms;
+}
+
+.Content-sidbar ul li:hover {
+  background: rgba(0,0,0,0.2);
+}
+
+.Content-info {
+  width: 80vw;
+  height: 100vh;
+  float: left;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.Content-info div{
+  width: 75vw;
+  height: 100vh;
+  box-sizing: border-box;
+  margin: 0 auto;
 }
