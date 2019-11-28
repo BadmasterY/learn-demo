@@ -20,8 +20,9 @@ export default {
       const caller = this.$store.state.caller;
       this.$store.commit('setCalling', false);
 
-      let accept = true;
-      if(str == 'no') accept = false;
+      // 修改一下逻辑，避免因为某些错误直接接通
+      let accept = false;
+      if(str == 'yes') accept = true;
       const response = {
         accept: accept, 
         otherUser: caller.self,
