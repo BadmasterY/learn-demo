@@ -6,7 +6,7 @@
       </ul>
     </div>
     <div class="content">
-      <video></video>
+      <video ref="video" autoplay></video>
     </div>
   </div>
 </template>
@@ -20,6 +20,9 @@ export default {
     };
   },
   computed: {},
+  mounted() {
+    this.$store.commit("setVideo", this.$refs.video);
+  },
   methods: {
     call(user) {
       const state =this.$store.state;

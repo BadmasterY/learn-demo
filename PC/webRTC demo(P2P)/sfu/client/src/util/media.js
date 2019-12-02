@@ -9,7 +9,15 @@ if (navigator.mediaDevices && !navigator.mediaDevices.getUserMedia && navigator.
 
 // 创建媒体流
 async function createMedia() {
-  let stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: { width: 1280, height: 720, facingMode: 'environment' } });
+  let stream = await navigator.mediaDevices.getUserMedia({
+    audio: true,
+    // video: false,
+    video: {
+      width: 1280,
+      height: 720,
+      facingMode: 'environment'
+    }
+  });
   return stream;
 }
 

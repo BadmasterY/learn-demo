@@ -12,6 +12,8 @@ export default new Vuex.Store({
     offer: null,
     isCalling: false, // 正在呼叫
     caller: null, // 呼叫方
+    stream: null, // stream
+    video: null,
   },
   mutations: {
     setUser(state, data) {
@@ -28,6 +30,12 @@ export default new Vuex.Store({
     },
     setCaller(state, data) {
       state.caller = data;
+    },
+    setStream(state, data) {
+      state.stream = data;
+    },
+    setVideo(state, data) {
+      state.video = data;
     },
   },
   actions: {

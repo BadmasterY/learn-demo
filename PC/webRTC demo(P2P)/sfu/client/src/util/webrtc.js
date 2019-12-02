@@ -7,23 +7,22 @@ import { createMedia } from './media'; // 媒体操作
  */
 async function initPeer() {
   let stream = await createMedia();
-
+  
   let PeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
   // 创建实例
-  let peer = new PeerConnection({
-    iceServers: [
-      { url: 'stun:stun.voipstunt.com' },
-      { url: 'stun:stun1.l.google.com:19302' },
-      {
-        urls: 'turn:39.105.208.159:3478',
-        username: 'iris',
-        credential: '123456',
-      },
-    ],
-  });
-
+  let peer = new PeerConnection();
+  
   // 添加媒体流
-  peer.addStream(stream);
+  // addStream 一个旧的 api 可以换成 addTrack
+  for(const track of stream.getTracks()) {
+    console.log(track);
+    console.log(stream);
+    peer.addTrack(track, stream);
+  }
+
+  peer.ontrack = event => {
+    console.log(event);
+  }
 
   // 监听 ice候选 信息
   peer.onicecandidate = event => {

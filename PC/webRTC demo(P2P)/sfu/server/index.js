@@ -4,7 +4,7 @@ const koaBody = require('koa-body');
 const routers = require('./router/router');
 const app = new Koa();
 const { utilMaps } = require('./util/maps');
-const { initPeer, onOffer, onICE } = require('./rtc/rtc');
+const { initPeer, onOffer, onICE, createAnswer } = require('./rtc/rtc');
 
 app.use(cors({ origin: true })); // 跨域
 app.use(koaBody()); // 解析body
@@ -57,10 +57,22 @@ io.of('/socket').on('connection', socket => {
       let tempArr_2 = sendMap.get(data.otherUser.id) || [];
       sendMap.set(data.self.id, tempArr_1.concat(data.otherUser));
       sendMap.set(data.otherUser.id, tempArr_2.concat(data.self));
+
+      initPeer(data.self.id);
+      initPeer(data.otherUser.id);
     }
   });
 
   socket.on('offer', data => {
+    const { socketMap } = utilMaps;
+    onOffer(data.id, data.offer);
 
+    createAnswer(data.id).then(answer => {
+      socketMap.get(data.id).emit('answer', { answer });
+    });
+  });
+
+  socket.on('ice', data => {
+    onICE(data.id, data.sdp);
   });
 });
