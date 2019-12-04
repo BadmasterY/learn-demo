@@ -15,7 +15,8 @@ socket.on('connect', function () {
 });
 
 socket.on('online', data => {
-  console.log(data);
+  console.log(`onlines change ${data}`);
+  // something change
 });
 
 socket.on('call', data => {
@@ -46,10 +47,10 @@ socket.on('ice', data => {
 });
 
 socket.on('stream', data => {
-  console.log(data.streams);
-  const stream = data.streams.streams;
-  store.commit('setStream', data);
-  store.state.video.src = URL.createObjectURL(stream[0]);
+  console.log(data);
+  // const stream = data.streams.streams;
+  // store.commit('setStream', data);
+  // store.state.video.src = URL.createObjectURL(stream[0]);
 })
 
 export default socket;

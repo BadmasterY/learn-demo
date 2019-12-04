@@ -7,14 +7,14 @@ module.exports = {
     disableHostCheck: true,
     proxy: {
       '/app': {
-        target: 'http://127.0.0.1:3000',
+        target: 'http://127.0.0.1:3111',
         changeOrigin: true,
         pathRewrite: {
           '^/app': ''
         }
       },
       '/socket': {
-        target: 'ws://127.0.0.1:3000',
+        target: 'ws://127.0.0.1:3111',
         changeOrigin: true,
         ws: true,
         pathRewrite: {

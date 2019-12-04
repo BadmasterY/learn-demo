@@ -12,7 +12,7 @@ app.use(routers.routers); // 路由
 
 const server = require('http').Server(app.callback());
 const io = require('socket.io')(server, { transports: ['websocket'] });
-const port = 3000; // 启动端口
+const port = 3111; // 启动端口
 
 // 启动服务器
 server.listen(process.env.PORT || port, () => {

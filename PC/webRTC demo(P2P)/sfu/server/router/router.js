@@ -3,6 +3,7 @@ const { utilMaps } = require('../util/maps');
 const { uuid } = require('uuidv4');
 
 router.post('/login', async ctx => {
+  console.log('logining...')
   const { roomid, nickname } = ctx.request.body;
   const { roomMap } = utilMaps;
   let res;

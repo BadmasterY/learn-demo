@@ -10,7 +10,12 @@ async function initPeer() {
   
   let PeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
   // 创建实例
-  let peer = new PeerConnection();
+  let peer = new PeerConnection({
+    iceServers: [
+      { url: 'stun:stun.voipstunt.com' },
+      { url: 'stun:stun1.l.google.com:19302' },
+    ],
+  });
   
   // 添加媒体流
   // addStream 一个旧的 api 可以换成 addTrack
@@ -22,6 +27,9 @@ async function initPeer() {
 
   peer.ontrack = event => {
     console.log(event);
+    console.log(peer.getReceivers());
+    if(store.state.video.srcObject) return;
+    store.state.video.srcObject = event.streams[0];
   }
 
   // 监听 ice候选 信息

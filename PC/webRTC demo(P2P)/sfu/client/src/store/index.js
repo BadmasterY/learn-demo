@@ -8,8 +8,6 @@ export default new Vuex.Store({
     user: null, // 用户
     room: null, // 房间
     peer: null, // peer
-    anwser: null,
-    offer: null,
     isCalling: false, // 正在呼叫
     caller: null, // 呼叫方
     stream: null, // stream
