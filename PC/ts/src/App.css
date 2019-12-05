@@ -16,6 +16,8 @@
 
 .App-link {
   color: #09d3ac;
+  cursor: pointer;
+  
 }
 
 .App-content {
@@ -62,11 +64,32 @@
   float: left;
   box-sizing: border-box;
   overflow-y: auto;
+  background: #f8f8f8;
+  text-align: left;
 }
 
 .Content-info div{
   width: 75vw;
-  height: 100vh;
+  /* height: 100vh; */
   box-sizing: border-box;
   margin: 0 auto;
+}
+
+.Content-info code {
+  font-style: italic;
+  background: rgba(253, 242, 199, 0.5);
+  color: #666;
+}
+
+.Content-info .language-js {
+  font-style: normal;
+  background: #fff;
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 15px;
+  border-radius: 5px;
+  color: #666;
+  border: 1px solid #d5d5d5;
+  overflow-x: auto;
 }

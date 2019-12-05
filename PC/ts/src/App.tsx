@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import './App.css';
 import Func from './components/Func/Function';
+
+import './App.css';
 
 const App: React.FC = () => {
   const [more, setMore] = useState('none');
@@ -17,7 +18,7 @@ const App: React.FC = () => {
         <p>A typescript demo file.For more information, see the 'More' link.</p>
         <p>This is just a simple typescript demo, not involving react code.</p>
         <p>By: <a className="App-link" href="https://github.com/facebook/create-react-app">create-react-app</a>.</p>
-        <p>Show <a href="#" className="App-link" onClick={() => { setMore('block') }}>More.</a></p>
+        <p>Show <span className="App-link" onClick={() => { setMore('block') }}>More</span>.</p>
       </header>
       <div style={{ display: more }} className="App-content">
         <div className="Content-sidbar">

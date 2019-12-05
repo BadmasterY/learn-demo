@@ -1,5 +1,4 @@
-import React, { useState ,useEffect } from 'react';
-import './Func.css';
+import React, { useState, useEffect } from 'react';
 
 const mark = require('./function.md');
 const ReactMarkdown = require('react-markdown/with-html');
@@ -14,7 +13,21 @@ const Func: React.FC = () => {
       })
       .then(text => {
         setMarkstr(text);
-      })
+        console.log('function.md is loaded...');
+      });
+
+    function add(...arg: number[]): number {
+      let result = 0;
+      for (let value of arg) {
+        result += value;
+      }
+
+      return result;
+    }
+    console.log(`add() ==> ${add()}`)
+    console.log(`add(1) ==> ${add(1)}`)
+    console.log(`add(1, 2) ==> ${add(1, 2)}`)
+    console.log(`add(1, 2, 3) ==> ${add(1, 2, 3)}`)
   }, []);
 
   return (
