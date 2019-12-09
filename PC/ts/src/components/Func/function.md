@@ -87,3 +87,32 @@ add(1, 2, 3); // ==> 6
 ```
 
 剩余参数会被当做个数不限的可选参数。 可以**一个都没有**，同样也**可以有任意个**。 编译器创建参数数组，名字是在省略号（ `...` ）后面给定的名字，可以在函数体内使用这个数组。
+
+#### 重载
+`JavaScript` 本身是个动态语言。 `JavaScript` 里函数根据传入不同的参数而返回不同类型的数据是很常见的。
+
+函数(方法)重载是使用相同名称和不同参数数量或类型创建多个方法的一种能力。
+
+在 `Typescript` 中可以通过声明一个函数的所有的函数签名，然而再将一个签名作为实现。
+
+```js
+function test(name: string): string;
+function test(age: number): string;
+function test(single: boolean): string;
+function test(value: string | number | boolean): string {
+  switch(typeof value) {
+    case 'string':
+      return `My name is ${value}.`;
+    case 'number':
+      return `I'm ${value} years old.`;
+    case 'boolean':
+      return value ? `I'm single.` : `I'm not single.`;
+    default:
+      return `Invalid Operation.`;
+  }
+}
+
+test('Mr.') // ==> 'My name is Mr..'
+test(18) // ==> 'I'm 18 years old.'
+test(true) // ==> 'I'm single.'
+```

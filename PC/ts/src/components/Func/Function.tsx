@@ -24,10 +24,31 @@ const Func: React.FC = () => {
 
       return result;
     }
-    console.log(`add() ==> ${add()}`)
-    console.log(`add(1) ==> ${add(1)}`)
-    console.log(`add(1, 2) ==> ${add(1, 2)}`)
-    console.log(`add(1, 2, 3) ==> ${add(1, 2, 3)}`)
+    console.log(`[Function] add() ==> ${add()}`)
+    console.log(`[Function] add(1) ==> ${add(1)}`)
+    console.log(`[Function] add(1, 2) ==> ${add(1, 2)}`)
+    console.log(`[Function] add(1, 2, 3) ==> ${add(1, 2, 3)}`)
+
+    function test(name: string): string;
+    function test(age: number): string;
+    function test(single: boolean): string;
+    function test(value: string | number | boolean): string {
+      switch (typeof value) {
+        case 'string':
+          return `My name is ${value}.`;
+        case 'number':
+          return `I'm ${value} years old.`;
+        case 'boolean':
+          return value ? `I'm single.` : `I'm not single.`;
+        default:
+          return `Invalid Operation.`;
+      }
+    }
+
+    console.log(`[Function] test('Mr.') ==> ${test('Mr.')}`)
+    console.log(`[Function] test(18) ==> ${test(18)}`)
+    console.log(`[Function] test(true) ==> ${test(true)}`)
+    
   }, []);
 
   return (
