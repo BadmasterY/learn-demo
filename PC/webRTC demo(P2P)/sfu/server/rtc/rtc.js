@@ -4,9 +4,20 @@ const { RTCVideoSink, RTCVideoSource, RTCAudioSink, RTCAudioSource } = require('
 const { socketMap, peerMap, streamMap, sendMap } = utilMaps;
 
 exports.initPeer = function initPeer(userid) {
+  const config = {
+    iceServers: [
+      {
+        urls: 'stun:stun.l.google.com:19302'
+      },
+      {
+        urls: 'stun:global.stun.twilio.com:3478?transport=udp'
+      }
+    ],
+    sdpSemantics: 'unified-plan'
+  }
   // 创建实例
-  let peer = new RTCPeerConnection();
-
+  let peer = new RTCPeerConnection(config);
+  
   peer.onsignalingstatechange = event => {
     console.log(peer.signalingState);
   }
@@ -17,8 +28,10 @@ exports.initPeer = function initPeer(userid) {
     }
   }
 
-  peer.ontrack = streams => {
-    const video = streams.streams[0].getVideoTracks().map((track) => {
+  peer.ontrack = stream => {
+    if(streamMap.has(userid)) return;
+    
+    const video = stream.streams[0].getVideoTracks().map((track) => {
       const sink = new RTCVideoSink(track);
       const source = new RTCVideoSource();
       sink.onframe = ({ frame }) => {
@@ -26,7 +39,7 @@ exports.initPeer = function initPeer(userid) {
       }
       return source.createTrack();
     })
-    const audio = streams.streams[0].getAudioTracks().map((track) => {
+    const audio = stream.streams[0].getAudioTracks().map((track) => {
       const sink = new RTCAudioSink(track);
       const source = new RTCAudioSource();
       sink.ondata = (event) => {
@@ -38,12 +51,15 @@ exports.initPeer = function initPeer(userid) {
     const outputStream = new MediaStream(video.concat(audio));
     
     for(const user of sendMap.get(userid)) {
-      console.log(user.id)
-      peerMap.get(user.id).addTrack(audio[0], outputStream);
-      peerMap.get(user.id).addTrack(video[0], outputStream);
+      console.log(user.id, userid);
+      let userPeer = peerMap.get(user.id);
+      userPeer.addTrack(audio[0], outputStream);
+      userPeer.addTrack(video[0], outputStream);
     }
 
-    // streamMap.set(userid, streams);
+    streamMap.set(userid, outputStream);
+
+    console.log(streamMap);
   };
 
   peerMap.set(userid, peer);

@@ -31,6 +31,7 @@ io.of('/socket').on('connection', socket => {
     console.log(data);
     onlineMap.set(data.id, data);
     socketMap.set(data.id, socket);
+    socket.broadcast.emit('online', data);
   });
 
   // 将呼叫信息转发

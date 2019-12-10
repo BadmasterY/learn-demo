@@ -35,6 +35,9 @@ export default new Vuex.Store({
     setVideo(state, data) {
       state.video = data;
     },
+    setOtherUser(state, data) {
+      state.room.users.push(data);
+    },
   },
   actions: {
   },

@@ -9,13 +9,19 @@ async function initPeer() {
   let stream = await createMedia();
   
   let PeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
-  // 创建实例
-  let peer = new PeerConnection({
+  const config = {
     iceServers: [
-      { url: 'stun:stun.voipstunt.com' },
-      { url: 'stun:stun1.l.google.com:19302' },
+      {
+        urls: 'stun:stun.l.google.com:19302'
+      },
+      {
+        urls: 'stun:global.stun.twilio.com:3478?transport=udp'
+      }
     ],
-  });
+    sdpSemantics: 'unified-plan'
+  }
+  // 创建实例
+  let peer = new PeerConnection(config);
   
   // 添加媒体流
   // addStream 一个旧的 api 可以换成 addTrack
@@ -28,7 +34,7 @@ async function initPeer() {
   peer.ontrack = event => {
     console.log(event);
     console.log(peer.getReceivers());
-    if(store.state.video.srcObject) return;
+    // if(store.state.video.srcObject) return;
     store.state.video.srcObject = event.streams[0];
   }
 

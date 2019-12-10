@@ -15,8 +15,9 @@ socket.on('connect', function () {
 });
 
 socket.on('online', data => {
-  console.log(`onlines change ${data}`);
+  console.log(`onlines change ${JSON.stringify(data)}`);
   // something change
+  store.commit('setOtherUser', data);
 });
 
 socket.on('call', data => {
