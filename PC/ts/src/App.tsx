@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Func from './components/Func/Function';
 import Interf from './components/Interface/Interf';
+import Clas from './components/Class/Clas';
+import Genericity from './components/Genericity/Genericity';
 
 import './App.css';
 
@@ -26,7 +28,9 @@ const App: React.FC = () => {
         <div className="Content-sidbar">
           <ul>
             <li style={{ background: isShow('interface') ? '#d4d4d4' : '' }} onClick={() => { setActived('interface') }}>Interface</li>
+            <li style={{ background: isShow('class') ? '#d4d4d4' : '' }} onClick={() => { setActived('class') }}>Class</li>
             <li style={{ background: isShow('function') ? '#d4d4d4' : '' }} onClick={() => { setActived('function') }}>Function</li>
+            <li style={{ background: isShow('genericity') ? '#d4d4d4' : '' }} onClick={() => { setActived('genericity') }}>Genericity</li>
             <li style={{ background: isShow('O2O') ? '#d4d4d4' : '' }} onClick={() => { setActived('O2O') }}>O2O</li>
             <li style={{ background: isShow('Runtime') ? '#d4d4d4' : '' }} onClick={() => { setActived('Runtime') }}>Runtime</li>
           </ul>
@@ -44,8 +48,14 @@ const App: React.FC = () => {
           <div key='interface' style={{ display: isShow('interface') ? 'block' : 'none' }}>
             <Interf />
           </div>
+          <div key='class' style={{ display: isShow('class') ? 'block' : 'none' }}>
+            <Clas />
+          </div>
           <div key='function' style={{ display: isShow('function') ? 'block' : 'none' }}>
             <Func />
+          </div>
+          <div key='genericity' style={{ display: isShow('genericity') ? 'block' : 'none' }}>
+            <Genericity />
           </div>
           <div style={{ display: isShow('O2O') ? 'block' : 'none' }}>
             O2O
