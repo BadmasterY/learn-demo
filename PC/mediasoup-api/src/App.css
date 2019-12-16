@@ -1,0 +1,126 @@
+.App {
+  text-align: center;
+  overflow: hidden;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #09d3ac;
+  cursor: pointer;
+  
+}
+
+.App-content {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  background: #eee;
+}
+
+.Content-sidbar {
+  width: 20vw;
+  height: 100vh;
+  float: left;
+  box-sizing: border-box;
+  border-right: 1px solid #aaa;
+  background: #fff;
+  font-size: 0.85em;
+}
+
+.Content-sidbar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.Content-sidbar ul li {
+  padding: 10px 25px;
+  cursor: pointer;
+  height: 30px;
+  line-height: 30px;
+  border-bottom: 1px solid #aaa;
+  transition: background 300ms;
+}
+
+.Content-sidbar ul li:hover {
+  background: rgba(0,0,0,0.2);
+}
+
+.Content-info {
+  width: 80vw;
+  height: 100vh;
+  float: left;
+  box-sizing: border-box;
+  overflow-y: auto;
+  background: #f8f8f8;
+  text-align: left;
+  font-size: 0.85em;
+}
+
+.Content-info div{
+  width: 75vw;
+  /* height: 100vh; */
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+.Content-info code {
+  font-style: italic;
+  background: rgba(253, 242, 199, 0.5);
+  font-weight: 700;
+}
+
+.Content-info .language-js {
+  font-style: normal;
+  background: #fff;
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 15px;
+  border-radius: 5px;
+  color: #666;
+  border: 1px solid #d5d5d5;
+  overflow-x: auto;
+  font-weight: 500;
+}
+
+blockquote {
+  border-left: 15px solid #909090;
+  box-sizing: border-box;
+  padding: 3px;
+  background: #909090;
+  color: #fff;
+}
+
+a {
+  color: #f40;
+}
+
+table {
+  width: 100%;
+  line-height: 40px;
+  box-sizing: border-box;
+  border: 1px solid #aaa;
+  border-collapse: collapse;
+}
+
+table tr td,
+table tr th {
+  border: 1px solid #aaa;
+  text-align: center;
+  background: #fff;
+  padding: 0 10px;
+}
