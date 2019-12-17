@@ -9,6 +9,9 @@ import CreateWorker from './components/V.createWorker/CreateWorker';
 import GetSupportedRtpCapabilities from './components/VI.getSupportedRtpCapabilities/GetSupportedRtpCapabilities';
 import ParseScalabilityMode from './components/VII.parseScalabilityMode/ParseScalabilityMode';
 
+import Router from './components/VIII.Router/Router';
+import Transport from './components/IX.Transport/Transport';
+
 const mark = require('./index.md');
 const ReactMarkdown = require('react-markdown/with-html');
 
@@ -37,16 +40,19 @@ const App: React.FC = () => {
       <div className="App-content">
         <div className="Content-sidbar">
           <ul>
+            <span className="start">起步 ↓</span>
             <li style={{ background: isShow('index') ? '#d4d4d4' : '' }} onClick={() => { setActived('index') }}>介绍</li>
             <li style={{ background: isShow('overview') ? '#d4d4d4' : '' }} onClick={() => { setActived('overview') }}>总览</li>
+            <span className="basics">基础 ↓</span>
             <li style={{ background: isShow('types') ? '#d4d4d4' : '' }} onClick={() => { setActived('types') }}>Types</li>
             <li style={{ background: isShow('version') ? '#d4d4d4' : '' }} onClick={() => { setActived('version') }}>Version</li>
             <li style={{ background: isShow('observer') ? '#d4d4d4' : '' }} onClick={() => { setActived('observer') }}>Observer</li>
             <li style={{ background: isShow('createworker') ? '#d4d4d4' : '' }} onClick={() => { setActived('createworker') }}>createWorker</li>
             <li style={{ background: isShow('getSupportedRtpCapabilities') ? '#d4d4d4' : '' }} onClick={() => { setActived('getSupportedRtpCapabilities') }}>GetSupportedRtpCapabilities</li>
             <li style={{ background: isShow('parseScalabilityMode') ? '#d4d4d4' : '' }} onClick={() => { setActived('parseScalabilityMode') }}>ParseScalabilityMode</li>
-            <span>扩展</span>
+            <span className="extend">扩展 ↓</span>
             <li style={{ background: isShow('router') ? '#d4d4d4' : '' }} onClick={() => { setActived('router') }}>Router</li>
+            <li style={{ background: isShow('transport') ? '#d4d4d4' : '' }} onClick={() => { setActived('transport') }}>Transport</li>
           </ul>
         </div>
         <div className="Content-info">
@@ -81,7 +87,13 @@ const App: React.FC = () => {
           <div key='parseScalabilityMode' style={{ display: isShow('parseScalabilityMode') ? 'block' : 'none' }}>
             <ParseScalabilityMode />
           </div>
-          
+          <div key='router' style={{ display: isShow('router') ? 'block' : 'none' }}>
+            <Router />
+          </div>
+          <div key='transport' style={{ display: isShow('transport') ? 'block' : 'none' }}>
+            <Transport />
+          </div>
+
         </div>
       </div>
     </div>

@@ -1,8 +1,16 @@
 # 学习 Mediasoup
 
+> 使用 mediasoup v3.x 版本，截止至翻译日期版本为 3.4.3
+
 **不支持**商业用途，仅供学习。
 
+由于国内相关文档太少，同时官网也没有中文支持，也没有一个很友好的 `demo`。所以决定自己翻译一篇用于学习。
+
 ## mediasoup 介绍
+
+[mediasoup 官网](https://mediasoup.org/)
+
+[mediasoup API 3.x](https://mediasoup.org/documentation/v3/mediasoup/api)
 
 ### 概述
 

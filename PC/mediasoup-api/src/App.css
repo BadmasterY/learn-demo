@@ -85,7 +85,7 @@
 
 .Content-info .language-js {
   font-style: normal;
-  background: #fff;
+  background: #e0e0e0;
   display: inline-block;
   width: 100%;
   box-sizing: border-box;
@@ -98,10 +98,10 @@
 }
 
 blockquote {
-  border-left: 15px solid #909090;
+  border-left: 15px solid #3d8591;
   box-sizing: border-box;
   padding: 3px;
-  background: #909090;
+  background: #3d8591;
   color: #fff;
 }
 
@@ -123,4 +123,25 @@ table tr th {
   text-align: center;
   background: #fff;
   padding: 0 10px;
+}
+
+.start {
+  display: block;
+  line-height: 30px;
+  background: #8edaff;
+  border-bottom: 1px solid #aaa;
+}
+
+.basics {
+  display: block;
+  line-height: 30px;
+  background: #b2f0ff;
+  border-bottom: 1px solid #aaa;
+}
+
+.extend {
+  display: block;
+  line-height: 30px;
+  background: #dcf0ff;
+  border-bottom: 1px solid #aaa;
 }

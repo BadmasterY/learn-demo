@@ -1,3 +1,6 @@
+# 学习 Mediasoup
+整体包含 `mediasoup` 与 `mediasoup-client`。
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
