@@ -1,6 +1,7 @@
 .App {
   text-align: center;
   overflow: hidden;
+  line-height: 1.8;
 }
 
 .App-header {
@@ -123,6 +124,14 @@ table tr th {
   text-align: center;
   background: #fff;
   padding: 0 10px;
+}
+
+table thead th {
+  background-color: #dbe9ed;
+}
+
+table tbody tr:nth-child(2n) td{
+  background-color: #f1f1f1;
 }
 
 .start {

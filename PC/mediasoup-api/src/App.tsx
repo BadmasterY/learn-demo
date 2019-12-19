@@ -11,6 +11,11 @@ import ParseScalabilityMode from './components/VII.parseScalabilityMode/ParseSca
 
 import Router from './components/VIII.Router/Router';
 import Transport from './components/IX.Transport/Transport';
+import WebRtcTransport from './components/X.WebRtcTransport/WebRtcTransport';
+import PlainRtpTransport from './components/XI.PlainRtpTransport/PlainRtpTransport';
+import PipeTransport from './components/XII.PipeTransport/PipeTransport';
+import Producer from './components/XIII.Producer/Producer';
+import Consumer from './components/XIV.Consumer/Consumer';
 
 const mark = require('./index.md');
 const ReactMarkdown = require('react-markdown/with-html');
@@ -53,6 +58,11 @@ const App: React.FC = () => {
             <span className="extend">扩展 ↓</span>
             <li style={{ background: isShow('router') ? '#d4d4d4' : '' }} onClick={() => { setActived('router') }}>Router</li>
             <li style={{ background: isShow('transport') ? '#d4d4d4' : '' }} onClick={() => { setActived('transport') }}>Transport</li>
+            <li style={{ background: isShow('webRtcTransport') ? '#d4d4d4' : '' }} onClick={() => { setActived('webRtcTransport') }}>WebRtcTransport</li>
+            <li style={{ background: isShow('plainRtpTransport') ? '#d4d4d4' : '' }} onClick={() => { setActived('plainRtpTransport') }}>PlainRtpTransport</li>
+            <li style={{ background: isShow('pipeTransport') ? '#d4d4d4' : '' }} onClick={() => { setActived('pipeTransport') }}>PipeTransport</li>
+            <li style={{ background: isShow('producer') ? '#d4d4d4' : '' }} onClick={() => { setActived('producer') }}>Producer</li>
+            <li style={{ background: isShow('consumer') ? '#d4d4d4' : '' }} onClick={() => { setActived('consumer') }}>Consumer</li>
           </ul>
         </div>
         <div className="Content-info">
@@ -92,6 +102,21 @@ const App: React.FC = () => {
           </div>
           <div key='transport' style={{ display: isShow('transport') ? 'block' : 'none' }}>
             <Transport />
+          </div>
+          <div key='webRtcTransport' style={{ display: isShow('webRtcTransport') ? 'block' : 'none' }}>
+            <WebRtcTransport />
+          </div>
+          <div key='plainRtpTransport' style={{ display: isShow('plainRtpTransport') ? 'block' : 'none' }}>
+            <PlainRtpTransport />
+          </div>
+          <div key='pipeTransport' style={{ display: isShow('pipeTransport') ? 'block' : 'none' }}>
+            <PipeTransport />
+          </div>
+          <div key='producer' style={{ display: isShow('producer') ? 'block' : 'none' }}>
+            <Producer />
+          </div>
+          <div key='consumer' style={{ display: isShow('consumer') ? 'block' : 'none' }}>
+            <Consumer />
           </div>
 
         </div>

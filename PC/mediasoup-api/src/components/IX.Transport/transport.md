@@ -95,7 +95,7 @@ transport.appData.foo = 'bar';
 > 
 > @abstract
 > 
-> returns Array<Object>
+> @returns Array<Object>
 
 - 有关更多详细信息，请查看 `RTC统计信息` 部分。
 
@@ -438,8 +438,5 @@ transport.observer.on("newdataconsumer", (dataConsumer) =>
 #### 6). transport.observer.on('trace', fn(trace))
 
 详情参见 `transport.enableTraceEvent()` 方法。
-
-## WebRtcTransport
-> @inherits `Transport`
 
 ### 更新时间: 2019-12-17 17:24:04
