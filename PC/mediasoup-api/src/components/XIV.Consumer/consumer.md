@@ -229,6 +229,52 @@ Argument | Type | Description
 --|--|--
 score | ConsumerScore | `RTP` 流的 `score`。
 
-#### 6).
+#### 6). consumer.on('layerschange', fn(layers))
+当发送到端点的空间/时间层改变时触发。仅适用于 `simulcast` 和 `svc` 两种 `consumer`。
+
+Argument | Types | Description
+--|--|--
+layers | ConsumerLayers/Null | 当前的空间和时间层（或 `null`）。
+
+在各种情况下，`simulcast` 或 `svc` 的 `consumer` 中都会发出此事件（假定 `consumer` 端点通过 `REMB` 或 `Transport-CC` 支持 `BWE`）: 
+- `consumer` 或其关联的 `producer` 暂停时。
+- 当关联 `producer` 的所有 `RTP` 流变成非活动状态时（一段时间内未接收到 `RTP`）。
+- 当 `BWE` 的可用比特率使消费者升级或降级空间/时间层时。
+- 如果此 `consumer` 没有可用的比特率（即使是最低层），则事件将 `null` 作为参数触发。
+
+`Node.js` 应用程序可以通过检查 `consumer.paused` 和 `consumer.producerPaused` 在 `consumer` 以 `null` 作为参数发出此事件后是否都是错误的来检测后者（`consumer` 由于带宽不足而被停用）。
+
+#### 7). consumer.on('trace', fn(trace))
+请参见 `consumer.enableTraceEvent(types)` 方法。
+
+Argument | Type | Description
+--|--|--
+trace | ConsumerTraceEventData | `trace` 数据。
+
+```js
+consumer.on("trace", (trace) =>
+{
+  console.log(trace);
+});
+```
+
+### 6. Observer Events
+#### 1). consumer.observer.on('close', fn())
+当 `consumer` 出于任何原因关闭时触发。
+
+#### 2). consumer.observer.on('pause', fn())
+当 `consumer` 或者其相关联的 `producer` 暂停时触发，结果 `consumer` 暂停。
+
+#### 3). consumer.observer.on('resume', fn())
+在恢复 `consumer` 或者其关联的 `producer` 时触发，因此，`consumer` 不再暂停。
+
+#### 4). consumer.observer.on('score', fn(score))
+与 `consumer.on('score', fn(score))` 事件相同。
+
+#### 5). consumer.observer.on('layerschange', fn(layers))
+与 `consumer.on('layerschange', fn(layers))` 事件相同。
+
+#### 6). consumer.observer.on('trace', fn(trace))
+与 `consumer.on('trace', fn(trace))` 事件相同。
 
 ### 更新时间: 2019-12-19 16:39:00

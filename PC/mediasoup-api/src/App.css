@@ -45,6 +45,8 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  height: 100%;
+  overflow-y: auto;
 }
 
 .Content-sidbar ul li {
@@ -152,5 +154,12 @@ table tbody tr:nth-child(2n) td{
   display: block;
   line-height: 30px;
   background: #dcf0ff;
+  border-bottom: 1px solid #aaa;
+}
+
+.other {
+  display: block;
+  line-height: 30px;
+  background: #f5dcff;
   border-bottom: 1px solid #aaa;
 }

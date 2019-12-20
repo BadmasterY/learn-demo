@@ -16,6 +16,12 @@ import PlainRtpTransport from './components/XI.PlainRtpTransport/PlainRtpTranspo
 import PipeTransport from './components/XII.PipeTransport/PipeTransport';
 import Producer from './components/XIII.Producer/Producer';
 import Consumer from './components/XIV.Consumer/Consumer';
+import DataProducer from './components/XV.DataProducer/DataProducer';
+import DataConsumer from './components/XVI.DataConsumer/DataConsumer';
+import RtpObserver from './components/XVII.RtpObserver/RtpObserver';
+import AudioLevelObserver from './components/XVIII.AudioLevelObserver/AudioLevelObserver';
+
+import RtpParametersAndCapabilities from './components/XIX.RtpParametersAndCapabilities/RtpParametersAndCapabilities';
 
 const mark = require('./index.md');
 const ReactMarkdown = require('react-markdown/with-html');
@@ -63,6 +69,12 @@ const App: React.FC = () => {
             <li style={{ background: isShow('pipeTransport') ? '#d4d4d4' : '' }} onClick={() => { setActived('pipeTransport') }}>PipeTransport</li>
             <li style={{ background: isShow('producer') ? '#d4d4d4' : '' }} onClick={() => { setActived('producer') }}>Producer</li>
             <li style={{ background: isShow('consumer') ? '#d4d4d4' : '' }} onClick={() => { setActived('consumer') }}>Consumer</li>
+            <li style={{ background: isShow('dataProducer') ? '#d4d4d4' : '' }} onClick={() => { setActived('dataProducer') }}>DataProducer</li>
+            <li style={{ background: isShow('dataConsumer') ? '#d4d4d4' : '' }} onClick={() => { setActived('dataConsumer') }}>DataConsumer</li>
+            <li style={{ background: isShow('rtpObserver') ? '#d4d4d4' : '' }} onClick={() => { setActived('rtpObserver') }}>RtpObserver</li>
+            <li style={{ background: isShow('audioLevelObserver') ? '#d4d4d4' : '' }} onClick={() => { setActived('audioLevelObserver') }}>AudioLevelObserver</li>
+            <span className="other">补充 ↓</span>
+            <li style={{ background: isShow('rtpParametersAndCapabilities') ? '#d4d4d4' : '' }} onClick={() => { setActived('rtpParametersAndCapabilities') }}>RtpParametersAndCapabilities</li>
           </ul>
         </div>
         <div className="Content-info">
@@ -117,6 +129,21 @@ const App: React.FC = () => {
           </div>
           <div key='consumer' style={{ display: isShow('consumer') ? 'block' : 'none' }}>
             <Consumer />
+          </div>
+          <div key='dataProducer' style={{ display: isShow('dataProducer') ? 'block' : 'none' }}>
+            <DataProducer />
+          </div>
+          <div key='dataConsumer' style={{ display: isShow('dataConsumer') ? 'block' : 'none' }}>
+            <DataConsumer />
+          </div>
+          <div key='rtpObserver' style={{ display: isShow('rtpObserver') ? 'block' : 'none' }}>
+            <RtpObserver />
+          </div>
+          <div key='audioLevelObserver' style={{ display: isShow('audioLevelObserver') ? 'block' : 'none' }}>
+            <AudioLevelObserver />
+          </div>
+          <div key='rtpParametersAndCapabilities' style={{ display: isShow('rtpParametersAndCapabilities') ? 'block' : 'none' }}>
+            <RtpParametersAndCapabilities />
           </div>
 
         </div>
