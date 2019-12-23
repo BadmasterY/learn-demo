@@ -306,4 +306,37 @@ encodings :
 ### 7. SVC技术现状
 总体来说，`webRTC` 尚未为 `SVC` 正确定义，并且 `webRTC 1.0` 规范未涵盖 `SVC`。
 
+#### Chrome
+`mediasoup-client >= 3.1.0` 通过执行**脏操作**在 `Chrome >= M74` 中启用 `VP9 SVC`（不带任何命令行标志）:
+- [Commit](https://github.com/versatica/mediasoup-client/commit/7fe828181361e30d2157659b2aa7f516366beb69?ts=2)
+- [Twitter中的讨论](https://twitter.com/ibc_tw/status/1136968240415072256)	
+
+**注意**: `Chrome` 在传输网络摄像头视频的时候使用 `VP9 K-SVC`，在进行屏幕共享的时候 使用的是 `full SVC`。这**必须**在 `mediashoup` 的 `producer` 的 `scalabilityMode` 中正确地发出信号（否则将无法工作）：
+- 网络摄像机视频（`K-SVC`），具有三个空间层和三个时间层:
+```js
+scalabilityMode: 'L3T3_KEY'
+```
+- 具有三个空间层和三个时间层的屏幕共享（`full SVC`）
+```js
+scalabilityMode: 'L3T3'
+```
+
+#### libwebrtc
+`VP9 SVC` 也可以通过 `Chrome` 和基于 `libwebrtc` 的本机应用程序启用，该标志的值决定了空间和时间层的数量：
+```js
+WebRTC-SupportVP9SVC/EnabledByFlag_3SL3TL/
+```
+
+要在 `Chrome` 中启用 `VP9 SVC`，必须使用以下命令行参数启动浏览器：
+```js
+--force-fieldtrials=WebRTC-SupportVP9SVC/EnabledByFlag_3SL3TL/
+```
+
+要使用 `libwebrtc C++ API` 启用 `VP9 SVC`:
+```js
+webrtc::field_trial::InitFieldTrialsFromString("WebRTC-SupportVP9SVC/EnabledByFlag_3SL3TL/");
+```
+
+**注意**: 其他变体（例如 `EnabledByFlag_2SL1TL` 等）是有效的，用于替代 `EnabledByFlag_3SL3TL`。这里的问题是，`producer` 中的 `scalabilityMode` 值必须与标志中的空间层和时间层的数量匹配。
+
 ### 更新时间: 2019-12-21 14:54:50

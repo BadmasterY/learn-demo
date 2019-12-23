@@ -22,6 +22,9 @@ import RtpObserver from './components/XVII.RtpObserver/RtpObserver';
 import AudioLevelObserver from './components/XVIII.AudioLevelObserver/AudioLevelObserver';
 
 import RtpParametersAndCapabilities from './components/XIX.RtpParametersAndCapabilities/RtpParametersAndCapabilities';
+import SctpParameters from './components/XX.SctpParameters/SctpParameters';
+import RtcStatistics from './components/XXI.RtcStatistics/RtcStatistics';
+import Tricks from './components/XXII.Tricks/Tricks';
 
 const mark = require('./index.md');
 const ReactMarkdown = require('react-markdown/with-html');
@@ -75,6 +78,9 @@ const App: React.FC = () => {
             <li style={{ background: isShow('audioLevelObserver') ? '#d4d4d4' : '' }} onClick={() => { setActived('audioLevelObserver') }}>AudioLevelObserver</li>
             <span className="other">补充 ↓</span>
             <li style={{ background: isShow('rtpParametersAndCapabilities') ? '#d4d4d4' : '' }} onClick={() => { setActived('rtpParametersAndCapabilities') }}>RtpParametersAndCapabilities</li>
+            <li style={{ background: isShow('sctpParamters') ? '#d4d4d4' : '' }} onClick={() => { setActived('sctpParamters') }}>SctpParamters</li>
+            <li style={{ background: isShow('rtcStatistics') ? '#d4d4d4' : '' }} onClick={() => { setActived('rtcStatistics') }}>RtcStatistics</li>
+            <li style={{ background: isShow('tricks') ? '#d4d4d4' : '' }} onClick={() => { setActived('tricks') }}>Tricks</li>
           </ul>
         </div>
         <div className="Content-info">
@@ -144,6 +150,15 @@ const App: React.FC = () => {
           </div>
           <div key='rtpParametersAndCapabilities' style={{ display: isShow('rtpParametersAndCapabilities') ? 'block' : 'none' }}>
             <RtpParametersAndCapabilities />
+          </div>
+          <div key='sctpParamters' style={{ display: isShow('sctpParamters') ? 'block' : 'none' }}>
+            <SctpParameters />
+          </div>
+          <div key='rtcStatistics' style={{ display: isShow('rtcStatistics') ? 'block' : 'none' }}>
+            <RtcStatistics />
+          </div>
+          <div key='tricks' style={{ display: isShow('tricks') ? 'block' : 'none' }}>
+            <Tricks />
           </div>
 
         </div>
