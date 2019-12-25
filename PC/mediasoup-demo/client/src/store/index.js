@@ -9,6 +9,8 @@ export default new Vuex.Store({
     roomid: null,
     room: null,
     video: null,
+    isCalling: false,
+    caller: null,
   },
   mutations: {
     setUser(state, data) {
@@ -19,6 +21,12 @@ export default new Vuex.Store({
     },
     setVideo(state, data) {
       state.video = data;
+    },
+    setCalling(state, data) {
+      state.isCalling = data;
+    },
+    setCaller(state, data) {
+      state.caller = data;
     }
   },
   actions: {

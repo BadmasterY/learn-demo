@@ -3,10 +3,10 @@ const { uuid } = require('uuidv4');
 const { utilMaps } = require('../utils/maps');
 
 router.post('/login', ctx => {
-    console.log('login...');
     const { roomid, username } = ctx.request.body;
     const { userMap, roomMap } = utilMaps;
-
+    console.log(`${username} login...`);
+    
     const userid = uuid();
     userMap.set(userid, username);
 
@@ -15,8 +15,6 @@ router.post('/login', ctx => {
         users = roomMap.get(roomid);
         users = users.concat({ userid, username });
         roomMap.set(roomid, users);
-
-        console.log(roomMap);
     } else {
         users = users.concat({ userid, username })
         roomMap.set(roomid, users);

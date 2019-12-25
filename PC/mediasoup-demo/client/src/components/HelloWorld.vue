@@ -14,9 +14,12 @@ export default {
   },
   data() {
     return {
-      roomid: '',
-      username: ''
+      roomid: '1',
+      username: 'K'
     }
+  },
+  mounted() {
+    // this.login();
   },
   methods: {
     login() {

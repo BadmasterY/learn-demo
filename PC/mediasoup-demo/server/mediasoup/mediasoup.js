@@ -3,11 +3,24 @@ const { uuid } = require('uuidv4');
 
 /**
  * 创建 webrtc transport
- * @param {String} ip 目标ip
  */
-async function createTransport(ip) {
-    const worker = await mediasoup.createWorker();
-    
+exports.createRouter = async function createRouter() {
+    const worker = await mediasoup.createWorker({
+        logLevel: 'warn',
+        logTags: ['info',
+            'ice',
+            'dtls',
+            'rtp',
+            'srtp',
+            'rtcp',],
+        rtcMinPort: 10000,
+        rtcMaxPort: 10100,
+    });
+
+    worker.on('died', () => {
+        console.error('mediasoup worker died, pid: ', worker.pid);
+    });
+
     const mediaCodecs = [
         {
             kind: 'audio',
@@ -17,27 +30,45 @@ async function createTransport(ip) {
         },
         {
             kind: 'video',
-            mimeType: 'video/H264',
+            mimeType: 'video/VP8',
             clockRate: 90000,
             parameters: {
-                'packetization-mode': 1,
-                'profile-level-id': uuid(),
-                'level-asymmetry-allowed': 1
+                'x-google-start-bitrate': 1000
             }
         }
     ];
-    
-    const router = await worker.createRouter(mediaCodecs);
-    console.log(router.rtpCapabilities);
-    
-    const transport = await router.createWebRtcTransport({
-        listenIps: [{ip: ip || '127.0.0.1'}],
-        enableUdp: true,
-        enableTcp: true,
-        preferUdp: true
-    });
 
-    return transport;
+    const router = await worker.createRouter({mediaCodecs});
+    // console.log(mediaCodecs);
+
+    return router;
 }
 
-exports.createTransport = createTransport;
+exports.createWebRtcTransport = async function (router, ip) {
+    const transport = await router.createWebRtcTransport({
+        listenIps: [{ ip: ip || '127.0.0.1' }],
+        // enableUdp: true,
+        // enableTcp: true,
+        // preferUdp: true
+    });
+
+    transport.on('iceselectedtuplechange', iceSelectedTuple => {
+        console.log(`iceSelectedTupleChange: ${iceSelectedTuple}`);
+    });
+
+    transport.on('dtlsstatechange', dtlsState => {
+        console.log(`dtlsStateChange: ${dtlsState}`);
+    });
+
+    const res = {
+        id: transport.id,
+        iceParameters: transport.iceParameters,
+        iceCandidates: [transport.iceCandidates],
+        dtlsParameters: transport.dtlsParameters,
+    }
+
+    return {
+        transport,
+        res,
+    };
+}

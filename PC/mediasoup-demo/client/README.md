@@ -1,24 +1,15 @@
-# client
+# mediasoup-client
+## 说明
+已经一再简化的demo（虽然它依旧很庞大）...
+### 核心技术: 
+- mediasoup-client
+- vue
+- socket.io-client
 
-## Project setup
+## 运行
 ```
 npm install
-```
-
-### Compiles and hot-reloads for development
-```
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+> 更新时间: 2019-12-25 17:40:32

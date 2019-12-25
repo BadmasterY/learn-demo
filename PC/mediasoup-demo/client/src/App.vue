@@ -1,22 +1,33 @@
 <template>
   <div id="app">
-    <HelloWorld v-if="!this.$store.state.user" msg="Welcome to Your Vue.js App"/>
+    <HelloWorld v-if="!isLogin" msg="Welcome to Your Vue.js App"/>
     <Room v-else />
+    <Calling v-if='isCalling' />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-import Room from './components/Room'
+import HelloWorld from './components/HelloWorld.vue';
+import Room from './components/Room';
+import Calling from './components/Calling';
 
 export default {
   name: 'app',
   components: {
     HelloWorld,
-    Room
+    Room,
+    Calling
   },
   methods: {
     
+  },
+  computed: {
+    isCalling() {
+      return this.$store.state.isCalling;
+    },
+    isLogin() {
+      return this.$store.state.user;
+    }
   },
 }
 </script>
