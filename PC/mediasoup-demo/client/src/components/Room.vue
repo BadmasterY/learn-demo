@@ -69,4 +69,9 @@ export default {
   width: 75%;
   background: #fff;
 }
+
+video {
+  width: 1280px;
+  height: 720px;
+}
 </style>

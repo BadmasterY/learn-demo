@@ -14,7 +14,11 @@ if (navigator.mediaDevices && !navigator.mediaDevices.getUserMedia && navigator.
     });
 
     let videoStream = await navigator.mediaDevices.getUserMedia({
-        video: true,
+        video: {
+          width: 1280,
+          height: 720,
+          facingMode: 'environment',
+        },
     })
     return {
         audioStream,
