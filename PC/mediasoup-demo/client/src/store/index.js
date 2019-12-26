@@ -11,6 +11,9 @@ export default new Vuex.Store({
     video: null,
     isCalling: false,
     caller: null,
+    otherUser: null, // 暂存，多人使用 map 存储
+    producer: null,
+    recvTransport: null,
   },
   mutations: {
     setUser(state, data) {
@@ -27,6 +30,15 @@ export default new Vuex.Store({
     },
     setCaller(state, data) {
       state.caller = data;
+    },
+    setOtherUser(state, data) {
+      state.otherUser = data;
+    },
+    setProducer(state, data) {
+      state.producer = data;
+    },
+    setRecvTransport(state, data) {
+      state.recvTransport = data;
     }
   },
   actions: {

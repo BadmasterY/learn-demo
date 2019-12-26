@@ -3,6 +3,8 @@ import store from '../store/index';
 import device from '../mediasoup/mediasoup';
 import { createMedia } from '../util/media';
 
+const obj = {};
+
 const socket = io.connect('/socket', {
     autoConnect: false,
     transports: ['websocket'],
@@ -37,9 +39,6 @@ socket.on('getRouterRtpCapabilities', async data => {
     await device.load(data);
     console.log(`device is loaded: ${device.loaded}`);
 
-    console.log(`device can use video: ${device.canProduce('video')}`);
-    console.log(`device can use video: ${device.canProduce('audio')}`);
-
     socket.emit('createProducerTransport', {
         userid: store.state.user.userid,
         rtpCapabilities: device.rtpCapabilities,
@@ -47,35 +46,45 @@ socket.on('getRouterRtpCapabilities', async data => {
     });
 });
 
+/**
+ * 获取服务器 transport rtpCapabilities
+ * 创建 sendTransport
+ */
 socket.on('createdProducer', async data => {
-    const sendTransport = await device.createSendTransport(data);
+    const sendTransport = device.createSendTransport(data);
 
     sendTransport.on('connect', async ({ dtlsParameters }, callback, errback) => {
-        console.log(data);
-        const promise = new Promise(() => {
+        new Promise((resolve) => {
             socket.emit('connectProducerTransport', {
                 userid: store.state.user.userid,
-                transportId: sendTransport.id,
                 dtlsParameters
-            });
-        });
-        promise.then(callback).catch(errback);
+            }, resolve);
+        }).then(() => {
+            callback();
+            console.log(`[sendTransport] connect is ok!`);
+        }).catch(errback);
         console.log(`[sendTransport] is connect...`);
     });
 
     sendTransport.on('produce', async ({ kind, rtpParameters }, callback, errback) => {
-        console.log(`[sendTransport] is produce...`)
-        try {
-            await socket.emit('produce', {
+        console.log(`[sendTransport] is produce...`);
+        new Promise(resolve => {
+            socket.emit('produce', {
                 userid: store.state.user.userid,
                 transportId: sendTransport.id,
                 kind,
                 rtpParameters,
-            });
-            callback({ id: 'is not true...' });
-        } catch (err) {
-            errback(err);
-        }
+            }, resolve);
+        })
+            .then(({ id }) => {
+                console.log(`[${kind}] id: ${id}`);
+                obj[kind] = kind;
+                callback({ id });
+                if (obj.video && obj.audio) {
+                    socket.emit('createConsumerTransport', { userid: store.state.user.userid });
+                }
+            })
+            .catch(errback);
     });
 
     sendTransport.on('connectionstatechange', (state) => {
@@ -83,15 +92,12 @@ socket.on('createdProducer', async data => {
             case 'connecting':
                 console.log(`[sendTransport] is connecting...`);
                 break;
-
             case 'connected':
                 console.log(`[sendTransport] is connected...`);
                 break;
-
             case 'failed':
                 console.log(`[sendTransport] is failed...`);
                 break;
-
             default: break;
         }
     });
@@ -107,7 +113,7 @@ socket.on('createdProducer', async data => {
             { maxBitrate: 900000 }
         ],
         codecOptions: {
-            videoGoogleStartBitrate: 10000
+            videoGoogleStartBitrate: 1000
         }
     });
     const audioProducer = await sendTransport.produce({
@@ -118,22 +124,77 @@ socket.on('createdProducer', async data => {
 });
 
 socket.on('newProducer', ({ userid }) => {
-    console.log(`new producer from user id: ${userid}`);
-    console.log(`self id: ${store.state.user.userid}`);
+    console.log(`[otherProducerConnected] id: ${userid}`);
 });
 
-socket.on('connected', data => {
-    if(data.userid === store.state.user.userid) {
-        console.log('[server] connect is ok!');
-    }else {
-        console.log('start get stream...');
-        socket.emit('createConsumerTransport', { userid: data.userid,forceTcp: false });
-    }
+socket.on('createdConsumer', async data => {
+    const recvTransport = device.createRecvTransport(data);
+    recvTransport.on('connect', ({ dtlsParameters }, callback, errback) => {
+        new Promise(resolve => {
+            socket.emit('connectConsumerTransport', {
+                userid: store.state.user.userid,
+                transportId: recvTransport.id,
+                dtlsParameters
+            }, resolve);
+        })
+            .then(() => {
+                callback();
+                console.log(`[recvTransport] connecte is ok!`);
+            })
+            .catch(errback);
+        console.log(`[recvTransport] is connect...`);
+    });
+
+    recvTransport.on('connectionstatechange', (state) => {
+        switch (state) {
+            case 'connecting':
+                console.log(`[recvTransport] is connecting...`);
+                break;
+            case 'connected':
+                console.log(`[recvTransport] is connected...`);
+                break;
+            case 'failed':
+                console.log(`[recvTransport] is failed...`);
+                break;
+            default: break;
+        }
+    });
+
+    socket.emit('consume', {
+        userid: store.state.user.userid,
+        rtpCapabilities: device.rtpCapabilities
+    });
+
+    store.commit('setRecvTransport', recvTransport);
 });
 
-socket.on('createdConsumer', data => {
+socket.on('getConsume', async data => {
     console.log(data);
-    // do ssomething...
+    const { video, audio } = data;
+    const transport = store.state.recvTransport;
+    let codecOptions = {};
+    const videoConsumer = await transport.consume({
+        id: video.id,
+        producerId: video.producerId,
+        kind: video.kind,
+        rtpParameters: video.rtpParameters,
+        codecOptions,
+    });
+    const audioConsumer = await transport.consume({
+        id: audio.id,
+        producerId: audio.producerId,
+        kind: audio.kind,
+        rtpParameters: audio.rtpParameters,
+        codecOptions,
+    });
+
+    const stream = new MediaStream([videoConsumer.track, audioConsumer.track]);
+
+    new Promise(resolve => {
+        socket.emit('resum', { userid: store.state.user.userid }, resolve);
+    }).then(() => {
+        store.state.video.srcObject = stream;
+    })
 });
 
 export default socket;

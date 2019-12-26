@@ -38,7 +38,7 @@ exports.createRouter = async function createRouter() {
         }
     ];
 
-    const router = await worker.createRouter({mediaCodecs});
+    const router = await worker.createRouter({ mediaCodecs });
     // console.log(mediaCodecs);
 
     return router;
@@ -46,10 +46,14 @@ exports.createRouter = async function createRouter() {
 
 exports.createWebRtcTransport = async function (router, ip) {
     const transport = await router.createWebRtcTransport({
-        listenIps: [{ ip: ip || '127.0.0.1' }],
-        // enableUdp: true,
-        // enableTcp: true,
-        // preferUdp: true
+        listenIps: [{
+            ip: ip || '127.0.0.1',
+            announcedIp: null,
+        }],
+        enableUdp: true,
+        enableTcp: true,
+        preferUdp: true,
+        initialAvailableOutgoingBitrate: 1000000
     });
 
     transport.on('iceselectedtuplechange', iceSelectedTuple => {
@@ -60,15 +64,13 @@ exports.createWebRtcTransport = async function (router, ip) {
         console.log(`dtlsStateChange: ${dtlsState}`);
     });
 
-    const res = {
-        id: transport.id,
-        iceParameters: transport.iceParameters,
-        iceCandidates: [transport.iceCandidates],
-        dtlsParameters: transport.dtlsParameters,
-    }
-
     return {
         transport,
-        res,
+        res: {
+            id: transport.id,
+            iceParameters: transport.iceParameters,
+            iceCandidates: transport.iceCandidates,
+            dtlsParameters: transport.dtlsParameters,
+        },
     };
 }
