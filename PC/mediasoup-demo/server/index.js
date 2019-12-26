@@ -56,17 +56,18 @@ io.of('/socket').on('connection', socket => {
 
         // 接受呼叫
         if (data.accept) {
-            const selfRouter = await createRouter();
-            // const otherRouter = await createRouter();
+            // router 可以理解为房间的概念
+            // 但实际上比房间低级
+            const router = await createRouter();
 
-            const selfRouterRtpCapabilities = selfRouter.rtpCapabilities;
-            routerMap.set(data.self.userid, selfRouter);
+            // 获取 router capabilities
+            const routerRtpCapabilities = router.rtpCapabilities;
+            routerMap.set(data.self.userid, router);
+            routerMap.set(data.otherUser.userid, router);
 
-            // const otherRouterCapabilities = otherRouter.rtpCapabilities;
-            routerMap.set(data.otherUser.userid, selfRouter);
             // 将得到的 router rtp capabilities 推送到对应的接收端
-            socket.emit('getRouterRtpCapabilities', { routerRtpCapabilities: selfRouterRtpCapabilities });
-            socketMap.get(data.otherUser.userid).emit('getRouterRtpCapabilities', { routerRtpCapabilities: selfRouterRtpCapabilities });
+            socket.emit('getRouterRtpCapabilities', { routerRtpCapabilities });
+            socketMap.get(data.otherUser.userid).emit('getRouterRtpCapabilities', { routerRtpCapabilities });
 
         }
     });
@@ -100,7 +101,7 @@ io.of('/socket').on('connection', socket => {
 
         console.log(`${data.userid} producer connect is ok!`);
 
-        callback();
+        callback(); // 回调触发 promise
     });
 
     /**
@@ -121,9 +122,14 @@ io.of('/socket').on('connection', socket => {
 
         console.log(`${userid} [${kind}] produce is ok...`);
 
+        // 同理前端
+        // 全部创建之后再执行
         if (prod.audio && prod.video) socket.broadcast.emit('newProducer', { userid });
     });
 
+    /**
+     * 创建 consumer transport
+     */
     socket.on('createConsumerTransport', async data => {
         const { routerMap, consumerMap } = utilMaps;
 
@@ -136,6 +142,9 @@ io.of('/socket').on('connection', socket => {
         socket.emit('createdConsumer', res);
     });
 
+    /**
+     * 连接 consumer
+     */
     socket.on('connectConsumerTransport', async (data, callback) => {
         const { consumerMap } = utilMaps;
         const transport = consumerMap.get(data.userid);
@@ -155,7 +164,7 @@ io.of('/socket').on('connection', socket => {
 
         const router = routerMap.get(userid);
 
-        const producer = produceMap.get(otherUserid);
+        const producer = produceMap.get(otherUserid); // 使用远端的 producer
         const { audio, video } = producer;
 
         const transport = consumerMap.get(userid);
@@ -208,9 +217,11 @@ io.of('/socket').on('connection', socket => {
         };
 
         socket.emit('getConsume', res);
-        // socket.broadcast.emit('getConsume', res);
     });
 
+    /**
+     * 恢复播放
+     */
     socket.on('resum', async (data, callback) => {
         const { consumeMap } = utilMaps;
 

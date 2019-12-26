@@ -3,41 +3,50 @@ import store from '../store/index';
 import device from '../mediasoup/mediasoup';
 import { createMedia } from '../util/media';
 
-const obj = {};
+const obj = {}; // 监听本地 producer 是否添加完毕
 
 const socket = io.connect('/socket', {
     autoConnect: false,
     transports: ['websocket'],
 });
 
+/**
+ * socket 连接
+ */
 socket.on('connect', () => {
-    console.log('连接成功！socket 功能已启用...');
-    console.log(`欢迎 ${store.state.user.username}`);
+    console.log('[socket] 连接成功！socket 功能已启用...');
+    console.log(`[socket] 欢迎 ${store.state.user.username}`);
 
     socket.emit('online', { id: store.state.user.userid });
 });
 
+/**
+ * 去电
+ */
 socket.on('call', data => {
-    console.log(data);
     store.commit('setCaller', data);
     store.commit('setCalling', true);
 });
 
+/**
+ * 应答
+ */
 socket.on('reply', data => {
-    // console.log(data);
     if (!data.accept) {
-        console.log(`no! ${data.self.username} reject...`);
+        console.log(`[socket] no! ${data.self.username} reject...`);
         return;
     }
 
     // ok!do somthing
-    console.log(`Brower use ${device.handlerName}...`);
+    console.log(`[device] Brower use ${device.handlerName}...`);
 });
 
+/**
+ * 获取服务器 router capabilities
+ */
 socket.on('getRouterRtpCapabilities', async data => {
-    console.log(data);
     await device.load(data);
-    console.log(`device is loaded: ${device.loaded}`);
+    console.log(`[device] is loaded: ${device.loaded}`);
 
     socket.emit('createProducerTransport', {
         userid: store.state.user.userid,
@@ -53,6 +62,7 @@ socket.on('getRouterRtpCapabilities', async data => {
 socket.on('createdProducer', async data => {
     const sendTransport = device.createSendTransport(data);
 
+    // 初次与服务器连接时触发
     sendTransport.on('connect', async ({ dtlsParameters }, callback, errback) => {
         new Promise((resolve) => {
             socket.emit('connectProducerTransport', {
@@ -66,6 +76,7 @@ socket.on('createdProducer', async data => {
         console.log(`[sendTransport] is connect...`);
     });
 
+    // 有新的 producer 时触发
     sendTransport.on('produce', async ({ kind, rtpParameters }, callback, errback) => {
         console.log(`[sendTransport] is produce...`);
         new Promise(resolve => {
@@ -80,13 +91,14 @@ socket.on('createdProducer', async data => {
                 console.log(`[${kind}] id: ${id}`);
                 obj[kind] = kind;
                 callback({ id });
-                if (obj.video && obj.audio) {
+                if (obj.video && obj.audio) { // 全部添加完毕再执行
                     socket.emit('createConsumerTransport', { userid: store.state.user.userid });
                 }
             })
             .catch(errback);
     });
 
+    // 连接状态改变时触发
     sendTransport.on('connectionstatechange', (state) => {
         switch (state) {
             case 'connecting':
@@ -102,6 +114,7 @@ socket.on('createdProducer', async data => {
         }
     });
 
+    // 获取媒体信息
     const { videoStream, audioStream } = await createMedia();
     const videoTrack = videoStream.getVideoTracks()[0];
     const audioTrack = audioStream.getAudioTracks()[0];
@@ -123,13 +136,21 @@ socket.on('createdProducer', async data => {
     store.commit('setProducer', { videoProducer, audioProducer });
 });
 
+/**
+ * 新的远端通讯客户端创建完毕触发
+ */
 socket.on('newProducer', ({ userid }) => {
     console.log(`[otherProducerConnected] id: ${userid}`);
     store.commit('setOtherUser', userid);
 });
 
+/**
+ * 创建本地 consumer
+ */
 socket.on('createdConsumer', async data => {
     const recvTransport = device.createRecvTransport(data);
+
+    // 初次与服务器连接时触发
     recvTransport.on('connect', ({ dtlsParameters }, callback, errback) => {
         new Promise(resolve => {
             socket.emit('connectConsumerTransport', {
@@ -146,6 +167,7 @@ socket.on('createdConsumer', async data => {
         console.log(`[recvTransport] is connect...`);
     });
 
+    // 连接状态改变时触发
     recvTransport.on('connectionstatechange', (state) => {
         switch (state) {
             case 'connecting':
@@ -163,6 +185,8 @@ socket.on('createdConsumer', async data => {
 
     store.commit('setRecvTransport', recvTransport);
 
+    // 使用定时器触发
+    // 可以使用事件触发，规避定时器
     let timer = setInterval(() => {
         if(!store.state.otherUser) return;
 
@@ -176,10 +200,14 @@ socket.on('createdConsumer', async data => {
     }, 1000);
 });
 
+/**
+ * 获取远端 consumer 信息
+ */
 socket.on('getConsume', async data => {
-    // console.log(data);
     const { userid, video, audio } = data;
 
+    // 使用定时器执行
+    // 可以使用事件触发，规避定时器
     let timer = setInterval(async () => {
         if(!store.state.recvTransport) return;
 
@@ -204,15 +232,14 @@ socket.on('getConsume', async data => {
             codecOptions,
         });
     
-        // 应该只需创建一个 router
-        console.log('video: ', videoConsumer);
-        console.log('audio: ', audioConsumer);
-    
+        // 合成媒体流
         const stream = new MediaStream([videoConsumer.track, audioConsumer.track]);
     
         new Promise(resolve => {
+            // 取消暂停
             socket.emit('resum', { userid }, resolve);
         }).then(() => {
+            // 设置媒体流信息
             store.state.video.srcObject = stream;
         });
     }, 1000);

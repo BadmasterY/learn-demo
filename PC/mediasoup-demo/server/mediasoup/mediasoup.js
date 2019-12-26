@@ -44,6 +44,9 @@ exports.createRouter = async function createRouter() {
     return router;
 }
 
+/**
+ * 创建 webrtc transport
+ */
 exports.createWebRtcTransport = async function (router, ip) {
     const transport = await router.createWebRtcTransport({
         listenIps: [{
