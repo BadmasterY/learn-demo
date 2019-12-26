@@ -57,16 +57,16 @@ io.of('/socket').on('connection', socket => {
         // 接受呼叫
         if (data.accept) {
             const selfRouter = await createRouter();
-            const otherRouter = await createRouter();
+            // const otherRouter = await createRouter();
 
             const selfRouterRtpCapabilities = selfRouter.rtpCapabilities;
             routerMap.set(data.self.userid, selfRouter);
 
-            const otherRouterCapabilities = otherRouter.rtpCapabilities;
-            routerMap.set(data.otherUser.userid, otherRouter);
+            // const otherRouterCapabilities = otherRouter.rtpCapabilities;
+            routerMap.set(data.otherUser.userid, selfRouter);
             // 将得到的 router rtp capabilities 推送到对应的接收端
             socket.emit('getRouterRtpCapabilities', { routerRtpCapabilities: selfRouterRtpCapabilities });
-            socketMap.get(data.otherUser.userid).emit('getRouterRtpCapabilities', { routerRtpCapabilities: otherRouterCapabilities });
+            socketMap.get(data.otherUser.userid).emit('getRouterRtpCapabilities', { routerRtpCapabilities: selfRouterRtpCapabilities });
 
         }
     });
@@ -145,14 +145,17 @@ io.of('/socket').on('connection', socket => {
         callback();
     });
 
+    /**
+     * 使用远端的 producer 生成本地消费者
+     */
     socket.on('consume', async data => {
         const { produceMap, consumerMap, routerMap, consumeMap } = utilMaps;
 
-        const { userid, rtpCapabilities } = data;
+        const { userid, otherUserid, rtpCapabilities } = data;
 
         const router = routerMap.get(userid);
 
-        const producer = produceMap.get(userid);
+        const producer = produceMap.get(otherUserid);
         const { audio, video } = producer;
 
         const transport = consumerMap.get(userid);
@@ -185,6 +188,7 @@ io.of('/socket').on('connection', socket => {
         });
 
         let res = {
+            userid,
             video: {
                 producerId: video.id,
                 id: videoConsumer.id,
@@ -204,6 +208,7 @@ io.of('/socket').on('connection', socket => {
         };
 
         socket.emit('getConsume', res);
+        // socket.broadcast.emit('getConsume', res);
     });
 
     socket.on('resum', async (data, callback) => {
@@ -214,5 +219,5 @@ io.of('/socket').on('connection', socket => {
         await consume.audioConsumer.resume();
 
         callback();
-    })
+    });
 });

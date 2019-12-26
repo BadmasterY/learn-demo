@@ -125,6 +125,7 @@ socket.on('createdProducer', async data => {
 
 socket.on('newProducer', ({ userid }) => {
     console.log(`[otherProducerConnected] id: ${userid}`);
+    store.commit('setOtherUser', userid);
 });
 
 socket.on('createdConsumer', async data => {
@@ -160,41 +161,61 @@ socket.on('createdConsumer', async data => {
         }
     });
 
-    socket.emit('consume', {
-        userid: store.state.user.userid,
-        rtpCapabilities: device.rtpCapabilities
-    });
-
     store.commit('setRecvTransport', recvTransport);
+
+    let timer = setInterval(() => {
+        if(!store.state.otherUser) return;
+
+        clearInterval(timer);
+
+        socket.emit('consume', {
+            userid: store.state.user.userid,
+            otherUserid: store.state.otherUser,
+            rtpCapabilities: device.rtpCapabilities
+        });
+    }, 1000);
 });
 
 socket.on('getConsume', async data => {
-    console.log(data);
-    const { video, audio } = data;
-    const transport = store.state.recvTransport;
-    let codecOptions = {};
-    const videoConsumer = await transport.consume({
-        id: video.id,
-        producerId: video.producerId,
-        kind: video.kind,
-        rtpParameters: video.rtpParameters,
-        codecOptions,
-    });
-    const audioConsumer = await transport.consume({
-        id: audio.id,
-        producerId: audio.producerId,
-        kind: audio.kind,
-        rtpParameters: audio.rtpParameters,
-        codecOptions,
-    });
+    // console.log(data);
+    const { userid, video, audio } = data;
 
-    const stream = new MediaStream([videoConsumer.track, audioConsumer.track]);
+    let timer = setInterval(async () => {
+        if(!store.state.recvTransport) return;
 
-    new Promise(resolve => {
-        socket.emit('resum', { userid: store.state.user.userid }, resolve);
-    }).then(() => {
-        store.state.video.srcObject = stream;
-    })
+        clearInterval(timer);
+
+        const transport = store.state.recvTransport;
+        let codecOptions = {};
+    
+        const videoConsumer = await transport.consume({
+            id: video.id,
+            producerId: video.producerId,
+            kind: video.kind,
+            rtpParameters: video.rtpParameters,
+            codecOptions,
+        });
+    
+        const audioConsumer = await transport.consume({
+            id: audio.id,
+            producerId: audio.producerId,
+            kind: audio.kind,
+            rtpParameters: audio.rtpParameters,
+            codecOptions,
+        });
+    
+        // 应该只需创建一个 router
+        console.log('video: ', videoConsumer);
+        console.log('audio: ', audioConsumer);
+    
+        const stream = new MediaStream([videoConsumer.track, audioConsumer.track]);
+    
+        new Promise(resolve => {
+            socket.emit('resum', { userid }, resolve);
+        }).then(() => {
+            store.state.video.srcObject = stream;
+        });
+    }, 1000);
 });
 
 export default socket;

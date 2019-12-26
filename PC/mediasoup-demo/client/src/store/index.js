@@ -14,6 +14,7 @@ export default new Vuex.Store({
     otherUser: null, // 暂存，多人使用 map 存储
     producer: null,
     recvTransport: null,
+    stream: null,
   },
   mutations: {
     setUser(state, data) {
@@ -39,7 +40,10 @@ export default new Vuex.Store({
     },
     setRecvTransport(state, data) {
       state.recvTransport = data;
-    }
+    },
+    setStream(state, data){
+      state.stream = data;
+    },
   },
   actions: {
   },
