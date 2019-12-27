@@ -7,12 +7,14 @@ const { uuid } = require('uuidv4');
 exports.createRouter = async function createRouter() {
     const worker = await mediasoup.createWorker({
         logLevel: 'warn',
-        logTags: ['info',
+        logTags: [
+            'info',
             'ice',
             'dtls',
             'rtp',
             'srtp',
-            'rtcp',],
+            'rtcp',
+        ],
         rtcMinPort: 10000,
         rtcMaxPort: 10100,
     });
@@ -47,10 +49,10 @@ exports.createRouter = async function createRouter() {
 /**
  * 创建 webrtc transport
  */
-exports.createWebRtcTransport = async function (router, ip) {
+exports.createWebRtcTransport = async function (router) {
     const transport = await router.createWebRtcTransport({
         listenIps: [{
-            ip: ip || '127.0.0.1',
+            ip: '127.0.0.1', // 使用本地ip
             announcedIp: null,
         }],
         enableUdp: true,
@@ -60,11 +62,11 @@ exports.createWebRtcTransport = async function (router, ip) {
     });
 
     transport.on('iceselectedtuplechange', iceSelectedTuple => {
-        console.log(`iceSelectedTupleChange: ${iceSelectedTuple}`);
+        console.log(`[transport: ${transport.id}] iceSelectedTupleChange: `, iceSelectedTuple);
     });
 
     transport.on('dtlsstatechange', dtlsState => {
-        console.log(`dtlsStateChange: ${dtlsState}`);
+        console.log(`[transport: ${transport.id}] dtlsStateChange: ${dtlsState}`);
     });
 
     return {

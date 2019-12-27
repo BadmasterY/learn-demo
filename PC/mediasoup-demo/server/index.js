@@ -25,6 +25,7 @@ server.listen(process.env.PORT || port, () => {
 
 io.of('/socket').on('connection', socket => {
     console.log(`连接成功！可以使用 socket.io 功能了...`);
+    console.log(socket.handshake.headers)
 
     /**
      * 上线

@@ -12,6 +12,7 @@
     "koa": "^2.11.0",
     "koa-body": "^4.1.1",
     "koa-router": "^7.4.0",
+    "koa-sslify": "^4.0.3",
     "koa2-cors": "^2.0.6",
     "mediasoup": "^3.4.6",
     "socket.io": "^2.3.0",
