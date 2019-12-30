@@ -52,7 +52,7 @@ exports.createRouter = async function createRouter() {
 exports.createWebRtcTransport = async function (router) {
     const transport = await router.createWebRtcTransport({
         listenIps: [{
-            ip: '127.0.0.1', // 使用本地ip
+            ip: '192.168.1.205', // 使用本地ip
             announcedIp: null,
         }],
         enableUdp: true,
