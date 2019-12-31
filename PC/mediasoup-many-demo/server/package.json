@@ -1,0 +1,20 @@
+{
+  "name": "server",
+  "version": "0.0.1",
+  "description": "demo",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Mr.",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.11.0",
+    "koa-body": "^4.1.1",
+    "koa-router": "^7.4.0",
+    "koa2-cors": "^2.0.6",
+    "mediasoup": "^3.4.6",
+    "socket.io": "^2.3.0",
+    "uuidv4": "^6.0.0"
+  }
+}
