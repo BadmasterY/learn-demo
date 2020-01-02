@@ -1,5 +1,5 @@
 const mediasoup = require('mediasoup');
-const { uuid } = require('uuidv4');
+const { getIPAdress } = require('../utils/util');
 
 /**
  * 创建 webrtc transport
@@ -52,7 +52,7 @@ exports.createRouter = async function createRouter() {
 exports.createWebRtcTransport = async function (router) {
     const transport = await router.createWebRtcTransport({
         listenIps: [{
-            ip: '192.168.1.205', // 使用本地ip
+            ip: getIPAdress(),
             announcedIp: null,
         }],
         enableUdp: true,
