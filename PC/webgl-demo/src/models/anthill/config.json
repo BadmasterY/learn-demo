@@ -1,0 +1,12 @@
+{
+	"name" : "anthill",
+	"models" : "anthill.obj",
+	"images" : "anthill_DefaultMaterial_Diffuse.png,anthill_DefaultMaterial_Normal.jpg",
+	"D" : "anthill_DefaultMaterial_Diffuse",
+	"N" : "anthill_DefaultMaterial_Normal",
+	"transparent" : true,
+	"opacity" : 1,
+	"color" : "0xffffff",
+	"roughness" : 1,
+	"metalness" : 1
+}

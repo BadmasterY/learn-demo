@@ -1,0 +1,13 @@
+{
+	"name" : "Desk",
+	"models" : "Desk.obj",
+	"images" : "Desk_Diffuse.png,Desk_Normal.png,Desk_Specular.png",
+	"N" : "Desk_Normal",
+	"D" : "Desk_Diffuse",
+	"R" : "Desk_Specular",
+	"transparent" : false,
+	"opacity" : 1,
+	"color" : "0xe7e7e7",
+	"roughness" : 1,
+	"metalness" : 0
+}

@@ -1,0 +1,13 @@
+{
+	"name" : "Ant",
+	"models" : "Ant.dae",
+	"images" : "Ant_Albedo.jpg,Ant_Gloss.jpg,Ant_Normal.jpg",
+	"N" : "Ant_Normal",
+	"D" : "Ant_Albedo",
+	"M" : "Ant_Gloss",
+	"transparent" : true,
+	"opacity" : 1,
+	"color" : "0xffffff",
+	"roughness" : 1,
+	"metalness" : 1
+}

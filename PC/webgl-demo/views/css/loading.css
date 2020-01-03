@@ -1,0 +1,901 @@
+.container {
+  position:absolute;
+  top:0;
+  left:0;
+  width: 100%;
+  height:100%;
+  background: #282828;
+  z-index: 99999;
+  box-sizing: content-box;
+}
+
+.container .internal-ring4 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 180px;
+  height: 180px;
+  margin: -100px 0px 0px -100px;
+  background-color: transparent;
+  border-radius: 50%;
+  background-color: transparent;
+  border-radius: 50%;
+  border: 10px solid #4a88f9;
+  clip: rect(90px, 200px, 110px, 100px);
+  -webkit-animation: rotate 3s linear infinite;
+  -moz-animation: rotate 3s linear infinite;
+  -o-animation: rotate 3s linear infinite;
+  animation: rotate 3s linear infinite;
+  box-sizing: content-box;
+}
+
+.container .internal-ring1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  margin: -100px 0px 0px -100px;
+  background-color: transparent;
+  border-radius: 50%;
+  background-color: transparent;
+  border-radius: 50%;
+  -webkit-animation: rotate21 2s linear infinite;
+  -moz-animation: rotate21 2s linear infinite;
+  -o-animation: rotate21 2s linear infinite;
+  animation: rotate21 2s linear infinite;
+  box-sizing: content-box;
+}
+.container .internal-ring1 .internal-ring1-c {
+  position: relative;
+  width: 100px;
+  height: 200px;
+  overflow: hidden;
+  box-sizing: content-box;
+}
+.container .internal-ring1 .internal-ring1-r {
+  width: 180px;
+  height: 180px;
+  border: 10px solid transparent;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-top: 10px solid #F9D64A;
+  border-left: 10px solid #F9D64A;
+  transform: rotate(0deg);
+  -webkit-animation: ring11 2s linear infinite;
+  -moz-animation: ring11 2s linear infinite;
+  -o-animation: ring11 2s linear infinite;
+  animation: ring11 2s linear infinite;
+  box-sizing: content-box;
+}
+
+.container .internal-ring2 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  margin: -100px 0px 0px -100px;
+  background-color: transparent;
+  border-radius: 50%;
+  background-color: transparent;
+  border-radius: 50%;
+  -webkit-animation: rotate22 2s linear infinite;
+  -moz-animation: rotate22 2s linear infinite;
+  -o-animation: rotate22 2s linear infinite;
+  animation: rotate22 2s linear infinite;
+  box-sizing: content-box;
+}
+.container .internal-ring2 .internal-ring2-c {
+  position: relative;
+  width: 100px;
+  height: 200px;
+  overflow: hidden;
+  box-sizing: content-box;
+}
+.container .internal-ring2 .internal-ring2-r {
+  width: 180px;
+  height: 180px;
+  border: 10px solid transparent;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-top: 10px solid #4a88f9;
+  border-left: 10px solid #4a88f9;
+  transform: rotate(0deg);
+  -webkit-animation: ring12 2s linear infinite;
+  -moz-animation: ring12 2s linear infinite;
+  -o-animation: ring12 2s linear infinite;
+  animation: ring12 2s linear infinite;
+  box-sizing: content-box;
+}
+
+.container .internal-ring3 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  margin: -100px 0px 0px -100px;
+  background-color: transparent;
+  border-radius: 50%;
+  background-color: transparent;
+  border-radius: 50%;
+  -webkit-animation: ring6 2s infinite linear;
+  -moz-animation: ring6 2s infinite linear;
+  -o-animation: ring6 2s infinite linear;
+  animation: ring6 2s infinite linear;
+  box-sizing: content-box;
+}
+.container .internal-ring3 .internal-ring3-p1-c {
+  position: relative;
+  float: left;
+  width: 100px;
+  height: 200px;
+  overflow: hidden;
+  box-sizing: content-box;
+}
+.container .internal-ring3 .internal-ring3-p1-r {
+  width: 180px;
+  height: 180px;
+  border: 10px solid transparent;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-top: 10px solid rgba(74, 136, 255, 0.25);
+  border-left: 10px solid rgba(74, 136, 255, 0.25);
+  transform: rotate(-45deg);
+  -webkit-animation: ring4 2s linear infinite;
+  -moz-animation: ring4 2s linear infinite;
+  -o-animation: ring4 2s linear infinite;
+  animation: ring4 2s linear infinite;
+  box-sizing: content-box;
+}
+.container .internal-ring3 .p1-an {
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-animation: ring5 2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+  -moz-animation: ring5 2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+  -o-animation: ring5 2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+  animation: ring5 2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+  box-sizing: content-box;
+}
+.container .internal-ring3 .internal-ring3-p2-c {
+  position: relative;
+  float: right;
+  width: 100px;
+  height: 200px;
+  transform: rotate(180deg);
+  overflow: hidden;
+  box-sizing: content-box;
+}
+.container .internal-ring3 .internal-ring3-p2-r {
+  width: 180px;
+  height: 180px;
+  border: 10px solid transparent;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-top: 10px solid rgba(74, 136, 255, 0.25);
+  border-left: 10px solid rgba(74, 136, 255, 0.25);
+  transform: rotate(-45deg);
+  -webkit-animation: ring2 2s cubic-bezier(0.5, 0, 1, 0.5) infinite;
+  -moz-animation: ring2 2s cubic-bezier(0.5, 0, 1, 0.5) infinite;
+  -o-animation: ring2 2s cubic-bezier(0.5, 0, 1, 0.5) infinite;
+  animation: ring2 2s cubic-bezier(0.5, 0, 1, 0.5) infinite;
+  box-sizing: content-box;
+}
+.container .internal-ring3 .p2-an {
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-animation: ring3 2s linear infinite;
+  -moz-animation: ring3 2s linear infinite;
+  -o-animation: ring3 2s linear infinite;
+  animation: ring3 2s linear infinite;
+  box-sizing: content-box;
+}
+
+.container .outer-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 220px;
+  height: 220px;
+  margin: -116px 0px 0px -116px;
+  background-color: transparent;
+  border-radius: 50%;
+  border: 6px solid transparent;
+  box-sizing: content-box;
+}
+.container .outer-ring:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 220px;
+  height: 220px;
+  border: 6px solid rgba(161, 164, 176, 0.5);
+  border-radius: 50%;
+  clip: rect(112px, 232px, 120px, 100px);
+  -webkit-animation: rotate3602 3s linear infinite reverse;
+  -moz-animation: rotate3602 3s linear infinite reverse;
+  -o-animation: rotate3602 3s linear infinite reverse;
+  animation: rotate3602 3s linear infinite reverse;
+  box-sizing: content-box;
+}
+.container .outer-ring:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 220px;
+  height: 220px;
+  border: 6px solid rgba(161, 164, 176, 0.5);
+  border-radius: 50%;
+  clip: rect(105px, 232px, 127px, 100px);
+  -webkit-animation: rotate3603 3s cubic-bezier(0.34, 0.07, 0.68, 0.93) infinite;
+  -moz-animation: rotate3603 3s cubic-bezier(0.34, 0.07, 0.68, 0.93) infinite;
+  -o-animation: rotate3603 3s cubic-bezier(0.34, 0.07, 0.68, 0.93) infinite;
+  animation: rotate3603 3s cubic-bezier(0.34, 0.07, 0.68, 0.93) infinite;
+  box-sizing: content-box;
+}
+
+.container .outer-ring2 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 220px;
+  height: 220px;
+  margin: -116px 0px 0px -116px;
+  background-color: transparent;
+  border-radius: 50%;
+  border: 6px solid transparent;
+  box-sizing: content-box;
+}
+.container .outer-ring2:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 220px;
+  height: 220px;
+  border: 6px solid rgba(161, 164, 176, 0.5);
+  border-radius: 50%;
+  transform: rotate(120deg);
+  clip: rect(80px, 232px, 152px, 100px);
+  -webkit-animation: rotate3602 3s linear infinite;
+  -moz-animation: rotate3602 3s linear infinite;
+  -o-animation: rotate3602 3s linear infinite;
+  animation: rotate3602 3s linear infinite;
+  box-sizing: content-box;
+}
+.container .outer-ring2:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 220px;
+  height: 220px;
+  border: 6px solid rgba(161, 164, 176, 0.5);
+  border-radius: 50%;
+  transform: rotate(230deg);
+  clip: rect(60px, 232px, 172px, 100px);
+  -webkit-animation: rotate360 3s cubic-bezier(0.34, 0.07, 0.68, 0.93) infinite;
+  -moz-animation: rotate360 3s cubic-bezier(0.34, 0.07, 0.68, 0.93) infinite;
+  -o-animation: rotate360 3s cubic-bezier(0.34, 0.07, 0.68, 0.93) infinite;
+  animation: rotate360 3s cubic-bezier(0.34, 0.07, 0.68, 0.93) infinite;
+  box-sizing: content-box;
+}
+
+#loading{
+  width: 0%;
+  height: 5px;
+  background: #5a9df1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: opacity 300ms;
+  box-sizing: content-box;
+}
+
+.progress{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width:120px;
+  max-width:176px;
+  line-height: 40px;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -o-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  text-align:  center;
+  color:#8f95a2;
+  font-size:1em;
+  font-family: '微软雅黑';
+  box-sizing: content-box;
+}
+
+@-webkit-keyframes rotate {
+  0% {
+    transform: rotate(360deg);
+    clip: rect(96px, 200px, 108px, 100px);
+  }
+  50% {
+    clip: rect(92px, 200px, 108px, 100px);
+  }
+  100% {
+    clip: rect(96px, 200px, 108px, 100px);
+    transform: rotate(0deg);
+  }
+}
+@-moz-keyframes rotate {
+  0% {
+    transform: rotate(360deg);
+    clip: rect(96px, 200px, 108px, 100px);
+  }
+  50% {
+    clip: rect(92px, 200px, 108px, 100px);
+  }
+  100% {
+    clip: rect(96px, 200px, 108px, 100px);
+    transform: rotate(0deg);
+  }
+}
+@-o-keyframes rotate {
+  0% {
+    transform: rotate(360deg);
+    clip: rect(96px, 200px, 108px, 100px);
+  }
+  50% {
+    clip: rect(92px, 200px, 108px, 100px);
+  }
+  100% {
+    clip: rect(96px, 200px, 108px, 100px);
+    transform: rotate(0deg);
+  }
+}
+@keyframes rotate {
+  0% {
+    transform: rotate(360deg);
+    clip: rect(96px, 200px, 108px, 100px);
+  }
+  50% {
+    clip: rect(92px, 200px, 108px, 100px);
+  }
+  100% {
+    clip: rect(96px, 200px, 108px, 100px);
+    transform: rotate(0deg);
+  }
+}
+
+@-webkit-keyframes rotate21 {
+  0% {
+    transform: rotate(180deg);
+  }
+  50% {
+    transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(540deg);
+  }
+}
+@-moz-keyframes rotate21 {
+  0% {
+    transform: rotate(180deg);
+  }
+  50% {
+    transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(540deg);
+  }
+}
+@-o-keyframes rotate21 {
+  0% {
+    transform: rotate(180deg);
+  }
+  50% {
+    transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(540deg);
+  }
+}
+@keyframes rotate21 {
+  0% {
+    transform: rotate(180deg);
+  }
+  50% {
+    transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(540deg);
+  }
+}
+
+@-webkit-keyframes rotate22 {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(90deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@-moz-keyframes rotate22 {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(90deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes rotate22 {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(90deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotate22 {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(90deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes rotate360 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@-moz-keyframes rotate360 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes rotate360 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotate360 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes rotate3602 {
+  0% {
+    transform: rotate(120deg);
+  }
+  100% {
+    transform: rotate(480deg);
+  }
+}
+@-moz-keyframes rotate3602 {
+  0% {
+    transform: rotate(120deg);
+  }
+  100% {
+    transform: rotate(480deg);
+  }
+}
+@-o-keyframes rotate3602 {
+  0% {
+    transform: rotate(120deg);
+  }
+  100% {
+    transform: rotate(480deg);
+  }
+}
+@keyframes rotate3602 {
+  0% {
+    transform: rotate(120deg);
+  }
+  100% {
+    transform: rotate(480deg);
+  }
+}
+
+@-webkit-keyframes rotate3603 {
+  0% {
+    transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(-90deg);
+  }
+}
+@-moz-keyframes rotate3603 {
+  0% {
+    transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(-90deg);
+  }
+}
+@-o-keyframes rotate3603 {
+  0% {
+    transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(-90deg);
+  }
+}
+@keyframes rotate3603 {
+  0% {
+    transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(-90deg);
+  }
+}
+
+@-webkit-keyframes ring11 {
+  0% {
+    transform: rotate(-223deg);
+  }
+  50% {
+    transform: rotate(-170deg);
+  }
+  100% {
+    transform: rotate(-223deg);
+  }
+}
+@-moz-keyframes ring11 {
+  0% {
+    transform: rotate(-223deg);
+  }
+  50% {
+    transform: rotate(-170deg);
+  }
+  100% {
+    transform: rotate(-223deg);
+  }
+}
+@-o-keyframes ring11 {
+  0% {
+    transform: rotate(-223deg);
+  }
+  50% {
+    transform: rotate(-170deg);
+  }
+  100% {
+    transform: rotate(-223deg);
+  }
+}
+@keyframes ring11 {
+  0% {
+    transform: rotate(-223deg);
+  }
+  50% {
+    transform: rotate(-170deg);
+  }
+  100% {
+    transform: rotate(-223deg);
+  }
+}
+
+@-webkit-keyframes ring12 {
+  0% {
+    transform: rotate(-205deg);
+  }
+  50% {
+    transform: rotate(-135deg);
+  }
+  100% {
+    transform: rotate(-205deg);
+  }
+}
+@-moz-keyframes ring12 {
+  0% {
+    transform: rotate(-205deg);
+  }
+  50% {
+    transform: rotate(-135deg);
+  }
+  100% {
+    transform: rotate(-205deg);
+  }
+}
+@-o-keyframes ring12 {
+  0% {
+    transform: rotate(-205deg);
+  }
+  50% {
+    transform: rotate(-135deg);
+  }
+  100% {
+    transform: rotate(-205deg);
+  }
+}
+@keyframes ring12 {
+  0% {
+    transform: rotate(-205deg);
+  }
+  50% {
+    transform: rotate(-135deg);
+  }
+  100% {
+    transform: rotate(-205deg);
+  }
+}
+
+@-webkit-keyframes ring2 {
+  0% {
+    transform: rotate(-45deg);
+  }
+  35.5% {
+    transform: rotate(135deg);
+  }
+  100% {
+    transform: rotate(135deg);
+  }
+}
+@-moz-keyframes ring2 {
+  0% {
+    transform: rotate(-45deg);
+  }
+  35.5% {
+    transform: rotate(135deg);
+  }
+  100% {
+    transform: rotate(135deg);
+  }
+}
+@-o-keyframes ring2 {
+  0% {
+    transform: rotate(-45deg);
+  }
+  35.5% {
+    transform: rotate(135deg);
+  }
+  100% {
+    transform: rotate(135deg);
+  }
+}
+@keyframes ring2 {
+  0% {
+    transform: rotate(-45deg);
+  }
+  35.5% {
+    transform: rotate(135deg);
+  }
+  100% {
+    transform: rotate(135deg);
+  }
+}
+
+@-webkit-keyframes ring3 {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  64.5% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+@-moz-keyframes ring3 {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  64.5% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+@-o-keyframes ring3 {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  64.5% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+@keyframes ring3 {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  64.5% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+
+@-webkit-keyframes ring4 {
+  0% {
+    transform: rotate(-45deg);
+  }
+  35.5% {
+    transform: rotate(-45deg);
+  }
+  50% {
+    transform: rotate(135deg);
+  }
+  100% {
+    transform: rotate(135deg);
+  }
+}
+@-moz-keyframes ring4 {
+  0% {
+    transform: rotate(-45deg);
+  }
+  35.5% {
+    transform: rotate(-45deg);
+  }
+  50% {
+    transform: rotate(135deg);
+  }
+  100% {
+    transform: rotate(135deg);
+  }
+}
+@-o-keyframes ring4 {
+  0% {
+    transform: rotate(-45deg);
+  }
+  35.5% {
+    transform: rotate(-45deg);
+  }
+  50% {
+    transform: rotate(135deg);
+  }
+  100% {
+    transform: rotate(135deg);
+  }
+}
+@keyframes ring4 {
+  0% {
+    transform: rotate(-45deg);
+  }
+  35.5% {
+    transform: rotate(-45deg);
+  }
+  50% {
+    transform: rotate(135deg);
+  }
+  100% {
+    transform: rotate(135deg);
+  }
+}
+
+@-webkit-keyframes ring5 {
+  0% {
+    transform: rotate(0deg);
+  }
+  64.5% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+@-moz-keyframes ring5 {
+  0% {
+    transform: rotate(0deg);
+  }
+  64.5% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+@-o-keyframes ring5 {
+  0% {
+    transform: rotate(0deg);
+  }
+  64.5% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+@keyframes ring5 {
+  0% {
+    transform: rotate(0deg);
+  }
+  64.5% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+
+@-webkit-keyframes ring6 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@-moz-keyframes ring6 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes ring6 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes ring6 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

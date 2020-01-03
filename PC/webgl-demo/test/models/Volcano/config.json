@@ -1,0 +1,12 @@
+{
+	"name" : "Volcano",
+	"models" : "Volcano.obj",
+	"images" : "Volcano_D.png,Volcano_N.png",
+	"N" : "Volcano_N",
+	"D" : "Volcano_D",
+	"transparent" : true,
+	"opacity" : 1,
+	"color" : "0xe7e7e7",
+	"roughness" : 1,
+	"metalness" : 0
+}
