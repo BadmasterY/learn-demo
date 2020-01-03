@@ -1,5 +1,4 @@
 /*******************************************************************************
- * 版权：北京润尼尔网络科技有限公司，保留所有版权<br>
  * 版本：v1.0.0<br>
  * 文件：Model.js<br>
  * 日期：2018年7月2日<br>
@@ -26,8 +25,8 @@
         |--贴图文件夹
         |--模型2配置文件
    .....
-|--实验1文件夹
-    |--实验1配置文件    (name, src, children[model1Name, model2Name,...modelnName], config)
+|--文件夹
+    |--配置文件    (name, src, children[model1Name, model2Name,...modelnName], config)
 
 
 
