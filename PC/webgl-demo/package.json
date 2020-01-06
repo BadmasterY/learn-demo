@@ -1,5 +1,5 @@
 {
-  "name": "webgl-three-tool",
+  "name": "webgl-demo",
   "version": "0.1.0",
   "description": "This is a secondary development project of three.js to create WEB 3D effects based on three.js",
   "main": "index.js",
@@ -9,7 +9,7 @@
     "build:test": "webpack --env production --config webpack.config.test.js",
     "start": "nodemon --watch webpack.config.js --exec \"webpack-dev-server --env development\""
   },
-  "author": "BadmasterY",
+  "author": "Mr.",
   "license": "ISC",
   "devDependencies": {
     "autoprefixer": "^9.0.0",
@@ -38,15 +38,15 @@
     "uglifyjs-webpack-plugin": "^1.2.7",
     "url-loader": "^1.0.1",
     "webpack": "^4.16.1",
-    "webpack-cli": "^2.1.5",
+    "webpack-cli": "latest",
     "webpack-dev-server": "^3.1.4",
     "webpack-merge": "^4.1.3"
   },
   "dependencies": {
     "bootstrap": "^4.1.3",
     "jquery": "^1.11.0",
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
+    "react": "latest",
+    "react-dom": "latest",
     "three": "^0.88.0",
     "tween": "^0.9.0"
   }
