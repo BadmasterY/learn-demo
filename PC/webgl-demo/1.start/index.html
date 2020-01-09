@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>WebGL Start</title>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        canvas {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid #eee;
+            border-radius: 5px;
+            box-shadow: 0 0 3px #eee;
+        }
+
+        h2,
+        p {
+            margin: 0;
+            padding: 20px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Start: 这是一个超级简单的demo</h2>
+    <p>完全由 webgl1.0 编写，然而这个 demo 是这样庞大...</p>
+    <canvas width="540" height="360">
+        Replace browser, please!
+    </canvas>
+    <script>
+        window.onload = () => {
+
+            // 1. 获取 canvas 与 webgl(也可以使用 webgl 的扩展: webgl2, 这将附带一些新的特性与 api)
+            const canvas = document.querySelector('canvas');
+            const gl = canvas.getContext('webgl');
+
+            // 2. 设置 webgl viewport 的大小
+            gl.viewport(0, 0, canvas.width, canvas.height);
+            // gl.viewport(x: number, y: number, width: number, height: number);
+
+            // 3. 创建定点数组
+            // 绘制一个正方形
+            const vertexBuffer = gl.createBuffer(); // 一个用于存储顶点或着色数据的 WebGLBuffer 对象
+            gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+            /**
+                gl.ARRAY_BUFFER: 包含顶点属性的Buffer，如顶点坐标，纹理坐标数据或顶点颜色数据。
+                gl.ELEMENT_ARRAY_BUFFER: 用于元素索引的Buffer。
+
+                webgl2:
+                gl.COPY_READ_BUFFER: 从一个Buffer对象复制到另一个Buffer对象。
+                gl.COPY_WRITE_BUFFER: 从一个Buffer对象复制到另一个Buffer对象。
+                gl.TRANSFORM_FEEDBACK_BUFFER: Buffer for transform feedback operations.
+                gl.UNIFORM_BUFFER: 用于存储统一块的Buffer。
+                gl.PIXEL_PACK_BUFFER: 用于像素传输操作的Buffer。
+                gl.PIXEL_UNPACK_BUFFER: 用于像素传输操作的Buffer。
+             **/
+
+            // 大小为 1x1 的正方形顶点坐标
+            // 每一行为一个顶点的 x,y,z 信息
+            const verts = [
+                0.5, 0.5, 0.0,
+                -0.5, 0.5, 0.0,
+                0.5, -0.5, 0.0,
+                -0.5, -0.5, 0.0,
+            ];
+            // 创建并初始化 Buffer 对象的数据缓冲区
+            // Float32Array 为类型化数组, ArrayBuffer 的一种, 用于在 js 中存储二进制数据
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verts), gl.STATIC_DRAW);
+            // 如果使用 webgl2 也将获得新的功能
+
+            const square = {
+                buffer: vertexBuffer, // 顶点数组信息
+                vertSize: 3, // 每个顶点占用的尺寸
+                nVerts: 4, // 需要绘制的顶点数量
+                primtype: gl.TRIANGLE_STRIP, // 用于绘制正方形的图元类型
+            };
+
+            // 4.矩阵
+            // 正方形的变换矩阵
+            // 相对于相机沿着 z 轴稍微后移(-3.333)
+            const modelViewMatrix = new Float32Array([
+                1, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                0, 0, -3.333, 1
+            ]);
+
+            // 变换矩阵(45度视野)
+            const projectionMatrix = new Float32Array([
+                2.41421, 0, 0, 0,
+                0, 2.41421, 0, 0,
+                0, 0, -1.002002, -1,
+                0, 0, -0.2002002, 0
+            ]);
+
+            // 5. 着色器
+            // 这是一小段程序, 由高等级的类 C 语言编写
+            // 着色器是渲染的核心, 也是最难的一部分
+
+            // 顶点着色器
+            const vertexShaderSource =
+                `
+                attribute vec3 vertexPos;
+                uniform mat4 modelViewMatrix;
+                uniform mat4 projectionMatrix;
+
+                void main(void) {
+                    // 返回变换并投影后的顶点数据
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4(vertexPos, 1.0);
+                }
+            `;
+
+            // 片元着色器(或者称之为 像素着色器)
+            const fragmentShaderSource =
+                `
+                void main(void) {
+                    // 返回像素颜色，永远输出白色
+                    gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+                }
+            `;
+
+            // init shader
+            const vertexShader = createShader(gl, vertexShaderSource, "vertex");
+            const fragmentShader = createShader(gl, fragmentShaderSource, "fragment");
+
+            // 创建对应的 program 并连接
+            // gl.createProgram()
+            // 用于创建和初始化一个 WebGLProgram 对象
+            const shaderProgram = gl.createProgram();
+
+            // gl.attachShader(program, shader)
+            // program: 一个 WebGLProgram 对象
+            // shader: 一个类行为片元或顶点的 WebGLShader
+            // 负责往 WebGLProgram 添加一个片段或者顶点着色器
+            gl.attachShader(shaderProgram, vertexShader);
+            gl.attachShader(shaderProgram, fragmentShader);
+
+            // gl.linkProgram(program)
+            // program: 一个 WebGLProgram 对象
+            // 链接一个给定的 WebGLProgram 到已附着的顶点着色器和片段着色器
+            // 并将着色器代码转化为GPU代码
+            gl.linkProgram(shaderProgram);
+
+            // 获取指向着色器参数的指针
+            // gl.getAttribLocation(program, name)
+            // program: 一个 WebGLProgram 对象
+            // name: 需要获取下标指向位置的 DOMString 属性参数名
+            // 返回了给定 WebGLProgram 对象中某属性的下标指向位置
+            const shaderVertexPositionAttribute = gl.getAttribLocation(shaderProgram, "vertexPos");
+
+            // gl.enbaleVertexAttribArray(index)
+            // index: 类型为 GLuint 的索引，指向要激活的顶点属性。
+            // 可以打开属性数组列表中指定索引处的通用顶点属性数组
+            // 激活每一个属性以便使用，不被激活的属性是不会被使用的
+            gl.enableVertexAttribArray(shaderVertexPositionAttribute);
+
+            // gl.getUniformLocation(programe, name)
+            // programe: 一个 WebGLProgram 对象
+            // name: 需要在 GPU 中查询位置的变量名称
+            // 返回 WebGLProgram 给定名称的统一变量的位置
+            const shaderProjectionMatrixUniform = gl.getUniformLocation(shaderProgram, "projectionMatrix");
+            const shaderModelViewMatrixUniform = gl.getUniformLocation(shaderProgram, "modelViewMatrix");
+
+            // 与 getShaderParameter 类似
+            if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
+                console.log("Could not initialise shaders");
+            }
+
+            // 6. 绘制
+            // 使用指定颜色清空背景
+            // 这里为黑色
+            gl.clearColor(0, 0, 0, 1.0);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+
+            // 设置顶点数组
+            // gl.bindBuffer(target, buffer)
+            // target: gl.ARRAY_BUFFER: 包含顶点属性的Buffer，如顶点坐标，纹理坐标数据或顶点颜色数据。
+            //         gl.ELEMENT_ARRAY_BUFFER: 用于元素索引的Buffer。
+            // buffer: 要绑定的 WebGLBuffer
+            // 将给定的 WebGLBuffer 绑定到目标
+            gl.bindBuffer(gl.ARRAY_BUFFER, square.buffer);
+
+            // 设置着色器
+            // gl.useProgram(program)
+            // program: 一个 WebGLProgram 对象
+            // 将定义好的 WebGLProgram 对象添加到当前的渲染状态中
+            gl.useProgram(shaderProgram);
+
+            // 设置着色器参数: 点坐标、投影矩阵和模型视图矩阵
+            gl.vertexAttribPointer(shaderVertexPositionAttribute, square.vertSize, gl.FLOAT, false, 0, 0);
+            gl.uniformMatrix4fv(shaderProjectionMatrixUniform, false, projectionMatrix);
+            gl.uniformMatrix4fv(shaderModelViewMatrixUniform, false, modelViewMatrix);
+
+            // 绘制
+            gl.drawArrays(square.primtype, 0, square.nVerts);
+        }
+
+        // 用于创建 shader
+        function createShader(gl, str, type) {
+            let shader;
+            // gl.createShader(type)
+            // 参数为 gl.VERTEX_SHADER 或 gl.FRAGMENT_SHADER 两者中的一个
+            // 创建一个 WebGLShader 着色器对象
+            if (type == "fragment") {
+                shader = gl.createShader(gl.FRAGMENT_SHADER);
+            } else if (type == "vertex") {
+                shader = gl.createShader(gl.VERTEX_SHADER);
+            } else {
+                return null;
+            }
+
+            // gl.shaderSource(shader, source)
+            // shader: 用于设置程序代码的 WebGLShader （着色器对象）
+            // source: 包含 GLSL 程序代码片段的字符串
+            // 用于设置 WebGLShader 着色器（顶点着色器及片元着色器）的GLSL程序代码
+            gl.shaderSource(shader, str);
+
+            // gl.compileShader(shader)
+            // shader: 一个片元或顶点着色器 (WebGLShader)
+            // 编译一个GLSL着色器，使其成为为二进制数据
+            // 然后就可以被 WebGLProgram 对象所使用
+            gl.compileShader(shader);
+
+            // gl.getShaderParameter(shader, pname)
+            // shader: 需要获取信息的着色器对象(WebGLShader)
+            // pname: 以下三个参数之一
+            //  gl.DELETE_STATUS:标示着色器是否被删除，删除（GL_TRUE）未删除（GL_FALSE）.
+            //  gl.COMPILE_STATUS: 标示着色器是否编译成功，是（GL_TRUE）不是（GL_FALSE）
+            //  gl.SHADER_TYPE: 标示着色器类型，是顶点着色器(gl.VERTEX_SHADER)还是片段着色器(gl.FRAGMENT_SHADER)
+            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                // gl.getShaderInfoLog(shader)
+                // shader: 制定的着色器(WebGLShader)
+                // 返回日志信息，包含警告，调试和编译信息
+                console.log(gl.getShaderInfoLog(shader));
+                return null;
+            }
+
+            return shader;
+        }
+    </script>
+</body>
+
+</html>

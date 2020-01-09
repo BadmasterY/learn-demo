@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Demo</title>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        div {
+            position: absolute;
+            width: 540px;
+            height: 360px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid #eee;
+            border-radius: 5px;
+            box-shadow: 0 0 3px #eee;
+            overflow: hidden;
+        }
+
+        h2,
+        p {
+            margin: 0;
+            padding: 20px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h2>这是一个与 Start 实现相同效果的 demo</h2>
+    <p>不过这个 demo 使用 three.js 实现</p>
+    <div id="index"></div>
+    <script src="./node_modules//three/build/three.min.js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
