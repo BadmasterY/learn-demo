@@ -14,9 +14,10 @@
             margin: 0;
             padding: 0;
             position: relative;
+            background: #f9f9f9;
         }
 
-        div {
+        canvas {
             position: absolute;
             width: 540px;
             height: 360px;
@@ -27,6 +28,7 @@
             border-radius: 5px;
             box-shadow: 0 0 3px #eee;
             overflow: hidden;
+            background: #fff;
         }
 
         h2,
@@ -38,13 +40,9 @@
     </style>
 </head>
 <body>
-    <h2>这是一个与 Start 实现相同效果的 demo</h2>
-    <p>不过这个 demo 使用 three.js 实现</p>
-    <div id="index"></div>
-    <script src="../node_modules//three/build/three.min.js">
-        // import * as THREE from 'three';
-        // const THREE = require('three');
-    </script>
+    <h2>使用 webgl 绘制一个点</h2>
+    <p>点信息由 JavaScript 提供，实际上比想象的还要麻烦...</p>
+    <canvas width="540" height="360"></canvas>
     <script src="index.js"></script>
 </body>
 
