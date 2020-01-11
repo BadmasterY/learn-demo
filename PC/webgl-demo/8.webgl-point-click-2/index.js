@@ -31,11 +31,12 @@ window.onload = () => {
     // 片元着色器代码
     const fragmentShaderSource =
         `
+        uniform vec4 u_FragColor;
         void main() {
             // gl_FragColor 为片元着色器唯一内置变量
             // 控制像素在屏幕上的最终颜色, 类型 vec4
             // 对应 rgba
-            gl_FragColor = vec4(1.0, 0, 0, 1.0); // 设置颜色
+            gl_FragColor = u_FragColor; // 设置颜色
         }
     `;
 
@@ -46,18 +47,59 @@ window.onload = () => {
     // 获取 attribute 变量的存储位置
     const a_Position = gl.getAttribLocation(program, 'a_Position');
     const a_PointSize = gl.getAttribLocation(program, 'a_PointSize');
-    // 将顶点位置传输给 attribute 变量
-    // 函数的命名符合 OpenGL 规范
-    // 基础函数名 vertexAttrib  参数个数 4  参数类型 f(float)
-    // 对应 OpenGL 中的 glVertexAttrib4f()
-    gl.vertexAttrib4f(a_Position, 0.0, 0.5, 0.0, 1.0);
-    gl.vertexAttrib1f(a_PointSize, 10.0);
+    const u_FragColor = gl.getUniformLocation(program, 'u_FragColor');
+
+    canvas.addEventListener('click', event => click(event, canvas, gl, a_Position, a_PointSize, u_FragColor));
 
     gl.clearColor(0, 0, 0, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
-    // 绘制一个点
-    gl.drawArrays(gl.POINTS, 0, 1);
+    const g_points = []; // 鼠标点击位置数组
+    /**
+     * 点击事件
+     * @param {MouseEvent} event 鼠标点击事件
+     * @param {HTMLCanvasElement} canvas canvas元素
+     * @param {WebGLRenderingContext} gl canvas三维绘制上下文
+     * @param {Number} a_Position 点坐标参数位置
+     * @param {Number} a_PointSize 点大小参数位置
+     * @param {WebGLUniformLocation} u_FragColor 
+     * @returns {Boolean} 是否成功执行
+     */
+    function click(event, canvas, gl, a_Position, a_PointSize, u_FragColor) {
+        let x = event.clientX; // 鼠标 x 轴
+        let y = event.clientY; // 鼠标 y 轴
+        // const rect = event.target.getBoundingClientRect();
+        const rect = canvas.getBoundingClientRect();
+
+        // 关于这两个参数计算方式
+        // 转化流程 browser --> canvas --> webgl
+        // 由于 webgl 默认为 右手坐标系(简单默认, 实际上并不是这样)
+        // x 轴方向一致  y 轴方向相反 z 轴暂不考虑
+        // 原因查看 4.webgl 下的 x-y.png 与 5.webgl-point-1 下的 右手坐标系.png
+        // 由当前 x 轴坐标 - canvas 左侧距离 => 相对于 canvas 原点坐标顶点位置
+        // 再减去 二分之一 canvas 宽度, 得到相当于当前 webgl 原点位置(到现在还是二维坐标)
+        // 由于相机位置未改变(也没有任何视角变化)
+        // 直接由当前获取的相对于 webgl 原点坐标 除以 二分之一 canvas 宽度转化为 三维场景坐标
+        // y 轴同理
+        // 不过由于 y 轴与 canvas y 轴相反
+        // 所以由 二分之一 canvas 高度 减去 相对于 canvas 原点 y 轴坐标
+        x = ((x - rect.left) - rect.width / 2) / (rect.width / 2);
+        y = (rect.height / 2 - (y - rect.top)) / (rect.height / 2);
+        g_points.push({ x, y });
+
+        // 由于 webgl 使用颜色缓冲区
+        // 每次在浏览器中成功绘制之后
+        // 缓冲区就被清理一次(丢弃上一次绘制)
+        // 所以这里再执行一次
+        gl.clear(gl.COLOR_BUFFER_BIT);
+
+        for (let item of g_points) {
+            gl.vertexAttrib4f(a_Position, item.x, item.y, 0.0, 1.0);
+            gl.vertexAttrib1f(a_PointSize, 5);
+
+            gl.drawArrays(gl.POINTS, 0, 1);
+        }
+    }
 
 
 
