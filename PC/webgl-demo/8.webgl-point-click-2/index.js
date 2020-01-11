@@ -31,6 +31,7 @@ window.onload = () => {
     // 片元着色器代码
     const fragmentShaderSource =
         `
+        precision mediump float;
         uniform vec4 u_FragColor;
         void main() {
             // gl_FragColor 为片元着色器唯一内置变量
@@ -68,6 +69,7 @@ window.onload = () => {
     function click(event, canvas, gl, a_Position, a_PointSize, u_FragColor) {
         let x = event.clientX; // 鼠标 x 轴
         let y = event.clientY; // 鼠标 y 轴
+        let color = [1.0, 1.0, 1.0, 1.0]; // 默认为白色
         // const rect = event.target.getBoundingClientRect();
         const rect = canvas.getBoundingClientRect();
 
@@ -85,7 +87,16 @@ window.onload = () => {
         // 所以由 二分之一 canvas 高度 减去 相对于 canvas 原点 y 轴坐标
         x = ((x - rect.left) - rect.width / 2) / (rect.width / 2);
         y = (rect.height / 2 - (y - rect.top)) / (rect.height / 2);
-        g_points.push({ x, y });
+        if (x > 0 && y > 0) {
+            color = [1.0, 0.0, 0.0, 1.0];
+        } else if (x > 0 && y < 0) {
+            color = [0.0, 1.0, 0.0, 1.0];
+        } else if (x < 0 && y > 0) {
+            color = [0.0, 0.0, 1.0, 1.0];
+        } else if (x < 0 && y < 0) {
+            color = [1.0, 1.0, 0.0, 1.0];
+        }
+        g_points.push({ x, y, color });
 
         // 由于 webgl 使用颜色缓冲区
         // 每次在浏览器中成功绘制之后
@@ -94,8 +105,11 @@ window.onload = () => {
         gl.clear(gl.COLOR_BUFFER_BIT);
 
         for (let item of g_points) {
+            let color = item.color;
+
             gl.vertexAttrib4f(a_Position, item.x, item.y, 0.0, 1.0);
             gl.vertexAttrib1f(a_PointSize, 5);
+            gl.uniform4f(u_FragColor, color[0], color[1], color[2], color[3]);
 
             gl.drawArrays(gl.POINTS, 0, 1);
         }
