@@ -7,8 +7,9 @@ window.onload = () => {
     const vertexShaderSource =
         `
         attribute vec4 a_Position;
+        uniform vec4 u_Transition; // 变换的分量
         void main() {
-            gl_Position = a_Position; // 设置顶点坐标
+            gl_Position = a_Position + u_Transition; // 设置顶点坐标
         }
     `;
 
@@ -45,12 +46,12 @@ window.onload = () => {
     function initVertexBUffers(gl, program) {
         // 获取 attribute 变量的存储位置
         const a_Position = gl.getAttribLocation(program, 'a_Position');
+        const u_Transition = gl.getUniformLocation(program, 'u_Transition');
         const u_FragColor = gl.getUniformLocation(program, 'u_FragColor');
 
         const arr = [
-            -0.5, 0.5,
+            0, 0.5,
             -0.5, -0.5,
-            0.5, 0.5,
             0.5, -0.5,
         ];
         const size = 2; // 一组坐标由几位组成
@@ -99,6 +100,9 @@ window.onload = () => {
         // stride: 以字节为单位指定连续顶点属性开始之间的偏移量(即数组中一行长度)
         // offset: 顶点属性数组中第一部分的字节偏移量。必须是类型的字节长度的倍数
         gl.vertexAttribPointer(a_Position, size, gl.FLOAT, false, 0, 0);
+
+        // 设置变化分量
+        gl.uniform4f(u_Transition, 0.5, 0.5, 0.0, 0.0);
         // 三角形颜色随机
         gl.uniform4f(u_FragColor, Math.random(), Math.random(), Math.random(), 1.0);
 

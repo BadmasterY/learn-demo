@@ -6,9 +6,16 @@ window.onload = () => {
     // pointSize 只在绘制点的时候有效
     const vertexShaderSource =
         `
+        // x' = x cosβ - y sinβ
+        // y' = x sinβ + y cosβ
         attribute vec4 a_Position;
+        uniform float u_CosB, u_SinB; // 旋转角度的 sin cos 值
         void main() {
-            gl_Position = a_Position; // 设置顶点坐标
+            // 经由公式得出
+            gl_Position.x = a_Position.x * u_CosB - a_Position.y * u_SinB;
+            gl_Position.y = a_Position.x * u_SinB + a_Position.y * u_CosB;
+            gl_Position.z = a_Position.z;
+            gl_Position.w = a_Position.w;
         }
     `;
 
@@ -45,15 +52,21 @@ window.onload = () => {
     function initVertexBUffers(gl, program) {
         // 获取 attribute 变量的存储位置
         const a_Position = gl.getAttribLocation(program, 'a_Position');
+        const u_SinB = gl.getUniformLocation(program, 'u_SinB');
+        const u_CosB = gl.getUniformLocation(program, 'u_CosB');
         const u_FragColor = gl.getUniformLocation(program, 'u_FragColor');
 
         const arr = [
-            -0.5, 0.5,
+            0, 0.5,
             -0.5, -0.5,
-            0.5, 0.5,
             0.5, -0.5,
         ];
         const size = 2; // 一组坐标由几位组成
+
+        const ANGLE = 90; // 旋转90
+        const radian = Math.PI * ANGLE / 180.0; // 转化为弧度制
+        const sinB = Math.sin(radian);
+        const cosB = Math.cos(radian);
 
         // 点信息
         const vertics = new Float32Array(arr);
@@ -99,6 +112,10 @@ window.onload = () => {
         // stride: 以字节为单位指定连续顶点属性开始之间的偏移量(即数组中一行长度)
         // offset: 顶点属性数组中第一部分的字节偏移量。必须是类型的字节长度的倍数
         gl.vertexAttribPointer(a_Position, size, gl.FLOAT, false, 0, 0);
+
+        // 设置 sin cos
+        gl.uniform1f(u_SinB, sinB);
+        gl.uniform1f(u_CosB, cosB);
         // 三角形颜色随机
         gl.uniform4f(u_FragColor, Math.random(), Math.random(), Math.random(), 1.0);
 
