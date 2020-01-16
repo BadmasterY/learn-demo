@@ -1,5 +1,5 @@
 ## webgl-scale-matrix
-### 4x4旋转矩阵
+### 4x4缩放矩阵
 由 `14.webgl-translate-matrix` 继续推导,得以下等式:
 ```
   x' = x Sx
