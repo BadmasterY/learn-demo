@@ -1,0 +1,50 @@
+{
+    "input": {
+        "basic": {
+            "isLabel": true,
+            "placeholder": "请输入..."
+        },
+        "label": {
+            "name": "输入框",
+            "width": "100",
+            "align": "left"
+        },
+        "style": {}
+    },
+    "date": {
+        "basic": {
+            "isLabel": true,
+            "placeholder": "请选择日期"
+        },
+        "label": {
+            "name": "日期",
+            "width": "100",
+            "align": "right"
+        },
+        "style": {}
+    },
+    "textarea": {
+        "basic": {
+            "isLabel": true,
+            "placeholder": "请输入..."
+        },
+        "label": {
+            "name": "文本区域",
+            "width": "100",
+            "align": "right"
+        },
+        "style": {}
+    },
+    "title": {
+        "basic": {
+            "isLabel": false,
+            "value": "标题",
+            "align": "center",
+            "fontSize": "20"
+        },
+        "style": {}
+    },
+    "divider": {
+        "style": {}
+    }
+}
