@@ -21,7 +21,9 @@
             "width": "100",
             "align": "right"
         },
-        "style": {}
+        "style": {
+            "width": "100%"
+        }
     },
     "textarea": {
         "basic": {
@@ -45,6 +47,21 @@
         "style": {}
     },
     "divider": {
+        "basic": {
+            "isLabel": false
+        },
+        "style": {
+            "margin": 0
+        }
+    },
+    "select": {
+        "basic": {
+            "isLabel": true,
+            "list": []
+        },
+        "label": {
+            "name": "下拉选框"
+        },
         "style": {}
     }
 }

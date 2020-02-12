@@ -5,7 +5,7 @@
     <Row :gutter="8">
       <Col v-for="item in basicList" :key="item.index" span="8">
         <div :draggable="true" @dragstart="onDrag($event)">
-          <Card>{{ item.value }}</Card>
+          <Card :style="{cursor: 'move',margin: '5px 0', 'text-align': 'center'}">{{ item.value }}</Card>
         </div>
       </Col>
     </Row>
@@ -13,7 +13,7 @@
     <Row :gutter="8">
       <Col v-for="item in auxiliaryList" :key="item.index" span="8">
         <div :draggable="true" @dragstart="onDrag($event)">
-          <Card>{{ item.value }}</Card>
+          <Card :style="{cursor: 'move', 'text-align': 'center'}">{{ item.value }}</Card>
         </div>
       </Col>
     </Row>
@@ -37,6 +37,10 @@ export default class Controls extends Vue {
     {
       index: 2,
       value: "文本区域"
+    },
+    {
+      index: 3,
+      value: "下拉选框"
     }
   ];
 

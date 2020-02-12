@@ -1,7 +1,7 @@
 <template>
-  <div class="dragcontent" @drop="onDrop($event)" @dragover="allowDrop($event)">
-    <Form :label-width="80" label-colon label-position="right">
-      <transition-group name="flip-list" mode="out-in">
+  <div class="dragcontent" @click="clearFocus" @drop="onDrop($event)" @dragover="allowDrop($event)">
+    <Form :label-width="120" label-colon label-position="right">
+      <transition-group name="fade" mode="out-in">
         <div
           :draggable="true"
           v-for="(item, index) in list"
@@ -15,13 +15,21 @@
             v-if="item.type === 'input'"
             :label="item.atrribute.basic.isLabel ? item.atrribute.label.name : ''"
           >
-            <Input type="text" :placeholder="item.atrribute.basic.placeholder" />
+            <Input
+              type="text"
+              :style="item.atrribute.style"
+              :placeholder="item.atrribute.basic.placeholder"
+            />
           </FormItem>
           <FormItem
             v-else-if="item.type === 'date'"
             :label="item.atrribute.basic.isLabel ? item.atrribute.label.name : ''"
           >
-            <DatePicker type="date" :placeholder="item.atrribute.basic.placeholder"></DatePicker>
+            <DatePicker
+              type="date"
+              :style="item.atrribute.style"
+              :placeholder="item.atrribute.basic.placeholder"
+            ></DatePicker>
           </FormItem>
           <FormItem
             v-else-if="item.type === 'textarea'"
@@ -29,23 +37,38 @@
           >
             <Input
               type="textarea"
+              :style="item.atrribute.style"
               :autosize="{minRows: 2,maxRows: 10}"
               :placeholder="item.atrribute.basic.placeholder"
             ></Input>
           </FormItem>
+          <FormItem
+            v-else-if="item.type === 'select'"
+            :label="item.atrribute.basic.isLabel ? item.atrribute.label.name : ''"
+          >
+            <Select :style="item.atrribute.style" clearable>
+              <Option
+                v-for="item in item.atrribute.basic.list"
+                :value="item.label"
+                :key="item.label"
+              >{{ item.value }}</Option>
+            </Select>
+          </FormItem>
           <h5
             v-else-if="item.type === 'title'"
-            :style="{'text-align': item.atrribute.basic.align, 'font-size': item.atrribute.basic.fontSize + 'px'}"
+            :style="{'text-align': item.atrribute.basic.align, 'font-size': item.atrribute.basic.fontSize + 'px', ...item.atrribute.style}"
           >{{ item.atrribute.basic.value }}</h5>
-          <Divider v-else-if="item.type === 'divider'" />
-          <Icon
-            v-if="item.isFocus == true"
-            class="delete-btn"
-            size="20"
-            color="#fff"
-            type="md-trash"
-            @click="del($event, index)"
-          />
+          <Divider v-else-if="item.type === 'divider'" :style="item.atrribute.style" />
+          <transition name="fade">
+            <Icon
+              v-if="item.isFocus == true"
+              class="delete-btn"
+              size="20"
+              color="#fff"
+              type="md-trash"
+              @click="del($event, index)"
+            />
+          </transition>
         </div>
       </transition-group>
       <Button class="sub-btn" type="primary">提交</Button>
@@ -56,7 +79,11 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
-import util from "../../utils/utils.js";
+import util from "../../utils/utils";
+
+interface Json {
+  [p: string]: string;
+}
 
 @Component
 export default class Dragcontent extends Vue {
@@ -75,7 +102,7 @@ export default class Dragcontent extends Vue {
       this.onDropSelf(e.target);
       return;
     }
-    const data = util.getInitData(value);
+    const data: Json = util.getInitData(value);
 
     this.list.push(data);
 
@@ -94,9 +121,9 @@ export default class Dragcontent extends Vue {
 
     const newList = [...this.list];
     // 删除老的节点
-    const data = newList.splice(this.oldIndex, 1);
+    const data = newList.splice(this.oldIndex as number, 1);
     // 在列表中目标位置增加新的节点
-    newList.splice(this.newIndex, 0, data[0]);
+    newList.splice(this.newIndex as number, 0, data[0]);
     // this.list一改变，transition-group就起了作用
     // 不过也会有问题
     // 删除不需要的组件时, 会有影响
@@ -118,15 +145,26 @@ export default class Dragcontent extends Vue {
   boxFocus(e: Event, index: number): void {
     e.preventDefault();
 
-    for (const item of this.list) {
-      item.isFocus = false;
-    }
+    this.clearFocus(e);
 
     this.list[index].isFocus = true;
 
     this.$store.commit("setAtrribute", this.list[index].atrribute);
     this.$store.commit("setIndex", index);
     this.$store.commit("setList", this.list);
+  }
+
+  clearFocus(e: Event): void {
+    e.preventDefault();
+    e.stopPropagation();
+
+    for (const item of this.list) {
+      item.isFocus = false;
+
+      this.$store.commit("setAtrribute", null);
+      this.$store.commit("setIndex", null);
+      this.$store.commit("setList", this.list);
+    }
   }
 
   del(e: Event, index: number): void {
@@ -175,6 +213,11 @@ export default class Dragcontent extends Vue {
   cursor: pointer;
   padding: 2px;
   border-radius: 50%;
+  background: #f90;
+  transition: background 200ms;
+}
+
+.delete-btn:hover {
   background: #ed4014;
 }
 
@@ -183,7 +226,12 @@ export default class Dragcontent extends Vue {
   margin: 0 auto;
 }
 
-.flip-list-move {
-  transition: transform 150ms;
+fade-enter-active,
+fade-leave-active {
+  transition: opacity 150ms ease;
+}
+fade-enter,
+fade-leave-to {
+  opacity: 0;
 }
 </style>

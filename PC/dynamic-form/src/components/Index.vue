@@ -1,15 +1,16 @@
 <template>
   <div class="index">
     <Layout class="index-layout">
-        <Sider breakpoint="md" :width="300" :style="{background: '#fff'}">
+        <Sider breakpoint="md" collapsible :collapsed-width="50" v-model="isCollapsed" :width="300" :style="{background: '#fff',  'box-shadow': '0 0 3px #aaa'}">
           <Controls />
+          <div slot="trigger"></div>
         </Sider>
         <Layout>
           <Content class="index-content">
             <Dragcontent />
           </Content>
         </Layout>
-        <Sider breakpoint="md" :style="{background: '#fff'}">
+        <Sider :width="300" :style="{background: '#fff', padding: '0 5px', 'box-shadow': '0 0 3px #aaa'}">
           <Attribute />
         </Sider>
     </Layout>
@@ -30,7 +31,9 @@ import Attribute from "./Attribute/Index.vue";
     Attribute,
   }
 })
-export default class Index extends Vue {}
+export default class Index extends Vue {
+  isCollapsed = false;
+}
 </script>
 
 <style scoped>
