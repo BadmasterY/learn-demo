@@ -31,6 +31,16 @@
                 </li>
               </ul>
             </li>
+            <!-- <li v-if="init != undefined">
+              默认选中:
+              <Input v-model="init" />
+            </li> -->
+            <li v-if="type != undefined">
+              类型:
+              <RadioGroup v-model="type">
+                <Radio border v-for="(item, index) in types" :key="index" :label="item">{{ item }}</Radio>
+              </RadioGroup>
+            </li>
           </ul>
         </Panel>
         <Panel v-if="isLabel" name="2">
@@ -46,7 +56,7 @@
           样式
           <ul slot="content">
             <li>
-              <Input type="textarea" v-model="style" placeholder='请使用类似: {"key": "value"} 的形式...' />
+              <Input type="textarea" v-model="style" placeholder='请使用类似: {"key": "value"} 的形式, 如果不需要请保留一对大括号 {}...' />
             </li>
           </ul>
         </Panel>
@@ -61,10 +71,11 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class Atrribute extends Vue {
+  index = 0;
+
   addList(): void {
     this.list.push({
-      label: this.list.length + 1,
-      value: "新增项目"
+      value: "新增项目" + (this.index++),
     });
   }
 
@@ -115,6 +126,26 @@ export default class Atrribute extends Vue {
 
   get list() {
     return this.atrribute.basic.list;
+  }
+
+  get init() {
+    return this.atrribute.basic.init;
+  }
+
+  set init(value) {
+    this.atrribute.basic.init = value.split(',');
+  }
+
+  get type() {
+    return this.atrribute.basic.type;
+  }
+
+  set type(value) {
+    this.atrribute.basic.type = value;
+  }
+
+  get types() {
+    return this.atrribute.basic.types;
   }
 }
 </script>

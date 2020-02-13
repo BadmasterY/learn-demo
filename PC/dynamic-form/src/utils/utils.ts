@@ -11,6 +11,9 @@ const types: Type = {
     "日期控件": "date",
     "文本区域": "textarea",
     "下拉选框": "select",
+    "单选框": "radio",
+    "多选框": "checkbox",
+    "按钮": "button",
     "标题": "title",
     "分割线": "divider",
 }

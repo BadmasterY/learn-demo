@@ -46,14 +46,47 @@
             v-else-if="item.type === 'select'"
             :label="item.atrribute.basic.isLabel ? item.atrribute.label.name : ''"
           >
-            <Select :style="item.atrribute.style" clearable>
+            <Select
+              :style="item.atrribute.style"
+              clearable
+              :placeholder="item.atrribute.basic.placeholder"
+            >
               <Option
                 v-for="item in item.atrribute.basic.list"
-                :value="item.label"
-                :key="item.label"
+                :value="item.value"
+                :key="item.value"
               >{{ item.value }}</Option>
             </Select>
           </FormItem>
+          <FormItem
+            v-else-if="item.type === 'radio'"
+            :label="item.atrribute.basic.isLabel ? item.atrribute.label.name : ''"
+          >
+            <RadioGroup v-model="item.atrribute.basic.init" :style="item.atrribute.style">
+              <Radio
+                v-for="value in item.atrribute.basic.list"
+                :key="value.value"
+                :label="value.value"
+              >{{ value.value }}</Radio>
+            </RadioGroup>
+          </FormItem>
+          <FormItem
+            v-else-if="item.type === 'checkbox'"
+            :label="item.atrribute.basic.isLabel ? item.atrribute.label.name : ''"
+          >
+            <CheckboxGroup v-model="item.atrribute.basic.init" :style="item.atrribute.style">
+              <Checkbox
+                v-for="value in item.atrribute.basic.list"
+                :key="value.value"
+                :label="value.value"
+              ></Checkbox>
+            </CheckboxGroup>
+          </FormItem>
+          <Button
+            v-else-if="item.type === 'button'"
+            :type="item.atrribute.basic.type"
+            :style="item.atrribute.style"
+          >{{ item.atrribute.basic.value }}</Button>
           <h5
             v-else-if="item.type === 'title'"
             :style="{'text-align': item.atrribute.basic.align, 'font-size': item.atrribute.basic.fontSize + 'px', ...item.atrribute.style}"
@@ -71,7 +104,7 @@
           </transition>
         </div>
       </transition-group>
-      <Button class="sub-btn" type="primary">提交</Button>
+      <!-- <Button class="sub-btn" type="primary">提交</Button> -->
     </Form>
   </div>
 </template>

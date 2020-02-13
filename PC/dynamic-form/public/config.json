@@ -57,11 +57,60 @@
     "select": {
         "basic": {
             "isLabel": true,
+            "placeholder": "请选择",
             "list": []
         },
         "label": {
             "name": "下拉选框"
         },
         "style": {}
+    },
+    "radio": {
+        "basic": {
+            "isLabel": true,
+            "init": "",
+            "list": [
+                {
+                    "value": "男"
+                },
+                {
+                    "value": "女"
+                }
+            ]
+        },
+        "label": {
+            "name": "单选框"
+        },
+        "style": {}
+    },
+    "checkbox": {
+        "basic": {
+            "isLabel": true,
+            "init": [],
+            "list": [
+                {
+                    "value": "北京"
+                },
+                {
+                    "value": "上海"
+                }
+            ]
+        },
+        "label": {
+            "name": "多选框"
+        },
+        "style": {}
+    },
+    "button": {
+        "basic": {
+            "isLabel": false,
+            "value": "按钮",
+            "type": "primary",
+            "types": ["primary", "success", "error", "warning"]
+        },
+        "style": {
+            "display": "block",
+            "margin": "0 auto"
+        }
     }
 }

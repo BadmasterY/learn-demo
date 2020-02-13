@@ -41,6 +41,18 @@ export default class Controls extends Vue {
     {
       index: 3,
       value: "下拉选框"
+    },
+    {
+      index: 4,
+      value: "单选框"
+    },
+    {
+      index: 5,
+      value: "多选框"
+    },
+    {
+      index: 6,
+      value: "按钮"
     }
   ];
 

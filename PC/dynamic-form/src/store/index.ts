@@ -9,6 +9,7 @@ export default new Vuex.Store({
     focusIndex: null, // 被选中控件的下标
     dragger: '', // 正在拖拽的对象(放入)
     atrribute: null, // 选中对象的属性
+    isPreview: false, // 是否正在预览
   },
   mutations: {
     setList(state, data) {
@@ -22,6 +23,9 @@ export default new Vuex.Store({
     },
     setAtrribute(state, data) {
       state.atrribute = data;
+    },
+    setPreview(state, data: boolean) {
+      state.isPreview = data;
     }
   },
   actions: {
