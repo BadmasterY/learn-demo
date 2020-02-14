@@ -115,7 +115,7 @@ import { Component, Vue } from "vue-property-decorator";
 import util from "../../utils/utils";
 
 interface Json {
-  [p: string]: string;
+  [p: string]: any;
 }
 
 @Component
