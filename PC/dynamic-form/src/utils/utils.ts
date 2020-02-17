@@ -42,10 +42,10 @@ function dataType(data: any) {
  * @param {Object|Array} value 需要拷贝的对象
  */
 function clone(value: any) {
-    const copy: any = (dataType(value)&&dataType(value)[0] == "Array") ? [] : {};
+    const copy: any = dataType(value)[0] == "Array" ? [] : {};
     for (const item in value) {
         if (!Object.hasOwnProperty.call(value, item)) continue;
-        copy[item] = (typeof value[item] == "object") ? clone(value[item]) : value[item];
+        copy[item] = dataType(value[item])[0] == "Object" ? clone(value[item]) : value[item];
     }
     return copy;
 }
