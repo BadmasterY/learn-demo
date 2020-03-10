@@ -9,8 +9,10 @@
   "author": "Mr.",
   "license": "ISC",
   "dependencies": {
+    "config": "^3.3.0",
     "koa": "^2.11.0",
     "koa-better-body": "^3.3.5",
+    "koa-router": "^8.0.8",
     "koa2-cors": "^2.0.6"
   }
 }

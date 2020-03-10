@@ -1,5 +1,5 @@
 # slice-upload
-大文件切片上传demo
+大文件切片上传demo, 使用 vue
 
 ## Project setup
 ```
