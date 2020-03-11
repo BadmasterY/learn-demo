@@ -1,0 +1,16 @@
+{
+  "name": "server-mongoose",
+  "version": "0.0.1",
+  "description": "node + mongoose 实践。",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon node index.js"
+  },
+  "author": "Mr.",
+  "license": "ISC",
+  "dependencies": {
+    "config": "^3.3.0",
+    "mongoose": "^5.9.4",
+    "nodemon": "^2.0.2"
+  }
+}
