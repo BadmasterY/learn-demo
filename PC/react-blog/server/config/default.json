@@ -6,5 +6,34 @@
         "readableAll": false,
         "writableAll": false,
         "ipv6Only": false
+    },
+    "db": {
+        "dbname": "react-blog",
+        "user": "",
+        "pass": "",
+        "host": "127.0.0.1",
+        "port": "27017",
+        "autoIndex": false,
+        "useNewUrlParser": true,
+        "useUnifiedTopology": true,
+        "serverSelectionTimeoutMS": 5000,
+        "socketTimeoutMS": 45000,
+        "poolSize": 10,
+        "replicaSet": {
+            "name": "checkout",
+            "members": [
+                {
+                    "host": "127.0.0.1",
+                    "port": "27017"
+                }
+            ]
+        }
+    },
+    "schema": {
+        "runSettersOnQuery": true,
+        "timestamps": {
+            "createdAt": "createTime",
+            "updateAt": "updateTime"
+        }
     }
 }
