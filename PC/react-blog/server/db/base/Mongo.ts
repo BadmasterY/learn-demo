@@ -32,8 +32,8 @@ const {
 function getMongoDBOptions() {
     // 初始配置
     const options = {
-        user: '',
-        pass: '',
+        user, // 管理员账号
+        pass, // 管理员密码
         useNewUrlParser, // 允许发生错误时, 退回到旧解析器
         useUnifiedTopology, // 默认为 false
         autoIndex, // 是否自动建立索引, 在大型开发时, 并不推荐启用
@@ -42,9 +42,6 @@ function getMongoDBOptions() {
         poolSize, // 保持的最大sokect连接数
         reconnectTries: Number.MAX_VALUE,
     };
-
-    if (user) options.user = user; // 管理员账号
-    if (pass) options.pass = pass; // 管理员密码
 
     return options;
 
