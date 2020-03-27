@@ -1,0 +1,11 @@
+p {
+    margin: 0;
+    text-align: center;
+    color: #c5c8ce;
+    font-size: 12px;
+}
+
+.footer{
+    padding: 10px 35px;
+    background: #fff;
+}

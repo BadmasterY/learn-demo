@@ -1,15 +1,32 @@
 import React from 'react';
-import { Button } from 'antd';
+import { Layout, BackTop } from 'antd';
+import MyHeader from '../Header/Header';
+import MyFooter from '../Footer/Footer';
+import { Route } from 'react-router-dom';
+import Home from '../Home/Home';
 
-function clickFn() {
-    console.log('点击!');
-}
+import './index.css';
+
+const { Content } = Layout;
 
 function App() {
   return (
-    <div className="index">
-        <Button onClick={clickFn}>Hello World!</Button>
-    </div>
+    <Layout className="index">
+        <MyHeader />
+        <Content className="index-content">
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route exact path="/about">
+            关于我
+          </Route>
+          <Route exact path="/user">
+            用户
+          </Route>
+        </Content>
+        <MyFooter />
+        <BackTop />
+    </Layout>
   );
 }
 

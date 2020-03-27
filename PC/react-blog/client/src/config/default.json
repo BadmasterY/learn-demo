@@ -1,0 +1,15 @@
+{
+    "blogName": "BAD TIME",
+    "header": [
+        {
+            "key": "home",
+            "name": "HOME",
+            "uri": "/"
+        },
+        {
+            "key": "about",
+            "name": "ABOUT",
+            "uri": "/about"
+        }
+    ]
+}
