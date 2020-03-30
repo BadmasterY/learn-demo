@@ -1,19 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Skeleton, List } from 'antd';
 
 import { State as ArticaleState } from '../../interfaces/articale';
+import { content } from '../../config/default.json';
 
 import './home.css';
 
+const { pageSize } = content;
+
 function Home() {
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const articales: ArticaleState[] = [];
 
-    function loadingStart() {
-        setLoading(true);
-
-        setTimeout(() => { setLoading(false) }, 2000);
-    }
+    useEffect(() => {
+        // post data
+        setTimeout(() => {
+            setLoading(false);
+        }, 2000);
+    });
 
     return (
         <div className="home">
@@ -22,12 +26,17 @@ function Home() {
                     itemLayout="vertical"
                     size="large"
                     pagination= {{
-                        onChange: page => {
-                            console.log(page);
+                        position: 'bottom', // 分页位置
+                        onChange: (page, pageSize) => {
+                            console.log(page, pageSize);
                         },
-                        pageSize: 10
+                        pageSize, // 每页显示数量
+                        total: 11, // 总数
                     }}
                     dataSource={articales}
+                renderItem = {item => (
+                    <List.Item></List.Item>
+                )}
                 />
             </Skeleton>
         </div>

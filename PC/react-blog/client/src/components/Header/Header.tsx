@@ -13,10 +13,6 @@ const { Header } = Layout;
 function MyHeader() {
     const { isLogin, name } = useSelector((state: reduxState) => state.user);
 
-    function showLogin() {
-        console.log('login');
-    }
-
     return (
         <Header className="header">
             <h1>
@@ -43,8 +39,10 @@ function MyHeader() {
                             </Link>
                         </Menu.Item>
                         :
-                        <Menu.Item onClick={showLogin} key="login">
-                            LOGIN
+                        <Menu.Item key="login">
+                            <Link to="/login">
+                                LOGIN
+                            </Link>
                         </Menu.Item>
                 }
             </Menu>

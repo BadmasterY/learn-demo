@@ -6,13 +6,13 @@ import './footer.css';
 
 const { Footer } = Layout;
 
-function MyFooter() {
+function User() {
     return (
         <Footer className="footer">
-            <p>Personal <a target="_blank" rel="noopener noreferrer" href="https://badmastery.github.io">blog</a> by <Link to={"/about"}>Badmaster</Link></p>
+            <p>Personal blog by <Link to={"/about"}>Badmaster</Link></p>
             <p>Powered By <a target="_blank" rel="noopener noreferrer" href="https://reactjs.org/">React</a>.</p>
         </Footer>
     );
 }
 
-export default MyFooter;
+export default User;
