@@ -2,8 +2,8 @@ interface ArticaleState {
     id: string;
     author: string;
     title: string;
-    desc?: string;
     content: string;
+    desc?: string;
     createTime?: string;
     updatedAt?: string;
 }

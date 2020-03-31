@@ -19,8 +19,20 @@ const initialState: State = {
 
 // Reducer
 export default function reducer(state = initialState, action: Action = {}) {
+    const { payload } = action;
     switch (action.type) {
         case types.LOGIN:
+            if (payload) {
+                const { id, name, position, isLogin } = payload;
+                if (id)
+                    state.id = id;
+                if (name)
+                    state.name = name;
+                if (position)
+                    state.position = position;
+                if (typeof isLogin === 'boolean')
+                    state.isLogin = isLogin;
+            }
             return state;
         case types.LOGOUT:
             return state;

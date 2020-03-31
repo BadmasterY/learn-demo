@@ -1,17 +1,22 @@
-import React from 'react';
-import { Layout } from 'antd';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { reduxState } from '../../interfaces/state';
 
-import './footer.css';
-
-const { Footer } = Layout;
+import './user.css';
 
 function User() {
+    const { isLogin } = useSelector((state: reduxState) => state.user);
+    const history = useHistory();
+
+    useEffect(() => {
+        if(!isLogin) history.push('/');
+    });
+
     return (
-        <Footer className="footer">
-            <p>Personal blog by <Link to={"/about"}>Badmaster</Link></p>
-            <p>Powered By <a target="_blank" rel="noopener noreferrer" href="https://reactjs.org/">React</a>.</p>
-        </Footer>
+        <div className="user-box">
+            用户
+        </div>
     );
 }
 

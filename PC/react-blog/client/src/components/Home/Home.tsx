@@ -14,9 +14,13 @@ function Home() {
 
     useEffect(() => {
         // post data
-        setTimeout(() => {
+        const timer = setTimeout(() => {
             setLoading(false);
         }, 2000);
+
+        return () => {
+            clearTimeout(timer);
+        }
     });
 
     return (

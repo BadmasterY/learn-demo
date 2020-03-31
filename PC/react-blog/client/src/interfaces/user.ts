@@ -7,6 +7,9 @@ interface UserState {
 
 interface Payload {
     id?: string;
+    name?: string;
+    position?: string;
+    isLogin?: boolean;
     content?: string;
 }
 

@@ -1,17 +1,29 @@
-import React from 'react';
-import { Layout } from 'antd';
-import { Link } from 'react-router-dom';
+import React, { useState,useEffect } from 'react';
+import { Typography, Divider } from 'antd';
 
 import './about.css';
 
-const { Footer } = Layout;
+const { Title, Paragraph, Text } = Typography;
 
 function About() {
+    const [workYear, setWorkYear] = useState(0);
+
+    useEffect(() => {
+        const year = new Date().getFullYear();
+        setWorkYear((year - 2017));
+    }, []);
+
     return (
-        <Footer className="about">
-            <p>Personal blog by <Link to={"/about"}>Badmaster</Link></p>
-            <p>Powered By <a target="_blank" rel="noopener noreferrer" href="https://reactjs.org/">React</a>.</p>
-        </Footer>
+        <Typography className="about-box">
+            <Title level={2} className="about-header">Badmaster</Title>
+            <Paragraph>
+                前端, 工作了<Text strong>{workYear}</Text>年...
+            </Paragraph>
+            <Divider />
+            <Paragraph>
+                一些<Text underline>工作经历</Text>...
+            </Paragraph>
+        </Typography>
     );
 }
 

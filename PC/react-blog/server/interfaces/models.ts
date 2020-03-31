@@ -6,6 +6,7 @@ interface modelBase {
 
 interface Users extends modelBase {
     nickname: string;
+    username: string;
     password: string;
     position: string;
 }

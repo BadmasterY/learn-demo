@@ -1,9 +1,11 @@
 .header {
-    background: rgba(255,255,255,0.9);
+    background: rgba(255, 255, 255, 0.9);
     position: fixed;
     width: 100%;
     z-index: 1;
+    box-shadow: 0 0 2px #ddd;
 }
+
 .header-logo {
     display: block;
     width: 64px;
@@ -14,12 +16,14 @@
     background-position: center;
     float: left;
 }
+
 h1 {
     display: inline-block;
     padding: 0 20px;
     margin: 0;
     font-weight: 800;
 }
+
 .header-menu {
     float: right;
     box-sizing: border-box;
@@ -28,6 +32,7 @@ h1 {
     background: initial;
     font-weight: 500;
 }
+
 .header-link {
     display: inline-block;
     color: #17233d;

@@ -1,10 +1,15 @@
 import React from 'react';
 import { Layout, BackTop } from 'antd';
+import { Route, Switch } from 'react-router-dom';
+
 import MyHeader from '../Header/Header';
 import MyFooter from '../Footer/Footer';
-import { Route } from 'react-router-dom';
 import Home from '../Home/Home';
 import Login from '../Login/Login';
+import About from '../About/About';
+import Animation from '../Animation/Animation';
+import NotFound from '../NotFound/NotFound';
+import User from '../User/User';
 
 import './index.css';
 
@@ -12,29 +17,22 @@ const { Content } = Layout;
 
 function App() {
   return (
-    <>
-      <Route exact path="/login">
-        <Login />
-      </Route>
-      <Route exact path={['/', '/about', '/user']}>
+    <Switch>
+      <Route exact strict path="/login" children={props => Animation(<Login />, props, '/login')} />
+      <Route exact strict path={['/', '/about', '/user']}>
         <Layout className="index">
           <MyHeader />
           <Content className="index-content">
-            <Route exact path="/">
-              <Home />
-            </Route>
-            <Route exact path="/about">
-              关于我
-          </Route>
-            <Route exact path="/user">
-              用户
-          </Route>
+            <Route exact path="/" children={props => Animation(<Home />, props, '/')} />
+            <Route path="/about" children={props => Animation(<About />, props, '/about')} />
+            <Route path="/user" children={props => Animation(<User />, props, '/user')} />
           </Content>
           <MyFooter />
           <BackTop />
         </Layout>
       </Route>
-    </>
+      <Route path="*" children={props => Animation(<NotFound />, props, '/404')} />
+    </Switch>
   );
 }
 
