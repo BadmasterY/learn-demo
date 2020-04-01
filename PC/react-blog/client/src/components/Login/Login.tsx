@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-import { Form, Input, Button, message } from 'antd';
+import { Form, Input, Button, message, Modal } from 'antd';
 import axios from 'axios';
 
+import Register from '../Register/Register';
 import { reduxState } from '../../interfaces/state';
-import { Action } from '../../interfaces/user';
+import { Action, Payload } from '../../interfaces/user';
 import { UserRes } from '../../interfaces/response';
 import { blogName, login } from '../../config/default.json';
-import { types } from '../../redux/ducks/user';
+import { actions } from '../../redux/ducks/user';
 
 import './login.css';
 
@@ -19,13 +20,19 @@ function Login() {
     const [isLogging, setLoging] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [showRegister, setRegister] = useState(false);
     const history = useHistory();
     const { isLogin } = useSelector((state: reduxState) => state.user);
     const dispatch = useDispatch();
 
+    const initFormValue = {
+        username,
+        password,
+    };
+
     useEffect(() => {
         if (isLogin) history.push('/');
-    }, []);
+    });
 
     // 登录逻辑
     async function login() {
@@ -35,28 +42,35 @@ function Login() {
         }
         setLoging(true);
 
+        // axios
         await axios.post('/user/login', { username, password }).then(res => {
             const data: UserRes = res.data;
             if (data.error === 1) {
                 message.error(data.msg);
                 return;
             }
+            message.success('Login success!');
             if (typeof data.content === 'object') {
-                const { id, name, position } = data.content;
-                const action: Action = {
-                    type: types.LOGIN,
-                    payload: {
-                        id,
-                        name,
-                        position,
-                        isLogin: true
-                    }
+                const { id, url, bio, name, username, position } = data.content;
+                const payload: Payload = {
+                    id,
+                    url,
+                    bio,
+                    name,
+                    position,
+                    username,
+                    isLogin: true
                 };
+                const action: Action = actions.userLogin(payload);
+                // 触发 user login
                 dispatch(action);
             }
             setLoging(false);
             history.push('/');
-        }).catch(err => message.error(err));
+        }).catch(err => {
+            setLoging(false);
+            message.error(err);
+        });
     }
 
     function userNameChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -65,6 +79,14 @@ function Login() {
 
     function passwordChange(e: React.ChangeEvent<HTMLInputElement>) {
         setPassword(e.target.value);
+    }
+
+    function showFn() {
+        setRegister(true);
+    }
+
+    function closeFn() {
+        setRegister(false);
     }
 
     return (
@@ -89,8 +111,10 @@ function Login() {
             }
             <Form
                 id="login"
+                hideRequiredMark={true}
                 labelCol={{ span: 5 }}
                 wrapperCol={{ span: 19 }}
+                initialValues={initFormValue}
             >
                 <h2>
                     <Link className="login-blogname" to="/">
@@ -103,9 +127,9 @@ function Login() {
                     rules={[{ required: true, message: 'Please input your username!' }]}
                 >
                     <Input
+                        autoFocus={true}
                         className="login-input"
                         onPressEnter={login}
-                        defaultValue={username}
                         onChange={userNameChange}
                         placeholder="Input username..."
                         allowClear={true}
@@ -119,7 +143,6 @@ function Login() {
                     <Input.Password
                         className="login-input"
                         onPressEnter={login}
-                        defaultValue={password}
                         onChange={passwordChange}
                         placeholder="Input password..."
                         autoComplete=''
@@ -131,7 +154,21 @@ function Login() {
                         :
                         'Login'
                 }</Button>
+                <Button 
+                    className="login-register" 
+                    type="link"
+                    onClick={showFn}
+                >register now!</Button>
             </Form>
+            <Modal 
+                visible={showRegister}
+                onCancel={closeFn}
+                footer={null}
+                closable={false}
+                destroyOnClose={true}
+            >
+                <Register callback={closeFn} />
+            </Modal>
         </>
     );
 }

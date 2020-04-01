@@ -6,7 +6,10 @@
 import { createModel } from './base/Model';
 
 const Users = createModel('users', {
+    url: String,
+    bio: String,
     nickname: String,
+    username: String,
     password: String,
     position: String,
 });

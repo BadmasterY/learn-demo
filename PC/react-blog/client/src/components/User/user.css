@@ -1,0 +1,12 @@
+.user-box {
+    box-sizing: border-box;
+    margin: 16px 0;
+    padding: 15px 30px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 2px #ddd;
+}
+
+.user-box label {
+    font-weight: 500;
+}

@@ -1,10 +1,11 @@
 // 用户
-import { Action, State } from '../../interfaces/user';
+import { Payload, Action, State } from '../../interfaces/user';
 
 // Actions
 export const types = {
     LOGIN: 'userLogin', // 登录
     LOGOUT: 'userLogout', // 登出
+    UPDATE: 'userUpdate', // 更新信息
     COMMENT: 'comment', // 评论
     PUBLISH: 'publish', // 发布
 };
@@ -12,22 +13,31 @@ export const types = {
 // state
 const initialState: State = {
     id: '', // key
+    bio: '',
+    url: '',
     name: '',
+    username: '',
     position: '',
     isLogin: false,
 };
 
 // Reducer
-export default function reducer(state = initialState, action: Action = {}) {
+export default function reducer(state = Object.assign({}, initialState), action: Action = {}) {
     const { payload } = action;
     switch (action.type) {
         case types.LOGIN:
             if (payload) {
-                const { id, name, position, isLogin } = payload;
+                const { id, url, bio, name, username, position, isLogin } = payload;
                 if (id)
                     state.id = id;
+                if (url)
+                    state.url = url;
+                if (bio)
+                    state.bio = bio;
                 if (name)
                     state.name = name;
+                if (username)
+                    state.username = username;
                 if (position)
                     state.position = position;
                 if (typeof isLogin === 'boolean')
@@ -35,6 +45,18 @@ export default function reducer(state = initialState, action: Action = {}) {
             }
             return state;
         case types.LOGOUT:
+            state = Object.assign({}, initialState);
+            return state;
+        case types.UPDATE:
+            if (payload) {
+                const { url, bio, name } = payload;
+                if (url)
+                    state.url = url;
+                if (bio)
+                    state.bio = bio;
+                if (name)
+                    state.name = name;
+            }
             return state;
         case types.COMMENT:
             return state;
@@ -47,8 +69,9 @@ export default function reducer(state = initialState, action: Action = {}) {
 
 // Action creaters
 export const actions = {
-    userLogin: () => ({ type: types.LOGIN }),
+    userLogin: (payload: Payload) => ({ type: types.LOGIN, payload }),
     userLogout: () => ({ type: types.LOGOUT }),
+    userUpdate: (payload: Payload) => ({ type: types.UPDATE, payload }),
     // 文章id 评论内容 content
     userComment: (id: string, content: string) => ({ type: types.COMMENT, payload: { id, content } }),
     // 文章title 文章内容 content

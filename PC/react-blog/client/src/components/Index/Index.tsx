@@ -10,6 +10,7 @@ import About from '../About/About';
 import Animation from '../Animation/Animation';
 import NotFound from '../NotFound/NotFound';
 import User from '../User/User';
+import System from '../ManagementSystem/Index';
 
 import './index.css';
 
@@ -18,8 +19,7 @@ const { Content } = Layout;
 function App() {
   return (
     <Switch>
-      <Route exact strict path="/login" children={props => Animation(<Login />, props, '/login')} />
-      <Route exact strict path={['/', '/about', '/user']}>
+      <Route exact strict path={['/', '/about', '/user', '/article/*']}>
         <Layout className="index">
           <MyHeader />
           <Content className="index-content">
@@ -31,6 +31,8 @@ function App() {
           <BackTop />
         </Layout>
       </Route>
+      <Route exact strict path="/login" children={props => Animation(<Login />, props, '/login')} />
+      <Route exact strict path="/system" children={props => Animation(<System />, props, '/system')} />
       <Route path="*" children={props => Animation(<NotFound />, props, '/404')} />
     </Switch>
   );

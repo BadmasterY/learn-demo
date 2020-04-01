@@ -1,13 +1,19 @@
 interface UserState {
     id: string;
+    bio: string;
+    url: string;
     name: string;
+    username: string;
     position: string;
     isLogin: boolean;
 }
 
-interface Payload {
+interface UserPayload {
     id?: string;
+    bio?: string;
+    url?: string;
     name?: string;
+    username?: string;
     position?: string;
     isLogin?: boolean;
     content?: string;
@@ -15,8 +21,9 @@ interface Payload {
 
 interface UserAction {
     type?: string;
-    payload?: Payload;
+    payload?: UserPayload;
 }
 
+export type Payload = UserPayload;
 export type Action = UserAction;
 export type State = UserState;
