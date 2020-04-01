@@ -7,7 +7,7 @@ interface Content {
     id?: string;
     url?: string;
     bio?: string;
-    name?: string;
+    nickname?: string;
     username?: string;
     position?: string;
 }

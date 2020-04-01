@@ -11,7 +11,7 @@ import './header.css';
 const { Header } = Layout;
 
 function MyHeader() {
-    const { isLogin, name } = useSelector((state: reduxState) => state.user);
+    const { isLogin, nickname } = useSelector((state: reduxState) => state.user);
     const [logined, setLogin] = useState(isLogin);
     const dispatch = useDispatch();
     const history = useHistory();
@@ -47,7 +47,7 @@ function MyHeader() {
                     logined ?
                         <Menu.SubMenu
                             title={
-                                <span>{name}</span>
+                                <span>{nickname}</span>
                             }
                             key="user-menu"
                         >

@@ -15,7 +15,7 @@ const initialState: State = {
     id: '', // key
     bio: '',
     url: '',
-    name: '',
+    nickname: '',
     username: '',
     position: '',
     isLogin: false,
@@ -27,15 +27,15 @@ export default function reducer(state = Object.assign({}, initialState), action:
     switch (action.type) {
         case types.LOGIN:
             if (payload) {
-                const { id, url, bio, name, username, position, isLogin } = payload;
+                const { id, url, bio, nickname, username, position, isLogin } = payload;
                 if (id)
                     state.id = id;
                 if (url)
                     state.url = url;
                 if (bio)
                     state.bio = bio;
-                if (name)
-                    state.name = name;
+                if (nickname)
+                    state.nickname = nickname;
                 if (username)
                     state.username = username;
                 if (position)
@@ -49,13 +49,13 @@ export default function reducer(state = Object.assign({}, initialState), action:
             return state;
         case types.UPDATE:
             if (payload) {
-                const { url, bio, name } = payload;
+                const { url, bio, nickname } = payload;
                 if (url)
                     state.url = url;
                 if (bio)
                     state.bio = bio;
-                if (name)
-                    state.name = name;
+                if (nickname)
+                    state.nickname = nickname;
             }
             return state;
         case types.COMMENT:

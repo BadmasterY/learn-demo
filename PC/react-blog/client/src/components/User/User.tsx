@@ -12,9 +12,9 @@ import { actions } from '../../redux/ducks/user';
 import './user.css';
 
 function User() {
-    const { isLogin, id, bio, url, name, username, position } = useSelector((state: reduxState) => state.user);
+    const { isLogin, id, bio, url, nickname, username, position } = useSelector((state: reduxState) => state.user);
     const [isUpdate, setUpdate] = useState(false);
-    const [updateName, setName] = useState(name);
+    const [updateName, setName] = useState(nickname);
     const [updateBio, setBio] = useState(bio);
     const [updateUrl, setUrl] = useState(url);
     const dispacth = useDispatch();
@@ -22,14 +22,14 @@ function User() {
     const initFormValues = {
         bio,
         url,
-        name,
+        nickname,
     };
 
     async function updateProfile() {
         setUpdate(true);
         const payload: Payload = {
             id,
-            name: updateName,
+            nickname: updateName,
             bio: updateBio,
             url: updateUrl,
         };
@@ -78,7 +78,7 @@ function User() {
                             name="avatar"
                         >
                             <Avatar shape="square" size="large">
-                                {name}
+                                {updateName}
                             </Avatar>
                         </Form.Item>
                         <Form.Item
@@ -88,12 +88,11 @@ function User() {
                         </Form.Item>
                         <Form.Item
                             label="Name"
-                            name="name"
+                            name="nickname"
                             help="Input your name, like's your nickname. Does not change the 'username' used to login."
                         >
                             <Input
                                 placeholder="Input your name"
-                                defaultValue={name}
                                 onChange={nameChange}
                             />
                         </Form.Item>
@@ -104,7 +103,6 @@ function User() {
                         >
                             <Input.TextArea
                                 placeholder="Input something you like"
-                                defaultValue={bio}
                                 onChange={bioChange}
                             />
                         </Form.Item>
@@ -114,7 +112,6 @@ function User() {
                         >
                             <Input
                                 placeholder="Input your homepage url"
-                                defaultValue={url}
                                 onChange={urlChange}
                             />
                         </Form.Item>

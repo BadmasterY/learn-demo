@@ -51,12 +51,12 @@ function Login() {
             }
             message.success('Login success!');
             if (typeof data.content === 'object') {
-                const { id, url, bio, name, username, position } = data.content;
+                const { id, url, bio, nickname, username, position } = data.content;
                 const payload: Payload = {
                     id,
                     url,
                     bio,
-                    name,
+                    nickname,
                     position,
                     username,
                     isLogin: true

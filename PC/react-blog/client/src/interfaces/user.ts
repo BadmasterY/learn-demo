@@ -2,7 +2,7 @@ interface UserState {
     id: string;
     bio: string;
     url: string;
-    name: string;
+    nickname: string;
     username: string;
     position: string;
     isLogin: boolean;
@@ -12,7 +12,7 @@ interface UserPayload {
     id?: string;
     bio?: string;
     url?: string;
-    name?: string;
+    nickname?: string;
     username?: string;
     position?: string;
     isLogin?: boolean;

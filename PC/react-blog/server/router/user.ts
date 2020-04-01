@@ -24,7 +24,7 @@ router.post('/login', async (ctx, next) => {
                         id: _id,
                         url,
                         bio,
-                        name: nickname,
+                        nickname,
                         username,
                         position,
                     };
