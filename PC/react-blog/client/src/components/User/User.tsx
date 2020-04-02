@@ -1,142 +1,52 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Avatar, Form, Input, Button, message } from 'antd';
-import axios from 'axios';
+import { Avatar, Typography, Button, Skeleton, Space } from 'antd';
+import { UserOutlined, LinkOutlined } from '@ant-design/icons';
 
-import { Action, Payload } from '../../interfaces/user';
-import { UserRes } from '../../interfaces/response';
 import { reduxState } from '../../interfaces/state';
-import { actions } from '../../redux/ducks/user';
+import { } from '../../interfaces/user';
 
 import './user.css';
 
+const { Title, Paragraph } = Typography;
+
 function User() {
-    const { isLogin, id, bio, url, nickname, username, position } = useSelector((state: reduxState) => state.user);
-    const [isUpdate, setUpdate] = useState(false);
-    const [updateName, setName] = useState(nickname);
-    const [updateBio, setBio] = useState(bio);
-    const [updateUrl, setUrl] = useState(url);
-    const dispacth = useDispatch();
-
-    const initFormValues = {
-        bio,
-        url,
-        nickname,
-    };
-
-    async function updateProfile() {
-        setUpdate(true);
-        const payload: Payload = {
-            id,
-            nickname: updateName,
-            bio: updateBio,
-            url: updateUrl,
-        };
-
-        await axios.post('/user/update', payload).then(result => {
-            const data: UserRes = result.data;
-            setUpdate(false);
-
-            if(data.error === 1) {
-                message.error(data.msg);
-                return;
-            }
-            const action: Action = actions.userUpdate(payload);
-            dispacth(action);
-            message.success('Updated!');
-        }).catch(err => {
-            setUpdate(false);
-            message.error('Update error!');
-        });
-
-    }
-
-    function nameChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setName(e.target.value);
-    }
-
-    function bioChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
-        setBio(e.target.value);
-    }
-
-    function urlChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setUrl(e.target.value);
-    }
+    const { isLogin, username, nickname, bio, url, position } = useSelector((item: reduxState) => item.user);
+    const [ loading, setLoading ] = useState(false);
 
     return (
-        <div className="user-box" key={id}>
+        <div className="user-box">
             {
-                isLogin ?
-                    <Form
-                        labelCol={{ span: 3 }}
-                        wrapperCol={{ span: 9 }}
-                        initialValues={initFormValues}
-                    >
-                        <Form.Item
-                            label="Avatar"
-                            name="avatar"
-                        >
-                            <Avatar shape="square" size="large">
-                                {updateName}
-                            </Avatar>
-                        </Form.Item>
-                        <Form.Item
-                            label="Username"
-                        >
-                            <>{username}</>
-                        </Form.Item>
-                        <Form.Item
-                            label="Name"
-                            name="nickname"
-                            help="Input your name, like's your nickname. Does not change the 'username' used to login."
-                        >
-                            <Input
-                                placeholder="Input your name"
-                                onChange={nameChange}
-                            />
-                        </Form.Item>
-                        <Form.Item
-                            label="Bio"
-                            name="bio"
-                            help="Input something you like. This will be shown on your home page."
-                        >
-                            <Input.TextArea
-                                placeholder="Input something you like"
-                                onChange={bioChange}
-                            />
-                        </Form.Item>
-                        <Form.Item
-                            label="URL"
-                            name="url"
-                        >
-                            <Input
-                                placeholder="Input your homepage url"
-                                onChange={urlChange}
-                            />
-                        </Form.Item>
-                        {
-                            position === '管理员' ?
-                                <Form.Item
-                                    label="System"
-                                    help="Manage users and articles."
-                                >
-                                    <Link to={'/system'}>Background management system</Link>
-                                </Form.Item>
-                                :
-                                ''
-                        }
-                        <Form.Item
-                            label=" "
-                            colon={false}
-                        >
-                            <Button loading={isUpdate} type="primary" onClick={updateProfile}>Update</Button>
-                        </Form.Item>
-                    </Form>
-                    :
-                    <div>
+                !isLogin ?
+                    <>
                         You haven't signed in yet, <Link to={'/login'}>to login</Link>.
-                    </div>
+                    </>
+                    :
+                    <>
+                    <Typography className="user-sider">
+                        <Avatar size={200} shape="square">{nickname}</Avatar>
+                        <Title level={3} className="user-nickname">{nickname}</Title>
+                        <Title level={4} id="user-name" className="user-name">{username}</Title>
+                        <Paragraph>{bio}</Paragraph>
+                        <Paragraph><LinkOutlined/>: <a href={`http://${url}`}>{url}</a></Paragraph>
+                        <Paragraph>
+                            <UserOutlined /> {position}
+                        </Paragraph>
+                        <Button danger>Reset Password</Button>
+                    </Typography>
+                    <Skeleton 
+                        className="user-content"
+                        loading={loading}
+                        active
+                    >
+                        <div className="user-content">
+                            <Space>
+                                <Button>Write</Button>
+                            </Space>
+                        </div>
+                    </Skeleton>
+                    </>
             }
         </div>
     );

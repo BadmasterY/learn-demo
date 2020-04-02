@@ -18,17 +18,11 @@ const num = Math.floor(Math.random() * randomBackgroundSize);
 
 function Login() {
     const [isLogging, setLoging] = useState(false);
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [form] = Form.useForm();
     const [showRegister, setRegister] = useState(false);
     const history = useHistory();
     const { isLogin } = useSelector((state: reduxState) => state.user);
     const dispatch = useDispatch();
-
-    const initFormValue = {
-        username,
-        password,
-    };
 
     useEffect(() => {
         if (isLogin) history.push('/');
@@ -36,49 +30,31 @@ function Login() {
 
     // 登录逻辑
     async function login() {
-        if (username === '' || password === '') {
-            message.error('Please input your username and password!');
-            return;
-        }
         setLoging(true);
-
-        // axios
-        await axios.post('/user/login', { username, password }).then(res => {
-            const data: UserRes = res.data;
-            if (data.error === 1) {
-                message.error(data.msg);
-                return;
-            }
-            message.success('Login success!');
-            if (typeof data.content === 'object') {
-                const { id, url, bio, nickname, username, position } = data.content;
-                const payload: Payload = {
-                    id,
-                    url,
-                    bio,
-                    nickname,
-                    position,
-                    username,
-                    isLogin: true
-                };
-                const action: Action = actions.userLogin(payload);
-                // 触发 user login
-                dispatch(action);
-            }
-            setLoging(false);
-            history.push('/');
+        await form.validateFields().then(async result => {
+            // axios
+            await axios.post('/user/login', result).then(res => {
+                setLoging(false);
+                const data: UserRes = res.data;
+                if (data.error === 1) {
+                    message.error(data.msg);
+                    return;
+                }
+                message.success('Login success!');
+                if (typeof data.content === 'object') {
+                    const payload: Payload = Object.assign({}, data.content, {isLogin: true});
+                    const action: Action = actions.userLogin(payload);
+                    // 触发 user login
+                    dispatch(action);
+                }
+            }).catch(err => {
+                setLoging(false);
+                message.error(err);
+            });
         }).catch(err => {
-            setLoging(false);
-            message.error(err);
+            message.error('Please input username and password!');
+            console.log(err);
         });
-    }
-
-    function userNameChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setUsername(e.target.value);
-    }
-
-    function passwordChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setPassword(e.target.value);
     }
 
     function showFn() {
@@ -114,7 +90,7 @@ function Login() {
                 hideRequiredMark={true}
                 labelCol={{ span: 5 }}
                 wrapperCol={{ span: 19 }}
-                initialValues={initFormValue}
+                form={form}
             >
                 <h2>
                     <Link className="login-blogname" to="/">
@@ -130,7 +106,6 @@ function Login() {
                         autoFocus={true}
                         className="login-input"
                         onPressEnter={login}
-                        onChange={userNameChange}
                         placeholder="Input username..."
                         allowClear={true}
                     />
@@ -143,7 +118,6 @@ function Login() {
                     <Input.Password
                         className="login-input"
                         onPressEnter={login}
-                        onChange={passwordChange}
                         placeholder="Input password..."
                         autoComplete=''
                     />
@@ -154,13 +128,13 @@ function Login() {
                         :
                         'Login'
                 }</Button>
-                <Button 
-                    className="login-register" 
+                <Button
+                    className="login-register"
                     type="link"
                     onClick={showFn}
                 >register now!</Button>
             </Form>
-            <Modal 
+            <Modal
                 visible={showRegister}
                 onCancel={closeFn}
                 footer={null}

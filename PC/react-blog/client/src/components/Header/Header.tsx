@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Layout, Menu, message } from 'antd';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { blogName, header } from '../../config/default.json';
@@ -12,16 +12,12 @@ const { Header } = Layout;
 
 function MyHeader() {
     const { isLogin, nickname } = useSelector((state: reduxState) => state.user);
-    const [logined, setLogin] = useState(isLogin);
     const dispatch = useDispatch();
-    const history = useHistory();
 
     function logout() {
         const action = actions.userLogout();
         dispatch(action);
 
-        setLogin(false);
-        history.push('/');
         message.success('Logout success!');
     }
 
@@ -44,18 +40,23 @@ function MyHeader() {
                     ))
                 }
                 {
-                    logined ?
+                    isLogin ?
                         <Menu.SubMenu
                             title={
                                 <span>{nickname}</span>
                             }
                             key="user-menu"
                         >
+                            <Menu.Item key="user">
+                                <Link className="header-link" to={'/user'}>{nickname}</Link>
+                            </Menu.Item>
+                            <Menu.Divider />
                             <Menu.Item key="setting">
-                                <Link className="header-link" to={'/user'}>
+                                <Link className="header-link" to={'/setting'}>
                                     Setting
                                 </Link>
                             </Menu.Item>
+                            <Menu.Divider />
                             <Menu.Item key="logout" onClick={logout}>
                                 Logout
                             </Menu.Item>

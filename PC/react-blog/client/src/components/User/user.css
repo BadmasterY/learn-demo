@@ -5,8 +5,22 @@
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 0 2px #ddd;
+    display: flex;
 }
 
-.user-box label {
-    font-weight: 500;
+.user-box .user-nickname {
+    margin-bottom: 0;
+}
+
+#user-name {
+    margin-top: 0;
+}
+
+.user-box .user-name {
+    color: rgba(0, 0, 0, 0.3);
+}
+
+.user-content {
+    width: 100%;
+    padding-left: 30px;
 }

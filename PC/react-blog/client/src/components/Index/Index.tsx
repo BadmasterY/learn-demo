@@ -10,6 +10,7 @@ import About from '../About/About';
 import Animation from '../Animation/Animation';
 import NotFound from '../NotFound/NotFound';
 import User from '../User/User';
+import Setting from '../Setting/Setting';
 import System from '../ManagementSystem/Index';
 
 import './index.css';
@@ -19,13 +20,14 @@ const { Content } = Layout;
 function App() {
   return (
     <Switch>
-      <Route exact strict path={['/', '/about', '/user', '/article/*']}>
+      <Route exact strict path={['/', '/about', '/user', '/setting', '/article/*']}>
         <Layout className="index">
           <MyHeader />
           <Content className="index-content">
             <Route exact path="/" children={props => Animation(<Home />, props, '/')} />
             <Route path="/about" children={props => Animation(<About />, props, '/about')} />
             <Route path="/user" children={props => Animation(<User />, props, '/user')} />
+            <Route path="/setting" children={props => Animation(<Setting />, props, '/setting')} />
           </Content>
           <MyFooter />
           <BackTop />

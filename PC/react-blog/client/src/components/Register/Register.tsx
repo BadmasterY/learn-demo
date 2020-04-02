@@ -51,7 +51,7 @@ function Register(props: {callback: Function}) {
             <Form.Item
                 label="Name"
                 name="nickname"
-                rules={[{ required: true, message: "Must input your nickname!" }]}
+                rules={[{ required: true, max: 10, message: "Must input your nickname!" }]}
             >
                 <Input onPressEnter={register} placeholder="Input your nickname" />
             </Form.Item>

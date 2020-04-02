@@ -22,46 +22,19 @@ const initialState: State = {
 };
 
 // Reducer
-export default function reducer(state = Object.assign({}, initialState), action: Action = {}) {
+export default function reducer(state = initialState, action: Action = {}) {
     const { payload } = action;
     switch (action.type) {
         case types.LOGIN:
-            if (payload) {
-                const { id, url, bio, nickname, username, position, isLogin } = payload;
-                if (id)
-                    state.id = id;
-                if (url)
-                    state.url = url;
-                if (bio)
-                    state.bio = bio;
-                if (nickname)
-                    state.nickname = nickname;
-                if (username)
-                    state.username = username;
-                if (position)
-                    state.position = position;
-                if (typeof isLogin === 'boolean')
-                    state.isLogin = isLogin;
-            }
-            return state;
+            return Object.assign({}, state, payload);
         case types.LOGOUT:
-            state = Object.assign({}, initialState);
-            return state;
+            return Object.assign({}, state, initialState);
         case types.UPDATE:
-            if (payload) {
-                const { url, bio, nickname } = payload;
-                if (url)
-                    state.url = url;
-                if (bio)
-                    state.bio = bio;
-                if (nickname)
-                    state.nickname = nickname;
-            }
-            return state;
+            return Object.assign({}, state, payload);
         case types.COMMENT:
-            return state;
+            return Object.assign({}, state);
         case types.PUBLISH:
-            return state;
+            return Object.assign({}, state);
         default:
             return state;
     }
@@ -73,7 +46,7 @@ export const actions = {
     userLogout: () => ({ type: types.LOGOUT }),
     userUpdate: (payload: Payload) => ({ type: types.UPDATE, payload }),
     // 文章id 评论内容 content
-    userComment: (id: string, content: string) => ({ type: types.COMMENT, payload: { id, content } }),
+    userComment: (payload: Payload) => ({ type: types.COMMENT, payload }),
     // 文章title 文章内容 content
     userPublish: (title: string, content: string) => ({ type: types.PUBLISH, payload: { title, content } }),
 };
