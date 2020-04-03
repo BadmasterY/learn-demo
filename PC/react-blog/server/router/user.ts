@@ -5,6 +5,7 @@ import { users } from '../db';
 import { Response } from '../interfaces/response';
 import { Users } from '../interfaces/models';
 import { Register } from '../interfaces/register';
+import { Reset } from '../interfaces/resetpassword';
 
 const router = new Router();
 
@@ -98,6 +99,42 @@ router.post('/register', async (ctx, next) => {
     } else {
         response.msg = '该用户已注册!';
     }
+    ctx.response.body = response;
+});
+
+router.post('/resetPassword', async (ctx, next) => {
+    const reset: Reset = ctx.request.body;
+    const { id, oldpass, newpass } = reset;
+
+    console.log(`[User] ${getDate()} resetPassword ${id}`);
+
+    const response: Response = { error: 1 };
+
+    const findResult = await users.findOne({ _id: id });
+
+    if (findResult) {
+        const { password } = (findResult as Users);
+        if (password === oldpass) {
+            const updateResult = await users.updateOne({ _id: id }, { password: newpass });
+
+            if(updateResult) {
+                const { ok } = (updateResult as {ok: number});
+
+                if( ok === 1 ) {
+                    response.error = 0;
+                }else {
+                    response.msg = '重置失败!';
+                }
+            }else {
+                response.msg = '重置失败!';
+            }
+        } else {
+            response.msg = '未找到当前用户!';
+        }
+    } else {
+        response.msg = '重置失败, 请稍后重试!';
+    }
+
     ctx.response.body = response;
 });
 

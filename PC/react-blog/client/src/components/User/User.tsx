@@ -1,9 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Avatar, Typography, Button, Skeleton, Space } from 'antd';
 import { UserOutlined, LinkOutlined } from '@ant-design/icons';
+import { 
+    Avatar, 
+    Typography, 
+    Button, 
+    Skeleton, 
+    Row, 
+    Col, 
+    Card, 
+    Statistic, 
+    Divider,
+    Modal,
+} from 'antd';
 
+import Publish from '../Publish/Publish';
+import ResetPassword from '../ResetPassword/ResetPassword';
 import { reduxState } from '../../interfaces/state';
 import { } from '../../interfaces/user';
 
@@ -13,7 +26,26 @@ const { Title, Paragraph } = Typography;
 
 function User() {
     const { isLogin, username, nickname, bio, url, position } = useSelector((item: reduxState) => item.user);
-    const [ loading, setLoading ] = useState(false);
+    const [ loading, setLoading ] = useState(true);
+    const [ resetPass, setResetPass ] = useState(false);
+    const [ publish, setPublish ] = useState(false);
+
+    useEffect(() => {
+        setTimeout(() => setLoading(false), 1500);
+    });
+
+    function resetPassword() {
+        setResetPass(true);
+    }
+
+    function publishArticale() {
+        setPublish(true);
+    }
+
+    function closeFn() {
+        setResetPass(false);
+        setPublish(false);
+    }
 
     return (
         <div className="user-box">
@@ -33,7 +65,7 @@ function User() {
                         <Paragraph>
                             <UserOutlined /> {position}
                         </Paragraph>
-                        <Button danger>Reset Password</Button>
+                        <Button danger onClick={resetPassword}>Reset Password</Button>
                     </Typography>
                     <Skeleton 
                         className="user-content"
@@ -41,13 +73,42 @@ function User() {
                         active
                     >
                         <div className="user-content">
-                            <Space>
-                                <Button>Write</Button>
-                            </Space>
+                            <Row gutter={16}>
+                                <Col span={12}>
+                                    <Card>
+                                        <Statistic title="Articales" value={10} />
+                                    </Card>
+                                </Col>
+                                <Col span={12}>
+                                    <Card>
+                                        <Statistic title="Comments" value={1100} />
+                                    </Card>
+                                </Col>
+                            </Row>
+                            <Divider />
+                            <Row gutter={16}>
+                                <Col span={12}>
+                                    <Button onClick={publishArticale} block>Publish articles</Button>
+                                </Col>
+                            </Row>
                         </div>
                     </Skeleton>
                     </>
             }
+            <Modal 
+                visible={resetPass || publish}
+                onCancel={closeFn}
+                footer={null}
+                closable={false}
+                destroyOnClose={true}
+            >
+                {
+                    resetPass ? <ResetPassword callback={closeFn} /> : ''
+                }
+                {
+                    publish ? <Publish callback={closeFn} /> : ''
+                }
+            </Modal>
         </div>
     );
 }
