@@ -31,7 +31,9 @@ function User() {
     const [ publish, setPublish ] = useState(false);
 
     useEffect(() => {
-        setTimeout(() => setLoading(false), 1500);
+        const timer = setTimeout(() => setLoading(false), 1500);
+
+        return () => {clearTimeout(timer)};
     });
 
     function resetPassword() {
@@ -61,7 +63,7 @@ function User() {
                         <Title level={3} className="user-nickname">{nickname}</Title>
                         <Title level={4} id="user-name" className="user-name">{username}</Title>
                         <Paragraph>{bio}</Paragraph>
-                        <Paragraph><LinkOutlined/>: <a href={`http://${url}`}>{url}</a></Paragraph>
+                        <Paragraph><LinkOutlined/> <a target="_blank" rel="noopener noreferrer" href={`http://${url}`}>{url}</a></Paragraph>
                         <Paragraph>
                             <UserOutlined /> {position}
                         </Paragraph>
