@@ -52,6 +52,7 @@ function Login() {
                 message.error(err);
             });
         }).catch(err => {
+            setLoging(false);
             message.error('Please input username and password!');
             console.log(err);
         });

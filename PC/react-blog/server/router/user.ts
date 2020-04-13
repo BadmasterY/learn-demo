@@ -1,11 +1,12 @@
 import Router from 'koa-router';
 
-import { getDate } from '../utils/util';
+import { getDate, dataType } from '../utils/util';
 import { users } from '../db';
 import { Response } from '../interfaces/response';
 import { Users } from '../interfaces/models';
 import { Register } from '../interfaces/register';
 import { Reset } from '../interfaces/resetpassword';
+import { Requset as UsersRequset } from '../interfaces/getUsers';
 
 const router = new Router();
 
@@ -133,6 +134,42 @@ router.post('/resetPassword', async (ctx, next) => {
         }
     } else {
         response.msg = '重置失败, 请稍后重试!';
+    }
+
+    ctx.response.body = response;
+});
+
+router.post('/getUserList', async (ctx, next) => {
+    const getUsers: UsersRequset = ctx.request.body;
+    const { page, pageSize, query } = getUsers;
+    const skipSize = (page - 1) * pageSize;
+
+    console.log(`[User] ${getDate()} getUserList`);
+
+    const response: Response = { error: 1 };
+
+    const allResult = await users.findAll(query);
+    if(dataType(allResult) === 'Array') {
+        response.content = {
+            maxLength: (allResult as Users[]).length,
+        }
+
+        await users.findAll(query, null, {skip: skipSize, limit: pageSize}).then(result => {
+            if(result !== undefined && result !== null) {
+                response.error = 0;
+                response.content = {
+                    users: result,
+                    ...response.content,
+                };
+            }else {
+                response.msg = '未找到相关数据!';
+            }
+        }).catch(err => {
+            response.msg = '查询失败! 请重试!';
+            console.log(`[User] getUserList error:`, err);
+        });
+    }else {
+        response.msg = '服务器异常!';
     }
 
     ctx.response.body = response;

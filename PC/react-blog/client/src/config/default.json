@@ -19,5 +19,27 @@
         "useBackground": false,
         "randomBackgroundSize": 10,
         "noBackground": true
+    },
+    "system": {
+        "menuList": [
+            {
+                "key": "articles",
+                "name": "Articles"
+            },
+            {
+                "key": "comments",
+                "name": "Comments"
+            },
+            {
+                "key": "users",
+                "name": "Users"
+            },
+            {
+                "key": "setting",
+                "name": "Setting"
+            }
+        ],
+        "initialSelectItem": "articles",
+        "pageSize": 10
     }
 }

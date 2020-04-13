@@ -1,0 +1,32 @@
+.system-header {
+    background-color: #000;
+    color: #fff;
+    padding: 0 30px;
+}
+
+.system-header h1 {
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 0;
+    transition: color 300ms;
+}
+
+.system-header h1:hover {
+    color: #fff;
+}
+
+.header-name {
+    display: block;
+    font-size: 0.8em;
+    height: 100%;
+    line-height: 64px;
+    max-width: 120px;
+    float: right;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.system .ant-layout-sider-zero-width-trigger {
+    background-color: rgba(0, 0, 0, 0.5);
+}

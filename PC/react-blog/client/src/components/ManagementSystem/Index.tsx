@@ -1,10 +1,65 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Layout } from 'antd';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+
+import Header from './Header/Header';
+import Sider from './Sider/Sider';
+import Articles from './Articles/Articles';
+import Users from './Users/Users';
+
+import { reduxState } from '../../interfaces/state';
+import { system } from '../../config/default.json';
+
+import './system.css';
+
+const { Content } = Layout;
+const { initialSelectItem } = system;
 
 function System() {
+    const [selectItem, setSelect] = useState(initialSelectItem);
+    const { isLogin } = useSelector((item: reduxState) => item.user);
+    const history = useHistory();
+
+    useEffect(() => {
+        if (!isLogin) history.push('/');
+    });
+
+    function changeSelect(key: string) {
+        setSelect(key);
+    }
+
     return (
-        <div className="system">
-            System
-        </div>
+        <>
+            {
+                isLogin ?
+                    <Layout className="system">
+                        <Header />
+                        <Layout>
+                            <Sider callback={changeSelect} />
+                            <Content className="system-content">
+                                {
+                                    selectItem === 'articles' ?
+                                    <Articles /> : ''
+                                }
+                                {
+                                    selectItem === 'comments' ?
+                                    <>Comments</> : ''
+                                }
+                                {
+                                    selectItem === 'users' ?
+                                    <Users /> : ''
+                                }
+                                {
+                                    selectItem === 'setting' ?
+                                    <>Setting</> : ''
+                                }
+                            </Content>
+                        </Layout>
+                    </Layout>
+                    : ''
+            }
+        </>
     );
 }
 

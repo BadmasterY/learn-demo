@@ -18,7 +18,7 @@ const initialState: State = {
     nickname: '',
     username: '',
     position: '',
-    isLogin: false,
+    isLogin: true,
 };
 
 // Reducer

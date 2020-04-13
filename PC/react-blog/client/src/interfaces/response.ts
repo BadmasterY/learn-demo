@@ -3,7 +3,7 @@ interface BaseResponse {
     msg?: string;
 }
 
-interface Content {
+interface UserContent {
     id?: string;
     url?: string;
     bio?: string;
@@ -13,8 +13,18 @@ interface Content {
 }
 
 interface UserResponse extends BaseResponse {
-    content?: Content;
+    content?: UserContent;
+}
+
+interface UserListContent {
+    maxLength?: number;
+    users?: UserContent[];
+}
+
+interface UserListResponse extends BaseResponse {
+    content?: UserListContent;
 }
 
 export type Response = BaseResponse;
 export type UserRes = UserResponse;
+export type UserList = UserListResponse;
