@@ -6,7 +6,8 @@ import { Response } from '../interfaces/response';
 import { Users } from '../interfaces/models';
 import { Register } from '../interfaces/register';
 import { Reset } from '../interfaces/resetpassword';
-import { Requset as UsersRequset } from '../interfaces/getUsers';
+import { GetRequset, DeleteRequset } from '../interfaces/users';
+import { List as UserList } from '../interfaces/userlist';
 
 const router = new Router();
 
@@ -19,19 +20,23 @@ router.post('/login', async (ctx, next) => {
     await users.findOne({ username }).then(result => {
         if (result) {
             if (typeof result == 'object') {
-                const { _id, url, bio, nickname, username, position } = (result as Users);
-                if ((result as Users).password === password) {
-                    response.error = 0;
-                    response.content = {
-                        id: _id,
-                        url,
-                        bio,
-                        nickname,
-                        username,
-                        position,
-                    };
-                } else {
-                    response.msg = '密码错误!';
+                const { _id, url, bio, nickname, username, position, useState, removed } = (result as Users);
+                if(useState === 1 && removed === 0) {
+                    if ((result as Users).password === password) {
+                        response.error = 0;
+                        response.content = {
+                            id: _id,
+                            url,
+                            bio,
+                            nickname,
+                            username,
+                            position,
+                        };
+                    } else {
+                        response.msg = '密码错误!';
+                    }
+                }else {
+                    response.msg = removed === 1 ? '当前用户不存在!' : '当前账户未启用!';
                 }
             }
         } else {
@@ -77,7 +82,9 @@ router.post('/register', async (ctx, next) => {
     const user: Users = Object.assign({
         url: '',
         bio: '',
-        position: '用户'
+        position: '用户',
+        removed: 0,
+        useState: 1,
     }, register);
 
     console.log(`[User] ${getDate()} register ${username}`);
@@ -98,7 +105,7 @@ router.post('/register', async (ctx, next) => {
         });
 
     } else {
-        response.msg = '该用户已注册!';
+        response.msg = `用户 ${username} 已注册!`;
     }
     ctx.response.body = response;
 });
@@ -118,15 +125,15 @@ router.post('/resetPassword', async (ctx, next) => {
         if (password === oldpass) {
             const updateResult = await users.updateOne({ _id: id }, { password: newpass });
 
-            if(updateResult) {
-                const { ok } = (updateResult as {ok: number});
+            if (updateResult) {
+                const { ok } = (updateResult as { ok: number });
 
-                if( ok === 1 ) {
+                if (ok === 1) {
                     response.error = 0;
-                }else {
+                } else {
                     response.msg = '重置失败!';
                 }
-            }else {
+            } else {
                 response.msg = '重置失败!';
             }
         } else {
@@ -140,7 +147,7 @@ router.post('/resetPassword', async (ctx, next) => {
 });
 
 router.post('/getUserList', async (ctx, next) => {
-    const getUsers: UsersRequset = ctx.request.body;
+    const getUsers: GetRequset = ctx.request.body;
     const { page, pageSize, query } = getUsers;
     const skipSize = (page - 1) * pageSize;
 
@@ -148,29 +155,66 @@ router.post('/getUserList', async (ctx, next) => {
 
     const response: Response = { error: 1 };
 
-    const allResult = await users.findAll(query);
-    if(dataType(allResult) === 'Array') {
+    const allResult = await users.findAll({removed: 0, ...query});
+    if (dataType(allResult) === 'Array') {
         response.content = {
             maxLength: (allResult as Users[]).length,
         }
 
-        await users.findAll(query, null, {skip: skipSize, limit: pageSize}).then(result => {
-            if(result !== undefined && result !== null) {
+        await users.findAll({removed: 0, ...query}, null, { skip: skipSize, limit: pageSize }).then(result => {
+            if (result !== undefined && result !== null) {
+                const temp: UserList[] = [];
+                const res = (result as Users[]);
+                for (let i = 0; i < res.length; i++) {
+                    const item: UserList = {
+                        id: res[i]._id,
+                        nickname: res[i].nickname,
+                        username: res[i].username,
+                        position: res[i].position,
+                        useState: res[i].useState,
+                    };
+
+                    temp.push(item);
+                }
                 response.error = 0;
                 response.content = {
-                    users: result,
+                    users: temp,
                     ...response.content,
                 };
-            }else {
+            } else {
                 response.msg = '未找到相关数据!';
             }
         }).catch(err => {
             response.msg = '查询失败! 请重试!';
             console.log(`[User] getUserList error:`, err);
         });
-    }else {
+    } else {
         response.msg = '服务器异常!';
     }
+
+    ctx.response.body = response;
+});
+
+router.post('/deleteUser', async (ctx, next) => {
+    const deleteUser: DeleteRequset = ctx.request.body;
+    const { id } = deleteUser;
+
+    console.log(`[User] ${getDate()} deleteUser: ${id}`);
+
+    const response: Response = { error: 1 };
+
+    await users.updateOne({_id: id}, {removed: 1}).then(result => {
+        const { ok } = (result as {ok: number});
+
+        if(ok === 1) {
+            response.error = 0;
+        }else {
+            response.msg = '删除失败!';
+        }
+    }).catch(err => {
+        response.msg = '删除失败, 请稍后重试!';
+        console.log(`[User] ${getDate()} deleteUser Error:`, err);
+    });
 
     ctx.response.body = response;
 });

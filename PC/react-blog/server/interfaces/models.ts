@@ -12,6 +12,8 @@ interface Users extends modelBase {
     username: string;
     password: string;
     position: string;
+    removed: number;
+    useState: number;
 }
 
 export {

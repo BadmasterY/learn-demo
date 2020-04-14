@@ -40,6 +40,28 @@
             }
         ],
         "initialSelectItem": "articles",
-        "pageSize": 10
+        "initialPageSize": 10,
+        "columns": {
+            "username": {
+                "title": "UserName",
+                "dataIndex": "username",
+                "key": "username"
+            },
+            "nickname": {
+                "title": "NickName",
+                "dataIndex": "nickname",
+                "key": "nickname"
+            },
+            "position": {
+                "title": "Position",
+                "dataIndex": "position",
+                "key": "position"
+            },
+            "state": {
+                "title": "State",
+                "dataIndex": "useState",
+                "key": "state"
+            }
+        }
     }
 }

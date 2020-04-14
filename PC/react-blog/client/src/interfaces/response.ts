@@ -16,9 +16,18 @@ interface UserResponse extends BaseResponse {
     content?: UserContent;
 }
 
+interface UserListItem {
+    key?: string;
+    id?: string;
+    nickname?: string;
+    username?: string;
+    position?: string;
+    useState?: number;
+}
+
 interface UserListContent {
     maxLength?: number;
-    users?: UserContent[];
+    users?: UserListItem[];
 }
 
 interface UserListResponse extends BaseResponse {
@@ -28,3 +37,4 @@ interface UserListResponse extends BaseResponse {
 export type Response = BaseResponse;
 export type UserRes = UserResponse;
 export type UserList = UserListResponse;
+export type ListContent = UserListItem;

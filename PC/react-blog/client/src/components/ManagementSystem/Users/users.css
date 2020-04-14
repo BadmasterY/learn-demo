@@ -1,0 +1,17 @@
+.system-users {
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+}
+
+.users-table thead {
+    background-color: #f7f7f7;
+}
+
+.users-table thead tr {
+    height: 55px;
+}
+
+.users-table thead tr th {
+    padding: 16px;
+}

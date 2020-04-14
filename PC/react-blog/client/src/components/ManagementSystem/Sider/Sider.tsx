@@ -19,6 +19,7 @@ interface SelectArguments {
 function SystemSider(props: { callback?: Function }) {
     const { callback } = props;
     const [initialSelect, setSelect] = useState(initialSelectItem);
+    const [collapsed, setCollapsed] = useState(true);
 
     function changeSelect(select: SelectArguments) {
         setSelect(select.key);
@@ -26,11 +27,18 @@ function SystemSider(props: { callback?: Function }) {
         if(callback !== undefined) callback(select.key);
     }
 
+    function onCollapse(collapsed: boolean, type: string) {
+        setCollapsed(collapsed);
+    }
+
     return (
         <Sider
             className="system-sider"
-            breakpoint="sm"
+            breakpoint="md"
             collapsedWidth={0}
+            collapsed={collapsed}
+            collapsible={true}
+            onCollapse={onCollapse}
         >
             <Menu
                 theme='dark'

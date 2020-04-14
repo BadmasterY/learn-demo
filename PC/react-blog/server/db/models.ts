@@ -12,6 +12,8 @@ const Users = createModel('users', {
     username: String,
     password: String,
     position: String,
+    removed: Number,
+    useState: Number,
 });
 
 export {

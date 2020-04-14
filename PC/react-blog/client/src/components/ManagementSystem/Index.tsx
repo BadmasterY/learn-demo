@@ -7,6 +7,7 @@ import Header from './Header/Header';
 import Sider from './Sider/Sider';
 import Articles from './Articles/Articles';
 import Users from './Users/Users';
+import Footer from './Footer/Footer';
 
 import { reduxState } from '../../interfaces/state';
 import { system } from '../../config/default.json';
@@ -40,20 +41,21 @@ function System() {
                             <Content className="system-content">
                                 {
                                     selectItem === 'articles' ?
-                                    <Articles /> : ''
+                                        <Articles /> : ''
                                 }
                                 {
                                     selectItem === 'comments' ?
-                                    <>Comments</> : ''
+                                        <>Comments</> : ''
                                 }
                                 {
                                     selectItem === 'users' ?
-                                    <Users /> : ''
+                                        <Users /> : ''
                                 }
                                 {
                                     selectItem === 'setting' ?
-                                    <>Setting</> : ''
+                                        <>Setting</> : ''
                                 }
+                                <Footer />
                             </Content>
                         </Layout>
                     </Layout>
