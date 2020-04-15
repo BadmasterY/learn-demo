@@ -7,6 +7,10 @@
         "writableAll": false,
         "ipv6Only": false
     },
+    "server": {
+        "jsonLimit": "30mb",
+        "formLimit": "5mb"
+    },
     "db": {
         "dbname": "react-blog",
         "user": "",

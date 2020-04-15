@@ -3,6 +3,8 @@ import { Form, Input, Button, message } from 'antd';
 import axios from 'axios';
 
 import { Response } from '../../interfaces/response';
+import { md5 } from '../../utils/md5';
+
 import './register.css';
 
 function Register(props: {callback: Function}) {
@@ -13,7 +15,14 @@ function Register(props: {callback: Function}) {
     async function register() {
         setRegister(true);
         await form.validateFields().then(async result => {
-            await axios.post('/user/register', result).then(result => {
+            const { username, nickname, password } = result;
+            const md5Password = md5(password);
+
+            await axios.post('/user/register', {
+                username,
+                nickname,
+                password: md5Password,
+            }).then(result => {
                 const data: Response = result.data;
                 if(data.error === 1) {
                     message.error(data.msg);

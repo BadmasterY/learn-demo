@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Skeleton, List } from 'antd';
+import { Skeleton, List, message } from 'antd';
+import axois from 'axios';
 
 import { State as ArticaleState } from '../../interfaces/articale';
 import { content } from '../../config/default.json';
@@ -7,20 +8,33 @@ import { content } from '../../config/default.json';
 import './home.css';
 
 const { pageSize } = content;
+const articales: ArticaleState[] = [];
 
 function Home() {
     const [loading, setLoading] = useState(true);
-    const articales: ArticaleState[] = [];
+    const [isInitial, setInitial] = useState(true);
+    const [dataSource, setData] = useState(articales);
+    const [maxLength, setMaxLength] = useState(0);
+    const [initialPage, setPage] = useState(1);
+
+    async function initialData() {
+        setInitial(false);
+
+        await axois.post('/article/getArticleList').then(result => {
+
+        }).catch(err => {
+            message.error('Please check network!')
+            console.log(err);
+        })
+        setLoading(false);
+    }
+
+    function changePage(page: number, pageSize?: number) {
+        console.log(page, pageSize);
+    }
 
     useEffect(() => {
-        // post data
-        const timer = setTimeout(() => {
-            setLoading(false);
-        }, 2000);
-
-        return () => {
-            clearTimeout(timer);
-        }
+        if(isInitial) initialData();
     });
 
     return (
@@ -31,13 +45,12 @@ function Home() {
                     size="large"
                     pagination= {{
                         position: 'bottom', // 分页位置
-                        onChange: (page, pageSize) => {
-                            console.log(page, pageSize);
-                        },
+                        onChange: changePage,
+                        current: initialPage,
                         pageSize, // 每页显示数量
-                        total: 11, // 总数
+                        total: maxLength, // 总数
                     }}
-                    dataSource={articales}
+                    dataSource={dataSource}
                 renderItem = {item => (
                     <List.Item></List.Item>
                 )}

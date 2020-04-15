@@ -1,13 +1,18 @@
 import Router from 'koa-router';
 
-import { getDate, dataType } from '../utils/util';
 import { users } from '../db';
+
+import { getDate, dataType } from '../utils/util';
 import { Response } from '../interfaces/response';
 import { Users } from '../interfaces/models';
-import { Register } from '../interfaces/register';
-import { Reset } from '../interfaces/resetpassword';
-import { GetRequset, DeleteRequset } from '../interfaces/users';
-import { List as UserList } from '../interfaces/userlist';
+import {
+    List as UserList,
+    RegisterRequest as Register,
+    ResetpassRequest as Reset,
+    GetRequest, 
+    DeleteRequest, 
+    UpdateRequest 
+} from '../interfaces/users';
 
 const router = new Router();
 
@@ -34,9 +39,11 @@ router.post('/login', async (ctx, next) => {
                         };
                     } else {
                         response.msg = '密码错误!';
+                        console.log(`[User] ${getDate()} login error:`, response.msg);
                     }
                 }else {
                     response.msg = removed === 1 ? '当前用户不存在!' : '当前账户未启用!';
+                    console.log(`[User] ${getDate()} login error:`, response.msg);
                 }
             }
         } else {
@@ -64,9 +71,11 @@ router.post('/update', async (ctx, next) => {
                 response.error = 0;
             } else {
                 response.msg = '更新失败!';
+                console.log(`[User] ${getDate()} login error:`, response.msg);
             }
         } else {
             response.msg = '请稍后尝试!';
+            console.log(`[User] ${getDate()} login error:`, response.msg);
         }
     }).catch(err => {
         console.log(`[User] ${getDate()} update error:`, err);
@@ -98,6 +107,7 @@ router.post('/register', async (ctx, next) => {
                 response.error = 0;
             } else {
                 response.msg = '请稍后重试!';
+                console.log(`[User] ${getDate()} login error:`, response.msg);
             }
         }).catch(err => {
             response.msg = '注册失败!';
@@ -106,6 +116,7 @@ router.post('/register', async (ctx, next) => {
 
     } else {
         response.msg = `用户 ${username} 已注册!`;
+        console.log(`[User] ${getDate()} login error:`, response.msg);
     }
     ctx.response.body = response;
 });
@@ -132,22 +143,26 @@ router.post('/resetPassword', async (ctx, next) => {
                     response.error = 0;
                 } else {
                     response.msg = '重置失败!';
+                    console.log(`[User] ${getDate()} login error:`, response.msg);
                 }
             } else {
                 response.msg = '重置失败!';
+                console.log(`[User] ${getDate()} login error:`, response.msg);
             }
         } else {
-            response.msg = '未找到当前用户!';
+            response.msg = '密码错误, 请检查!';
+            console.log(`[User] ${getDate()} login error:`, response.msg);
         }
     } else {
-        response.msg = '重置失败, 请稍后重试!';
+        response.msg = '用户不存在!';
+        console.log(`[User] ${getDate()} login error:`, response.msg);
     }
 
     ctx.response.body = response;
 });
 
 router.post('/getUserList', async (ctx, next) => {
-    const getUsers: GetRequset = ctx.request.body;
+    const getUsers: GetRequest = ctx.request.body;
     const { page, pageSize, query } = getUsers;
     const skipSize = (page - 1) * pageSize;
 
@@ -183,6 +198,7 @@ router.post('/getUserList', async (ctx, next) => {
                 };
             } else {
                 response.msg = '未找到相关数据!';
+                console.log(`[User] ${getDate()} login error:`, response.msg);
             }
         }).catch(err => {
             response.msg = '查询失败! 请重试!';
@@ -190,13 +206,14 @@ router.post('/getUserList', async (ctx, next) => {
         });
     } else {
         response.msg = '服务器异常!';
+        console.log(`[User] ${getDate()} login error:`, response.msg);
     }
 
     ctx.response.body = response;
 });
 
 router.post('/deleteUser', async (ctx, next) => {
-    const deleteUser: DeleteRequset = ctx.request.body;
+    const deleteUser: DeleteRequest = ctx.request.body;
     const { id } = deleteUser;
 
     console.log(`[User] ${getDate()} deleteUser: ${id}`);
@@ -210,12 +227,38 @@ router.post('/deleteUser', async (ctx, next) => {
             response.error = 0;
         }else {
             response.msg = '删除失败!';
+            console.log(`[User] ${getDate()} login error:`, response.msg);
         }
     }).catch(err => {
         response.msg = '删除失败, 请稍后重试!';
         console.log(`[User] ${getDate()} deleteUser Error:`, err);
     });
 
+    ctx.response.body = response;
+});
+
+router.post('/updateUser', async (ctx, next) => {
+    const updateUser: UpdateRequest = ctx.request.body;
+    const { id, updateUserData } = updateUser;
+
+    console.log(`[User] ${getDate()} updateUser: ${id}`);
+
+    const response: Response = { error: 1 };
+
+    await users.updateOne({_id: id}, updateUserData).then(result => {
+        const { ok } = (result as {ok: number});
+
+        if(ok === 1) {
+            response.error = 0;
+        }else {
+            response.msg = '更新失败!';
+            console.log(`[User] ${getDate()} login error:`, response.msg);
+        }
+    }).catch(err => {
+        response.msg = '更新失败, 请稍后重试!';
+        console.log(`[User] ${getDate()} updateUser Error:`, err);
+    });
+    
     ctx.response.body = response;
 });
 

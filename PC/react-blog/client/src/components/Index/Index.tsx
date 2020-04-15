@@ -30,7 +30,10 @@ function App() {
             <Route path="/setting" children={props => Animation(<Setting />, props, '/setting')} />
           </Content>
           <MyFooter />
-          <BackTop />
+          <BackTop style={{
+            right: '10px',
+            bottom: '30px'
+          }} />
         </Layout>
       </Route>
       <Route exact strict path="/login" children={props => Animation(<Login />, props, '/login')} />

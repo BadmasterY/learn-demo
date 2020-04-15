@@ -4,6 +4,7 @@
     width: 100%;
     z-index: 1;
     box-shadow: 0 0 2px #ddd;
+    padding: 0 25px;
 }
 
 .header-logo {
@@ -19,6 +20,7 @@
 
 h1 {
     display: inline-block;
+    max-width: 170px;
     padding: 0 20px;
     margin: 0;
     padding: 0;
@@ -28,6 +30,7 @@ h1 {
 .header-menu {
     float: right;
     box-sizing: border-box;
+    max-width: calc(100% - 270px);
     height: 100%;
     border-bottom: none;
     background: initial;

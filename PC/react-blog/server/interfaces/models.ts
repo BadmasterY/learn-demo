@@ -16,6 +16,14 @@ interface Users extends modelBase {
     useState: number;
 }
 
+interface Articles extends modelBase {
+    author: string;
+    title: string;
+    content: string;
+    removed: number;
+}
+
 export {
     Users,
+    Articles,
 }

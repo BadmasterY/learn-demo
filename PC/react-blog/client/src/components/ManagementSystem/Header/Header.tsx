@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layout } from 'antd';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 
 import { blogName } from '../../../config/default.json';
 import { reduxState } from '../../../interfaces/state';
@@ -21,7 +21,7 @@ function SystemHeader() {
     return (
         <Header className="system-header">
             <h1 onClick={goHome}>{blogName}</h1>
-            <span className="header-name">{nickname}</span>
+            <Link to="/user" className="header-name">{nickname}</Link>
         </Header>
     );
 }

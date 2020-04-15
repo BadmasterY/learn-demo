@@ -1,24 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { Table, message, Row, Col, Button, Form, Input } from 'antd';
+import { Table, message, Row, Col, Button, Form, Input, Modal } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
 import { UserList, ListContent, UserRes } from '../../../interfaces/response';
 import { system } from '../../../config/default.json';
-import deleteFn from '../../Delete/Delete';
 
 import './users.css';
 
 const { initialPageSize, columns } = system;
 const initialData: any[] = [];
+const { confirm } = Modal;
 
 function Users() {
     const [dataSource, setData] = useState(initialData);
     const [total, setTotal] = useState(0);
+    const [firstLoad, setFirstLoad] = useState(true);
     const [isLoading, setLoading] = useState(true);
     const [initialPage, setPage] = useState(1);
     const [form] = Form.useForm();
 
     async function loadUserList(page: number, pageSize: number, query = {}) {
+        if(firstLoad) setFirstLoad(false);
         setLoading(true);
         await axios.post('/user/getUserList', {
             page,
@@ -75,11 +78,10 @@ function Users() {
         }).catch(err => {
             message.error('Error! Check network!');
             console.log(err);
-        })
+        });
     }
 
     async function searchByUsername() {
-        setLoading(true);
         await form.validateFields().then(async result => {
             await loadUserList(initialPage, initialPageSize, {
                 username: {
@@ -90,10 +92,49 @@ function Users() {
             setLoading(false);
             message.error('Please input something!');
             console.log(err);
-        })
+        });
+    }
+
+    async function changeState(record: ListContent) {
+        setLoading(true);
+
+        const { id, useState } = record;
+
+        const newState = useState === 1 ? 0 : 1;
+        await axios.post(
+            '/user/updateUser', 
+            {id, updateUserData: {
+                useState: newState,
+            }}
+        ).then(result => {
+            const data: UserRes = result.data;
+            const { error, msg } = data;
+
+            setLoading(false);
+
+            if(error === 1) {
+                message.error(msg);
+                return;
+            }
+
+            message.success('Updated!');
+            dataSource.map((item) => {
+                if(item === record) {
+                    item.useState = newState;
+                }
+                return null;
+            });
+            // update state
+            setData(Object.assign([], dataSource));
+        }).catch(err => {
+            setLoading(false);
+            message.error('Please check network!');
+            console.log(err);
+        });
     }
 
     async function clearSearch() {
+        console.log(form);
         form.resetFields();
         await loadUserList(initialPage, initialPageSize);
     }
@@ -104,14 +145,19 @@ function Users() {
     }
 
     function showDeleteFn(record: ListContent) {
-        deleteFn({
+        confirm({
+            title: 'Do you want to delete this item?',
+            icon: <ExclamationCircleOutlined />,
+            content: 'Are you sure you want to delete it? It will not be recovered after deletion!',
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
             onOk: () => { deleteOkFn(record) },
-            onCancel: () => { },
         });
     }
 
     useEffect(() => {
-        if (!isLoading) return;
+        if (!firstLoad) return;
         loadUserList(initialPage, initialPageSize);
     });
 
@@ -136,9 +182,16 @@ function Users() {
             key: "action",
             render: (text: ListContent, record: ListContent) => {
                 return (<Row gutter={[6, 6]}>
-                    <Col xs={24} sm={12}><Button block>{
-                        record.useState === 1 ? 'Forbidden' : 'Enable'
-                    }</Button></Col>
+                    <Col xs={24} sm={12}>
+                        <Button 
+                            block
+                            onClick={() => {
+                                changeState(record);
+                            }}
+                        >{
+                                record.useState === 1 ? 'Forbidden' : 'Enable'
+                        }</Button>
+                    </Col>
                     <Col xs={24} sm={12}>
                         <Button 
                             block 

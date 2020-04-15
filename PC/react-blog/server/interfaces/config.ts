@@ -7,6 +7,11 @@ interface Http {
     ipv6Only: boolean;
 }
 
+interface Server {
+    jsonLimit: string;
+    formLimit: string;
+}
+
 interface DBReplocaSet {
     name: string;
     members: Array<{
@@ -40,6 +45,7 @@ interface configSchema {
 
 export {
     Http,
+    Server,
     DB,
     configSchema,
 }

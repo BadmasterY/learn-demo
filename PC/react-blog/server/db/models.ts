@@ -16,6 +16,13 @@ const Users = createModel('users', {
     useState: Number,
 });
 
+const Articles = createModel('articles', {
+    author: String,
+    title: String,
+    content: String,
+});
+
 export {
     Users,
+    Articles,
 }

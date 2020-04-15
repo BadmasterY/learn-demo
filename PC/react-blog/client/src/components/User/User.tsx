@@ -44,8 +44,11 @@ function User() {
         setPublish(true);
     }
 
-    function closeFn() {
+    function closeResetFn() {
         setResetPass(false);
+    }
+    
+    function closePublishFn() {
         setPublish(false);
     }
 
@@ -57,31 +60,40 @@ function User() {
                         You haven't signed in yet, <Link to={'/login'}>to login</Link>.
                     </>
                     :
-                    <>
+                    <Row gutter={[16, 16]}>
+                        <Col xs={24} sm={12} md={8} lg={6} xxl={4}>
                     <Typography className="user-sider">
                         <Avatar size={200} shape="square">{nickname}</Avatar>
                         <Title level={3} className="user-nickname">{nickname}</Title>
                         <Title level={4} id="user-name" className="user-name">{username}</Title>
                         <Paragraph>{bio}</Paragraph>
-                        <Paragraph><LinkOutlined/> <a target="_blank" rel="noopener noreferrer" href={`http://${url}`}>{url}</a></Paragraph>
+                        <Paragraph>{
+                            url ?
+                            <>
+                                <LinkOutlined/> <a target="_blank" rel="noopener noreferrer" href={`http://${url}`}>{url}</a>
+                            </>
+                            : ''    
+                        }</Paragraph>
                         <Paragraph>
                             <UserOutlined /> {position}
                         </Paragraph>
                         <Button danger onClick={resetPassword}>Reset Password</Button>
                     </Typography>
+                    </Col>
+                    <Col xs={24} sm={12} md={16} lg={18} xxl={20}>
                     <Skeleton 
                         className="user-content"
                         loading={loading}
                         active
                     >
                         <div className="user-content">
-                            <Row gutter={16}>
-                                <Col span={12}>
+                            <Row gutter={[16, 16]}>
+                                <Col xs={24} sm={24} md={12} xxl={6}>
                                     <Card>
                                         <Statistic title="Articales" value={10} />
                                     </Card>
                                 </Col>
-                                <Col span={12}>
+                                <Col xs={24} sm={24} md={12} xxl={6}>
                                     <Card>
                                         <Statistic title="Comments" value={1100} />
                                     </Card>
@@ -89,27 +101,24 @@ function User() {
                             </Row>
                             <Divider />
                             <Row gutter={16}>
-                                <Col span={12}>
+                                <Col xs={24} sm={24} md={12} xxl={6}>
                                     <Button onClick={publishArticale} block>Publish articles</Button>
                                 </Col>
                             </Row>
                         </div>
                     </Skeleton>
-                    </>
+                    </Col>
+                    </Row>
             }
+            <Publish visible={publish} callback={closePublishFn} />
             <Modal 
-                visible={resetPass || publish}
-                onCancel={closeFn}
+                visible={resetPass}
+                onCancel={closeResetFn}
                 footer={null}
                 closable={false}
                 destroyOnClose={true}
             >
-                {
-                    resetPass ? <ResetPassword callback={closeFn} /> : ''
-                }
-                {
-                    publish ? <Publish callback={closeFn} /> : ''
-                }
+                <ResetPassword callback={closeResetFn} />
             </Modal>
         </div>
     );

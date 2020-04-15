@@ -19,11 +19,15 @@ const { initialSelectItem } = system;
 
 function System() {
     const [selectItem, setSelect] = useState(initialSelectItem);
-    const { isLogin } = useSelector((item: reduxState) => item.user);
+    const { isLogin, position } = useSelector((item: reduxState) => item.user);
     const history = useHistory();
 
     useEffect(() => {
-        if (!isLogin) history.push('/');
+        if (!isLogin) {
+            history.push('/login');
+        }else if (position !== '管理员') {
+            history.push('/');
+        }
     });
 
     function changeSelect(key: string) {
@@ -33,7 +37,7 @@ function System() {
     return (
         <>
             {
-                isLogin ?
+                isLogin && position === '管理员' ?
                     <Layout className="system">
                         <Header />
                         <Layout>

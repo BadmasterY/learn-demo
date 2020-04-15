@@ -10,6 +10,7 @@ import { Action, Payload } from '../../interfaces/user';
 import { UserRes } from '../../interfaces/response';
 import { blogName, login } from '../../config/default.json';
 import { actions } from '../../redux/ducks/user';
+import { md5 } from '../../utils/md5';
 
 import './login.css';
 
@@ -33,7 +34,9 @@ function Login() {
         setLoging(true);
         await form.validateFields().then(async result => {
             // axios
-            await axios.post('/user/login', result).then(res => {
+            const { username, password } = result;
+            const md5Password = md5(password);
+            await axios.post('/user/login', { username, password: md5Password }).then(res => {
                 setLoging(false);
                 const data: UserRes = res.data;
                 if (data.error === 1) {

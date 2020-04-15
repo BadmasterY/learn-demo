@@ -25,6 +25,7 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    color: #fff;
 }
 
 .system .ant-layout-sider-zero-width-trigger {

@@ -3,13 +3,15 @@
  */
 
 import { connectMongoDB, closeMongoDB } from './base/Mongo';
-import { Users } from './models';
+import { Users, Articles } from './models';
 import { Dao } from './base/Dao';
 
 connectMongoDB();
 
 const users = new Dao(Users);
+const articles = new Dao(Articles);
 
 export {
     users,
+    articles,
 }

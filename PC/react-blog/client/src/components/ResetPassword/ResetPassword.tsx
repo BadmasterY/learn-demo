@@ -6,6 +6,8 @@ import axios from 'axios';
 import { reduxState } from '../../interfaces/state';
 import { Reset } from '../../interfaces/resetpassword';
 import { Response } from '../../interfaces/response';
+import { md5 } from '../../utils/md5';
+
 import './reset.css';
 
 function ResetPassword(props: { callback: Function }) {
@@ -18,8 +20,21 @@ function ResetPassword(props: { callback: Function }) {
         setReset(true);
         await form.validateFields().then(async result => {
             const { oldpass ,newpass, aginpass } = (result as Reset);
+            if(oldpass === newpass) {
+                message.error('Password is same! Please input other password!');
+                setReset(false);
+                return;
+            }
+            
             if(newpass === aginpass) {
-                await axios.post('/user/resetPassword', { id, oldpass, newpass }).then((result) => {
+                const md5OldPass = md5(oldpass);
+                const md5NewPass = md5(newpass);
+
+                await axios.post('/user/resetPassword', { 
+                    id, 
+                    oldpass: md5OldPass, 
+                    newpass: md5NewPass 
+                }).then((result) => {
                     const data: Response = result.data;
                     setReset(false);
                     if(data.error === 1) {
@@ -29,7 +44,7 @@ function ResetPassword(props: { callback: Function }) {
                     message.success('Reset success!');
 
                     callback();
-                }).then(err => {
+                }).catch(err => {
                     setReset(false);
                     message.error('Please try again later!');
                     console.log(err);
