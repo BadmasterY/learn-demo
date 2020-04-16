@@ -10,7 +10,7 @@ export const types = {
 
 const initialState: State = {
     id: '', // key
-    author: '', // author id
+    authorId: '', // author id
     title: '',
     content: '',
 }

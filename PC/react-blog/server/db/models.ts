@@ -4,6 +4,7 @@
  * 也可以拆分在不同的文件
  */
 import { createModel } from './base/Model';
+import { Schema } from 'mongoose';
 
 const Users = createModel('users', {
     url: String,
@@ -17,9 +18,10 @@ const Users = createModel('users', {
 });
 
 const Articles = createModel('articles', {
-    author: String,
+    authorId: Schema.Types.ObjectId,
     title: String,
     content: String,
+    removed: Number,
 });
 
 export {

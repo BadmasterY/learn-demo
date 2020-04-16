@@ -36,9 +36,11 @@ interface UpdateUserRequest {
     updateUserData: Users;
 }
 
-export type List = UserList;
-export type GetRequest = GetUsersRequest;
-export type DeleteRequest = DeleteUserRequest;
-export type UpdateRequest = UpdateUserRequest;
-export type RegisterRequest = RegisterUserRequest;
-export type ResetpassRequest = ResetpassUserRequest;
+export {
+    UserList as List,
+    GetUsersRequest as GetRequest,
+    DeleteUserRequest as DeleteRequest,
+    UpdateUserRequest as  UpdateRequest,
+    RegisterUserRequest as RegisterRequest,
+    ResetpassUserRequest as ResetpassRequest,
+}

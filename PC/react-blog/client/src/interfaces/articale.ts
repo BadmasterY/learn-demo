@@ -1,6 +1,6 @@
 interface ArticaleState {
     id: string;
-    author: string;
+    authorId: string;
     title: string;
     content: string;
     desc?: string;

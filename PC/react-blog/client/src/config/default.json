@@ -1,6 +1,7 @@
 {
     "blogName": "BAD TIME",
-    "header": [{
+    "header": [
+        {
             "key": "home",
             "name": "HOME",
             "uri": "/"
@@ -12,7 +13,8 @@
         }
     ],
     "content": {
-        "pageSize": 10
+        "pageSize": 10,
+        "pageSizeOptions": ["10", "20", "50"]
     },
     "login": {
         "useVideo": false,

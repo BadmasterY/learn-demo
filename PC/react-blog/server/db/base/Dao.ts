@@ -175,6 +175,25 @@ class Dao{
         });
     }
 
+    /**
+     * 多表联查
+     * @param aggregations 可选, 联查配置
+     */
+    aggregate(aggregations = ([] as any[])) {
+        return new Promise((resolve, reject) => {
+            // 使用 aggregate 进行多表联查
+            // 使用 $lookup
+            // 详情: http://www.mongoosejs.net/docs/api.html#Aggregate
+            this.Model.aggregate(aggregations, (err: Error, result: any) => {
+                if(!err) {
+                    resolve(result);
+                } else {
+                    reject(err);
+                }
+            });
+        });
+    }
+
 };
 
 export {

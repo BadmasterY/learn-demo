@@ -1,3 +1,5 @@
+import { Schema } from 'mongoose';
+
 interface modelBase {
     id?: string;
     _id?: string;
@@ -17,7 +19,7 @@ interface Users extends modelBase {
 }
 
 interface Articles extends modelBase {
-    author: string;
+    authorId: Schema.Types.ObjectId;
     title: string;
     content: string;
     removed: number;

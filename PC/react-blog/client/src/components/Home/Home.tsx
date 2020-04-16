@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Skeleton, List, message } from 'antd';
+import { Skeleton, List, message, Avatar } from 'antd';
 import axois from 'axios';
 
-import { State as ArticaleState } from '../../interfaces/articale';
+import { ArticleRes, ArticleItem } from '../../interfaces/response';
 import { content } from '../../config/default.json';
 
 import './home.css';
+import { Link } from 'react-router-dom';
 
-const { pageSize } = content;
-const articales: ArticaleState[] = [];
+const { pageSize, pageSizeOptions } = content;
+const articales: ArticleItem[] = [];
 
 function Home() {
     const [loading, setLoading] = useState(true);
@@ -20,13 +21,31 @@ function Home() {
     async function initialData() {
         setInitial(false);
 
-        await axois.post('/article/getArticleList').then(result => {
+        await axois.post('/article/getArticleList', {
+            page: initialPage,
+            pageSize,
+            query: {}
+        }).then(result => {
+            const data: ArticleRes = result.data;
+            const { error, msg, content } = data;
 
+            setLoading(false);
+
+            if (error === 1) {
+                message.error(msg);
+                return;
+            }
+
+            if (content) {
+                const { maxLength, articles } = content;
+                setMaxLength(maxLength);
+                if (articles) setData(articles);
+            }
         }).catch(err => {
+            setLoading(false);
             message.error('Please check network!')
             console.log(err);
-        })
-        setLoading(false);
+        });
     }
 
     function changePage(page: number, pageSize?: number) {
@@ -34,26 +53,36 @@ function Home() {
     }
 
     useEffect(() => {
-        if(isInitial) initialData();
+        if (isInitial) initialData();
     });
 
     return (
         <div className="home">
             <Skeleton loading={loading} active>
-                <List 
+                <List
                     itemLayout="vertical"
                     size="large"
-                    pagination= {{
+                    pagination={{
                         position: 'bottom', // 分页位置
                         onChange: changePage,
                         current: initialPage,
                         pageSize, // 每页显示数量
+                        pageSizeOptions,
                         total: maxLength, // 总数
                     }}
                     dataSource={dataSource}
-                renderItem = {item => (
-                    <List.Item></List.Item>
-                )}
+                    renderItem={item => (
+                        <List.Item
+                            key={item._id}
+                        >
+                            <List.Item.Meta
+                                avatar={<Avatar>{item.author.nickname}</Avatar>}
+                                title={<Link to={`/article/${item.title}`}>{item.title}</Link>}
+                                description={''}
+                            />
+                            {item.content}
+                        </List.Item>
+                    )}
                 />
             </Skeleton>
         </div>

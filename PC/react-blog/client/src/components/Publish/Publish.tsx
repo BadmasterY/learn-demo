@@ -102,8 +102,8 @@ function Publish(props: { visible: boolean, callback?: Function }) {
     }
 
     function contentChange(editorState: any) {
-        console.log('change..');
         if (visible) localforage.setItem(`articleContent_${id}`, editorState.toHTML());
+        console.log(editorState.toRAW(true));
     }
 
     async function publishArticle() {
@@ -113,7 +113,7 @@ function Publish(props: { visible: boolean, callback?: Function }) {
             const contentString = content.toHTML();
 
             await axios.post('/article/publish', {
-                author: id,
+                authorId: id,
                 title,
                 content: contentString,
             }).then(result => {
