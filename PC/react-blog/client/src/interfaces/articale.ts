@@ -2,7 +2,7 @@ interface ArticaleState {
     id: string;
     authorId: string;
     title: string;
-    content: string;
+    content: string; // TODO => json
     desc?: string;
     createTime?: string;
     updatedAt?: string;

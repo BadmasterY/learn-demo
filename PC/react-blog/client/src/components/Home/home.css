@@ -6,3 +6,33 @@
     overflow: hidden;
     box-shadow: 0 0 3px #ddd;
 }
+
+.home-title {
+    display: block;
+    font-size: 32px;
+    text-align: center;
+}
+
+.home-description {
+    text-align: center;
+    line-height: 30px;
+    font-size: 0.8em;
+}
+
+.description-tooltip p {
+    margin: 0;
+    font-weight: 600;
+    color: #fff
+}
+
+.description-tooltip .tooltip-bio {
+    font-size: 0.8em;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.home-readmore {
+    display: inline-block;
+    width: 100%;
+    text-align: right;
+}

@@ -16,6 +16,9 @@
         "pageSize": 10,
         "pageSizeOptions": ["10", "20", "50"]
     },
+    "parser": {
+        "fastParserSize": 4
+    },
     "login": {
         "useVideo": false,
         "useBackground": false,

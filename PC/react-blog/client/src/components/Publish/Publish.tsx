@@ -110,12 +110,12 @@ function Publish(props: { visible: boolean, callback?: Function }) {
         setPublish(true);
         await form.validateFields().then(async result => {
             const { title, content } = result;
-            const contentString = content.toHTML();
+            const contentJson = content.toRAW(true);
 
             await axios.post('/article/publish', {
                 authorId: id,
                 title,
-                content: contentString,
+                content: contentJson,
             }).then(result => {
                 const data: Response = result.data;
                 const { error, msg } = data;

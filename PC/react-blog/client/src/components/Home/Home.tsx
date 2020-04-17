@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Skeleton, List, message, Avatar } from 'antd';
+import { Skeleton, List, Tooltip, message } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 import axois from 'axios';
 
 import { ArticleRes, ArticleItem } from '../../interfaces/response';
+import Parser from '../Parser/Parser';
 import { content } from '../../config/default.json';
 
 import './home.css';
-import { Link } from 'react-router-dom';
 
 const { pageSize, pageSizeOptions } = content;
 const articales: ArticleItem[] = [];
@@ -49,7 +51,7 @@ function Home() {
     }
 
     function changePage(page: number, pageSize?: number) {
-        console.log(page, pageSize);
+        setPage(page);
     }
 
     useEffect(() => {
@@ -70,17 +72,37 @@ function Home() {
                         pageSizeOptions,
                         total: maxLength, // 总数
                     }}
+                    locale={{
+                        emptyText: 'Empty...',
+                    }}
                     dataSource={dataSource}
                     renderItem={item => (
                         <List.Item
                             key={item._id}
                         >
                             <List.Item.Meta
-                                avatar={<Avatar>{item.author.nickname}</Avatar>}
-                                title={<Link to={`/article/${item.title}`}>{item.title}</Link>}
-                                description={''}
+                                // avatar={<Avatar size="large">{item.author.nickname}</Avatar>}
+                                title={<Link
+                                    className="home-title"
+                                    to={`/article/${item.title}?author=${item.author.nickname}&&article_id=${item._id}`}
+                                >
+                                    {item.title}
+                                </Link>
+                                }
+                                description={<p className="home-description">
+                                    <Tooltip placement="right" title={<div className="description-tooltip">
+                                        <p>{item.author.nickname}</p>
+                                        <p className="tooltip-bio">{item.author.bio}</p>
+                                    </div>}>
+                                        <span><UserOutlined /> {item.author.nickname}</span>
+                                    </Tooltip>
+                                </p>}
                             />
-                            {item.content}
+                            <Parser content={item.content} isDesc={true} />
+                            <Link
+                                className="home-readmore"
+                                to={`/article/${item.title}?author=${item.author.nickname}&&article_id=${item._id}`}
+                            >Read More...</Link>
                         </List.Item>
                     )}
                 />
