@@ -12,6 +12,7 @@ import NotFound from '../NotFound/NotFound';
 import User from '../User/User';
 import Setting from '../Setting/Setting';
 import System from '../ManagementSystem/Index';
+import Article from '../Article/Article';
 
 import './index.css';
 
@@ -28,6 +29,7 @@ function App() {
             <Route path="/about" children={props => Animation(<About />, props, '/about')} />
             <Route path="/user" children={props => Animation(<User />, props, '/user')} />
             <Route path="/setting" children={props => Animation(<Setting />, props, '/setting')} />
+            <Route  path="/article/*" children={props => Animation(<Article />, props, '/article/*')} />
           </Content>
           <MyFooter />
           <BackTop style={{

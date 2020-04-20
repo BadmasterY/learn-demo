@@ -1,0 +1,59 @@
+.article {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    margin: 10px 0;
+    padding: 20px 30px;
+}
+
+.article .article-author {
+    text-indent: 0;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.article p {
+    word-break: break-all;
+    white-space: pre-wrap;
+    text-indent: 20px;
+}
+
+.article-title {
+    text-align: center;
+}
+
+.article img {
+    max-width: 100%;
+}
+
+.article pre {
+    width: 100%;
+    background: #eee;;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 20px 30px;
+    overflow-y: hidden;
+    overflow-x: auto;
+}
+
+.article .image-wrap {
+    text-align: center;
+}
+
+.article .article-time {
+    color: rgba(0, 0, 0, 0.3);
+    font-size: .8em;
+    text-align: right;
+}
+
+.article-tooltip p {
+    margin: 0;
+    font-weight: 600;
+    color: #fff
+}
+
+.article-tooltip .tooltip-bio {
+    font-size: 0.8em;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.5);
+}

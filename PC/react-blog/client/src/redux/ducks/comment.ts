@@ -1,5 +1,5 @@
 // 评论
-import { State, Action } from '../../interfaces/comment';
+import { State, Action, Payload } from '../../interfaces/comment';
 
 // actions
 export const types = {
@@ -13,10 +13,14 @@ const initialState: State = {
 };
 
 // reducers
-export default function (state = initialState, action: Action = {}) {
+export default function reducer(state = initialState, action: Action = {}) {
+    const { payload } = action;
+
     switch (action.type) {
         case types.ADD:
-            return state;
+            const newState = Object.assign({}, state);
+            if(payload) newState.list.push(payload);
+            return newState;
         case types.DELETE:
             return state;
         case types.REVISE:
@@ -28,7 +32,7 @@ export default function (state = initialState, action: Action = {}) {
 
 // Action creators
 export const actions = {
-    commentAdd: (content: string) => ({ type: types.ADD, payload: { content } }),
+    commentAdd: (comment: Payload) => ({ type: types.ADD, payload: comment }),
     commentDelete: (id: string) => ({ type: types.DELETE, payload: { id } }),
     commentRevise: (id: string, content: string) => ({ type: types.REVISE, payload: { id, content } }),
 };

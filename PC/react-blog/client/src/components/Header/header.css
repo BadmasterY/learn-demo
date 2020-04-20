@@ -18,7 +18,7 @@
     float: left;
 }
 
-h1 {
+.header h1 {
     display: inline-block;
     max-width: 170px;
     padding: 0 20px;

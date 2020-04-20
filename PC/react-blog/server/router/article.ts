@@ -8,9 +8,10 @@ import { Articles } from '../interfaces/models';
 import { toObjectId } from '../db/base/Plugin';
 import {
     PublishRequest,
-    GetRequest,
+    GetListRequest,
     GetResult,
     GetResponse,
+    GetRequest,
 } from '../interfaces/articles';
 
 const router = new Router();
@@ -40,7 +41,7 @@ router.post('/publish', async (ctx, next) => {
 });
 
 router.post('/getArticleList', async (ctx, next) => {
-    const getrequest: GetRequest = ctx.request.body;
+    const getrequest: GetListRequest = ctx.request.body;
     const { page, pageSize, query } = getrequest;
 
     const skip = (page - 1) * pageSize;
@@ -74,13 +75,13 @@ router.post('/getArticleList', async (ctx, next) => {
             ]).then(result => {
                 const getResult = (result as GetResult[]);
                 const resResult: GetResponse[] = [];
-                for(let i = 0; i < getResult.length; i++) {
+                for (let i = 0; i < getResult.length; i++) {
                     const { nickname, username, bio, url } = getResult[i].author[0];
                     let res: GetResponse = Object.assign({}, getResult[i], {
                         author: {
-                            bio, 
-                            url, 
-                            nickname, 
+                            bio,
+                            url,
+                            nickname,
                             username,
                         }
                     });
@@ -104,6 +105,62 @@ router.post('/getArticleList', async (ctx, next) => {
         response.msg = '服务器异常!';
         console.log(`[Article] ${getDate()} getArticleList Error...`);
     }
+
+    ctx.response.body = response;
+});
+
+router.post('/getArticle', async (ctx, next) => {
+    const getrequest: GetRequest = ctx.request.body;
+    const { id } = getrequest;
+
+    console.log(`[Article] ${getDate()} getArticle: ${id}`);
+
+    const response: Response = { error: 1 };
+
+    await await articles.aggregate([
+        { $match: { removed: 0, _id: toObjectId(id) } },
+        {
+            $lookup: {
+                from: "users",
+                localField: "authorId",
+                foreignField: "_id",
+                as: "author",
+            }
+        },
+        {
+            $lookup: {
+                from: "comments",
+                localField: "_id",
+                foreignField: "articleId",
+                as: "comments",
+            }
+        }
+    ])
+        .then(result => {
+            const getResult = (result as GetResult[]);
+
+            if (getResult.length === 1) {
+                response.error = 0;
+                const { nickname, username, bio, url } = getResult[0].author[0];
+                const res: GetResponse = Object.assign({}, getResult[0], {
+                    author: {
+                        bio,
+                        url,
+                        nickname,
+                        username,
+                    }
+                });
+                response.content = res;
+            } else if (getResult.length === 0) {
+                response.msg = '未找到该文章!';
+            } else {
+                response.msg = '获取文章异常!';
+            }
+        })
+        .catch(err => {
+            response.msg = '服务器异常!';
+            console.log(`[Article] ${getDate()} getArticle Error:`, err);
+        });
 
     ctx.response.body = response;
 });

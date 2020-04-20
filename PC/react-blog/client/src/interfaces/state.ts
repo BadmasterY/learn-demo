@@ -5,7 +5,7 @@ import { State as ArticaleState } from './articale';
 interface State {
     user: UserState;
     comment: CommentState;
-    articale: ArticaleState;
+    article: ArticaleState;
 }
 
 export type reduxState = State;

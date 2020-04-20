@@ -34,45 +34,6 @@ interface UserListResponse extends BaseResponse {
     content?: UserListContent;
 }
 
-interface ArticleBlocksItem {
-    key: string;
-    text: string;
-    type: string;
-    depth: number;
-    inlineStyleRanges: {
-        offset: number;
-        length: number;
-        style: string;
-    }[];
-    entityRanges: {
-        offset: number;
-        length: number;
-        key: number;
-    }[];
-}
-
-interface ArticleEntityMap {
-    [key: number]: {
-        type: string;
-        mutability: string;
-        data: {
-            url: string;
-            name: string;
-            type: string;
-            link?: string;
-            link_target?: string;
-            width?: string;
-            height?: string;
-            meta?: string;
-        }
-    }
-}
-
-interface ArticleContentItem {
-    blocks: ArticleBlocksItem[];
-    entityMap: ArticleEntityMap;
-}
-
 interface ArticleListItem {
     _id: string;
     authorId: string;
@@ -83,25 +44,29 @@ interface ArticleListItem {
         username: string;
     };
     title: string;
-    content: ArticleContentItem;
+    content: string;
     removed: number;
     createTime: string;
     updatedAt: string;
 }
 
-interface ArticleContent {
+interface ArticleListContent {
     maxLength: number;
     articles?: ArticleListItem[];
 }
 
+interface ArticleListResponse extends BaseResponse {
+    content?: ArticleListContent;
+}
+
 interface ArticleResponse extends BaseResponse {
-    content?: ArticleContent;
+    content?: ArticleListItem;
 }
 
 export type Response = BaseResponse;
 export type UserRes = UserResponse;
 export type UserList = UserListResponse;
 export type ListContent = UserListItem;
-export type ArticleRes = ArticleResponse;
+export type ArticleListRes = ArticleListResponse;
 export type ArticleItem = ArticleListItem;
-export type ArticleCon = ArticleContentItem;
+export type ArticleRes = ArticleResponse;

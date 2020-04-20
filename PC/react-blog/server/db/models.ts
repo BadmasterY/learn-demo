@@ -20,11 +20,19 @@ const Users = createModel('users', {
 const Articles = createModel('articles', {
     authorId: Schema.Types.ObjectId,
     title: String,
-    content: Object,
+    content: String,
+    removed: Number,
+});
+
+const Comments = createModel('comments', {
+    articleId: Schema.Types.ObjectId,
+    title: String,
+    content: String,
     removed: Number,
 });
 
 export {
     Users,
     Articles,
+    Comments,
 }

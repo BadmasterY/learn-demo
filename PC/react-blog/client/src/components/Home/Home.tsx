@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Skeleton, List, Tooltip, message } from 'antd';
+import { Skeleton, List, Tooltip, Typography, message } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import axois from 'axios';
 
-import { ArticleRes, ArticleItem } from '../../interfaces/response';
-import Parser from '../Parser/Parser';
+import { ArticleListRes, ArticleItem } from '../../interfaces/response';
 import { content } from '../../config/default.json';
 
 import './home.css';
 
+const { Paragraph } = Typography;
 const { pageSize, pageSizeOptions } = content;
 const articales: ArticleItem[] = [];
 
@@ -28,7 +28,7 @@ function Home() {
             pageSize,
             query: {}
         }).then(result => {
-            const data: ArticleRes = result.data;
+            const data: ArticleListRes = result.data;
             const { error, msg, content } = data;
 
             setLoading(false);
@@ -84,7 +84,7 @@ function Home() {
                                 // avatar={<Avatar size="large">{item.author.nickname}</Avatar>}
                                 title={<Link
                                     className="home-title"
-                                    to={`/article/${item.title}?author=${item.author.nickname}&&article_id=${item._id}`}
+                                    to={`/article/${item.title}?article_id=${item._id}`}
                                 >
                                     {item.title}
                                 </Link>
@@ -98,10 +98,20 @@ function Home() {
                                     </Tooltip>
                                 </p>}
                             />
-                            <Parser content={item.content} isDesc={true} />
+                            <Paragraph
+                                ellipsis={{
+                                    rows: 3,
+                                }}
+                            >
+                                {
+                                    // TODO
+                                    // parser the html json
+                                    <div dangerouslySetInnerHTML={{ __html: item.content }}></div>
+                                }
+                            </Paragraph>
                             <Link
                                 className="home-readmore"
-                                to={`/article/${item.title}?author=${item.author.nickname}&&article_id=${item._id}`}
+                                to={`/article/${item.title}?article_id=${item._id}`}
                             >Read More...</Link>
                         </List.Item>
                     )}
