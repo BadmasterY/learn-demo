@@ -18,6 +18,10 @@ interface Props {
 function CommentList(props: Props) {
     const { comments } = props;
 
+    function showAuthor(author: {id: string, nickname: string}) {
+        console.log(author);
+    }
+
     return (
         <List
             className="comment-list"
@@ -27,9 +31,9 @@ function CommentList(props: Props) {
             renderItem={({ author, avatar, content, datetime }) => {
                 return (<Comment
                     author={author.nickname}
-                    avatar={<Avatar>{avatar}</Avatar>}
-                    content={<div dangerouslySetInnerHTML={{__html: content}}></div>}
-                    datetime={new Date(datetime).toLocaleString()}
+                    avatar={<div onClick={() => { showAuthor(author) }}><Avatar>{avatar}</Avatar></div>}
+                    content={<p className="comment-content">{content}</p>}
+                    datetime={datetime}
                 />);
             }}
         />

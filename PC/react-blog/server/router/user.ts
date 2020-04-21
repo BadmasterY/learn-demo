@@ -1,6 +1,6 @@
 import Router from 'koa-router';
 
-import { users } from '../db';
+import { users, articles, comments } from '../db';
 
 import { getDate, dataType } from '../utils/util';
 import { Response } from '../interfaces/response';
@@ -9,9 +9,10 @@ import {
     List as UserList,
     RegisterRequest as Register,
     ResetpassRequest as Reset,
-    GetRequest, 
-    DeleteRequest, 
-    UpdateRequest 
+    GetRequest,
+    DeleteRequest,
+    UpdateRequest,
+    UserInfoRequest,
 } from '../interfaces/users';
 
 const router = new Router();
@@ -26,7 +27,7 @@ router.post('/login', async (ctx, next) => {
         if (result) {
             if (typeof result == 'object') {
                 const { _id, url, bio, nickname, username, position, useState, removed } = (result as Users);
-                if(useState === 1 && removed === 0) {
+                if (useState === 1 && removed === 0) {
                     if ((result as Users).password === password) {
                         response.error = 0;
                         response.content = {
@@ -41,7 +42,7 @@ router.post('/login', async (ctx, next) => {
                         response.msg = '密码错误!';
                         console.log(`[User] ${getDate()} login error:`, response.msg);
                     }
-                }else {
+                } else {
                     response.msg = removed === 1 ? '当前用户不存在!' : '当前账户未启用!';
                     console.log(`[User] ${getDate()} login error:`, response.msg);
                 }
@@ -170,13 +171,13 @@ router.post('/getUserList', async (ctx, next) => {
 
     const response: Response = { error: 1 };
 
-    const allResult = await users.findAll({removed: 0, ...query});
+    const allResult = await users.findAll({ removed: 0, ...query });
     if (dataType(allResult) === 'Array') {
         response.content = {
             maxLength: (allResult as Users[]).length,
         }
 
-        await users.findAll({removed: 0, ...query}, null, { skip: skipSize, limit: pageSize }).then(result => {
+        await users.findAll({ removed: 0, ...query }, null, { skip: skipSize, limit: pageSize }).then(result => {
             if (result !== undefined && result !== null) {
                 const temp: UserList[] = [];
                 const res = (result as Users[]);
@@ -220,12 +221,12 @@ router.post('/deleteUser', async (ctx, next) => {
 
     const response: Response = { error: 1 };
 
-    await users.updateOne({_id: id}, {removed: 1}).then(result => {
-        const { ok } = (result as {ok: number});
+    await users.updateOne({ _id: id }, { removed: 1 }).then(result => {
+        const { ok } = (result as { ok: number });
 
-        if(ok === 1) {
+        if (ok === 1) {
             response.error = 0;
-        }else {
+        } else {
             response.msg = '删除失败!';
             console.log(`[User] ${getDate()} login error:`, response.msg);
         }
@@ -245,12 +246,12 @@ router.post('/updateUser', async (ctx, next) => {
 
     const response: Response = { error: 1 };
 
-    await users.updateOne({_id: id}, updateUserData).then(result => {
-        const { ok } = (result as {ok: number});
+    await users.updateOne({ _id: id }, updateUserData).then(result => {
+        const { ok } = (result as { ok: number });
 
-        if(ok === 1) {
+        if (ok === 1) {
             response.error = 0;
-        }else {
+        } else {
             response.msg = '更新失败!';
             console.log(`[User] ${getDate()} login error:`, response.msg);
         }
@@ -258,7 +259,37 @@ router.post('/updateUser', async (ctx, next) => {
         response.msg = '更新失败, 请稍后重试!';
         console.log(`[User] ${getDate()} updateUser Error:`, err);
     });
-    
+
+    ctx.response.body = response;
+});
+
+router.post('/getUserInfo', async (ctx, next) => {
+    const updateUser: UserInfoRequest = ctx.request.body;
+    const { id } = updateUser;
+
+    console.log(`[User] ${getDate()} getUserInfo: ${id}`);
+
+    const response: Response = { error: 1 };
+
+    const articleResult = await articles.findAll({ removed: 0, authorId: id });
+    const commentResult = await comments.findAll({ removed: 0 }, 'author');
+
+    if(dataType(articleResult) === 'Array' && dataType(commentResult) === 'Array') {
+        let comments = 0;
+        (commentResult as {author: { id: string}}[]).map(item => {
+            if(item.author.id == id) comments++;
+        });
+
+        response.error = 0;
+        response.content = {
+            articles: (articleResult as []).length,
+            comments,
+        }
+    }else {
+        response.msg = '服务器异常!';
+        console.log(`[User] ${getDate()} getUserInfo Error`);
+    }
+
     ctx.response.body = response;
 });
 

@@ -63,6 +63,31 @@
                 "title": "State",
                 "dataIndex": "useState",
                 "key": "state"
+            },
+            "title": {
+                "title": "Title",
+                "dataIndex": "title",
+                "key": "title"
+            },
+            "content": {
+                "title": "Content",
+                "dataIndex": "content",
+                "key": "content"
+            },
+            "author": {
+                "title": "Author",
+                "dataIndex": "author",
+                "key": "author"
+            },
+            "createTime": {
+                "title": "CreateTime",
+                "dataIndex": "createTime",
+                "key": "createtime"
+            },
+            "updatedAt": {
+                "title": "UpdatedAt",
+                "dataIndex": "updatedAt",
+                "key": "updatedat"
             }
         }
     }

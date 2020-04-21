@@ -1,5 +1,4 @@
 import { Users } from './models';
-import { type } from 'os';
 
 interface UserList {
     id?: string;
@@ -36,6 +35,10 @@ interface UpdateUserRequest {
     updateUserData: Users;
 }
 
+interface UserInfoRequest {
+    id: string;
+}
+
 export {
     UserList as List,
     GetUsersRequest as GetRequest,
@@ -43,4 +46,5 @@ export {
     UpdateUserRequest as  UpdateRequest,
     RegisterUserRequest as RegisterRequest,
     ResetpassUserRequest as ResetpassRequest,
+    UserInfoRequest,
 }

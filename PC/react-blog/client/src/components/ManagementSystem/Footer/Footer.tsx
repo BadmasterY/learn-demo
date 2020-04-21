@@ -9,7 +9,7 @@ function SystemFooter() {
     return (
         <Footer className="system-footer">
             <p>Created by <a target="_blank" rel="noopener noreferrer" href="https://badmastery.github.io/me">Badmaster</a></p>
-            <p>Created 2020</p>
+            <p>Created {new Date().getFullYear()}</p>
         </Footer>
     )
 }

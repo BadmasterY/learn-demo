@@ -3,6 +3,7 @@ import { Table, message, Row, Col, Button, Form, Input, Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
+import { showDeleteFn } from '../Delete/Delete';
 import { UserList, ListContent, UserRes } from '../../../interfaces/response';
 import { system } from '../../../config/default.json';
 
@@ -144,18 +145,6 @@ function Users() {
         if (pageSize) loadUserList(page, pageSize);
     }
 
-    function showDeleteFn(record: ListContent) {
-        confirm({
-            title: 'Do you want to delete this item?',
-            icon: <ExclamationCircleOutlined />,
-            content: 'Are you sure you want to delete it? It will not be recovered after deletion!',
-            okText: 'Yes',
-            okType: 'danger',
-            cancelText: 'No',
-            onOk: () => { deleteOkFn(record) },
-        });
-    }
-
     useEffect(() => {
         if (!firstLoad) return;
         loadUserList(initialPage, initialPageSize);
@@ -196,7 +185,7 @@ function Users() {
                         <Button 
                             block 
                             onClick={() => { 
-                                showDeleteFn(record);
+                                showDeleteFn(record, deleteOkFn);
                             }} 
                         >Delete</Button>
                     </Col>

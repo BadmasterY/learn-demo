@@ -62,7 +62,7 @@ class Dao{
      * @param {Object | String} projection 可选, 要返回的字段, 默认 null
      * @param {Object} options 可选, 选项, 默认 {}
      */
-    findAll(filter = {}, projection = null, options = {}) {
+    findAll(filter = {}, projection: null | string = null, options = {}) {
         return new Promise((resolve, reject) => {
             // find 方法获取数据
             // 详情: https://mongoosejs.com/docs/api/model.html#model_Model.find

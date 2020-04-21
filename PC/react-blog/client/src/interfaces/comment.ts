@@ -1,5 +1,6 @@
 interface List {
     id?: string;
+    articleId: string;
     author: {
         id: string;
         nickname: string;

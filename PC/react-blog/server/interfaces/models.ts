@@ -25,7 +25,20 @@ interface Articles extends modelBase {
     removed: number;
 }
 
+interface Comments extends modelBase {
+    articleId: Schema.Types.ObjectId;
+    content: string;
+    author: {
+        id: Schema.Types.ObjectId;
+        nickname: string;
+    };
+    removed: number;
+    datetime: string;
+    avatar: string;
+}
+
 export {
     Users,
     Articles,
+    Comments,
 }

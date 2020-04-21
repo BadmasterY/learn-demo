@@ -1,4 +1,4 @@
-import { Users, Articles } from './models';
+import { Users, Articles, Comments } from './models';
 
 /**
  * Publish article
@@ -23,7 +23,8 @@ interface GetArticleListRequest {
  * Use 'articles.aggregate' result
  */
 interface GetArticleListResult extends Articles {
-    author: Users[]
+    author: Users[],
+    comments: Comments[],
 }
 
 /**
@@ -94,6 +95,24 @@ interface GetArticleRequest {
     id: string;
 }
 
+interface GetArticlesRequest extends GetArticleListRequest {};
+
+interface GetArticlesResult extends Articles {
+    author: Users[],
+}
+
+interface GetArticlesResponse {
+    id?: string;
+    title: string;
+    author: string;
+    createTime?: string;
+    updatedAt?: string;
+}
+
+interface DeleteArticleRequest {
+    id: string;
+}
+
 export {
     PublishArticleRequest as PublishRequest,
     GetArticleListRequest as GetListRequest,
@@ -101,4 +120,8 @@ export {
     GetArticleListResponse as GetResponse,
     ArticleContentItem as ArticleContent,
     GetArticleRequest as GetRequest,
+    GetArticlesRequest as GetArticles,
+    GetArticlesResult,
+    GetArticlesResponse,
+    DeleteArticleRequest as DeleteRequest,
 }

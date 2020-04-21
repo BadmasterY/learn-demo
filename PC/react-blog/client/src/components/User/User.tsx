@@ -13,28 +13,57 @@ import {
     Statistic, 
     Divider,
     Modal,
+    message,
 } from 'antd';
+import axios from 'axios';
 
 import Publish from '../Publish/Publish';
 import ResetPassword from '../ResetPassword/ResetPassword';
 import { reduxState } from '../../interfaces/state';
-import { } from '../../interfaces/user';
+import { UserInfoResult } from '../../interfaces/response';
 
 import './user.css';
 
 const { Title, Paragraph } = Typography;
 
 function User() {
-    const { isLogin, username, nickname, bio, url, position } = useSelector((item: reduxState) => item.user);
+    const { isLogin, id, username, nickname, bio, url, position } = useSelector((item: reduxState) => item.user);
+    const [ firstLoad, setFirstLoad ] = useState(true);
     const [ loading, setLoading ] = useState(true);
     const [ resetPass, setResetPass ] = useState(false);
     const [ publish, setPublish ] = useState(false);
+    const [ articles, setArctiles ] = useState(0);
+    const [ comments, setComments ] = useState(0);
 
     useEffect(() => {
-        const timer = setTimeout(() => setLoading(false), 1500);
-
-        return () => {clearTimeout(timer)};
+        if(isLogin&&firstLoad) loadUserInformation();
     });
+
+    async function loadUserInformation() {
+        setFirstLoad(false);
+
+        await axios.post('/user/getUserInfo', { id }).then(result => {
+            const data: UserInfoResult = result.data;
+            const { error, msg, content } = data;
+
+            setLoading(false);
+
+            if(error === 1) {
+                message.error(msg);
+                return;
+            }
+
+            if(content) {
+                const { comments, articles } = content;
+
+                setArctiles(articles);
+                setComments(comments);
+            }
+        }).catch(err => {
+            message.error('Please check network!');
+            console.log(err);
+        });
+    }
 
     function resetPassword() {
         setResetPass(true);
@@ -90,12 +119,12 @@ function User() {
                             <Row gutter={[16, 16]}>
                                 <Col xs={24} sm={24} md={12} xxl={6}>
                                     <Card>
-                                        <Statistic title="Articales" value={10} />
+                                        <Statistic title="Articales" value={articles} />
                                     </Card>
                                 </Col>
                                 <Col xs={24} sm={24} md={12} xxl={6}>
                                     <Card>
-                                        <Statistic title="Comments" value={1100} />
+                                        <Statistic title="Comments" value={comments} />
                                     </Card>
                                 </Col>
                             </Row>

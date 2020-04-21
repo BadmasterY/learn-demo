@@ -6,7 +6,8 @@ import axios from 'axios';
 
 import Comment from '../Comment/Comment';
 import { ArticleRes } from '../../interfaces/response';
-import { actions } from '../../redux/ducks/article';
+import { actions as articleActions } from '../../redux/ducks/article';
+import { actions as commentActions } from '../../redux/ducks/comment';
 import { reduxState } from '../../interfaces/state';
 
 import './article.css';
@@ -34,8 +35,11 @@ function Article() {
             }
 
             if (content) {
-                const action = actions.articaleGet(content);
-                dispatch(action);
+                const { comments } = content;
+                const arctileAction = articleActions.articaleGet(content);
+                dispatch(arctileAction);
+                const commentAction = commentActions.commentGet(comments);
+                dispatch(commentAction);
             }
         }).catch(err => {
             message.error('Please check network!');

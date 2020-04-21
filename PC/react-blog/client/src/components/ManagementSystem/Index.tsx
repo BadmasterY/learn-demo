@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 import Header from './Header/Header';
 import Sider from './Sider/Sider';
 import Articles from './Articles/Articles';
+import Comments from './Comments/Comments';
 import Users from './Users/Users';
 import Footer from './Footer/Footer';
 
@@ -49,7 +50,7 @@ function System() {
                                 }
                                 {
                                     selectItem === 'comments' ?
-                                        <>Comments</> : ''
+                                        <Comments /> : ''
                                 }
                                 {
                                     selectItem === 'users' ?

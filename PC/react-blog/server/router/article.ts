@@ -12,6 +12,10 @@ import {
     GetResult,
     GetResponse,
     GetRequest,
+    GetArticles,
+    GetArticlesResult,
+    GetArticlesResponse,
+    DeleteRequest,
 } from '../interfaces/articles';
 
 const router = new Router();
@@ -40,6 +44,9 @@ router.post('/publish', async (ctx, next) => {
     ctx.response.body = response;
 });
 
+/**
+ * 首页加载
+ */
 router.post('/getArticleList', async (ctx, next) => {
     const getrequest: GetListRequest = ctx.request.body;
     const { page, pageSize, query } = getrequest;
@@ -109,6 +116,9 @@ router.post('/getArticleList', async (ctx, next) => {
     ctx.response.body = response;
 });
 
+/**
+ * 详细页加载
+ */
 router.post('/getArticle', async (ctx, next) => {
     const getrequest: GetRequest = ctx.request.body;
     const { id } = getrequest;
@@ -117,7 +127,7 @@ router.post('/getArticle', async (ctx, next) => {
 
     const response: Response = { error: 1 };
 
-    await await articles.aggregate([
+    await articles.aggregate([
         { $match: { removed: 0, _id: toObjectId(id) } },
         {
             $lookup: {
@@ -161,6 +171,94 @@ router.post('/getArticle', async (ctx, next) => {
             response.msg = '服务器异常!';
             console.log(`[Article] ${getDate()} getArticle Error:`, err);
         });
+
+    ctx.response.body = response;
+});
+
+/**
+ * 后台管理获取信息
+ */
+router.post('/getArticles', async (ctx, next) => {
+    const getrequest: GetArticles = ctx.request.body;
+    const { page, pageSize, query } = getrequest;
+
+    const skipSize = (page - 1) * pageSize;
+
+    console.log(`[Article] ${getDate()} getArticles`);
+
+    const response: Response = { error: 1 };
+
+    const allResult = await articles.findAll({ removed: 0, ...query });
+
+    if (dataType(allResult) === 'Array') {
+        response.content = {
+            maxLength: (allResult as Articles[]).length,
+        };
+
+        await articles.aggregate([
+            { $match: { removed: 0 } },
+            { $skip: skipSize },
+            { $limit: pageSize },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "authorId",
+                    foreignField: "_id",
+                    as: "author",
+                }
+            }
+        ]).then(result => {
+            const articlesArr = (result as GetArticlesResult[]);
+            const content: GetArticlesResponse[] = [];
+
+            for (let i = 0; i < articlesArr.length; i++) {
+                const item = articlesArr[i];
+                content.push({
+                    id: item._id,
+                    title: item.title,
+                    author: item.author[0].nickname,
+                    createTime: item.createTime,
+                    updatedAt: item.updatedAt,
+                });
+            }
+
+            response.error = 0;
+            response.content = {
+                articles: content,
+                ...response.content,
+            };
+        }).catch(err => {
+            response.msg = '获取数据失败!';
+            console.log(`[Article] ${getDate()} getArticles Error`, err);
+        })
+    } else {
+        response.msg = '服务器异常!';
+        console.log(`[Article] ${getDate()} getArticles Error`);
+    }
+
+    ctx.response.body = response;
+});
+
+router.post('/deletArticle', async (ctx, next) => {
+    const getrequest: DeleteRequest = ctx.request.body;
+    const { id } = getrequest;
+
+    console.log(`[Article] ${getDate()} deleteArticle: ${id}`);
+
+    const response: Response = { error: 1 };
+
+    await articles.updateOne({_id: id}, { removed: 1 }).then(result => {
+        const { ok } = (result as {ok: number});
+
+        if(ok === 1) {
+            response.error = 0;
+        }else {
+            response.msg = '删除失败!';
+        }
+    }).catch(err => {
+        response.msg = '服务器异常!';
+        console.log(`[Article] ${getDate()} deleteArticle Error:`, err);
+    })
 
     ctx.response.body = response;
 });

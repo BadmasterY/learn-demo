@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Comment, Avatar, message } from 'antd';
 import { FormInstance } from 'antd/lib/form';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 
 import List from '../CommentList/CommentList';
@@ -10,6 +10,7 @@ import Login from '../FastLogin/FastLogin';
 
 import { reduxState } from '../../interfaces/state';
 import { Response } from '../../interfaces/response';
+import { actions } from '../../redux/ducks/comment';
 
 import './comment.css';
 
@@ -19,6 +20,7 @@ function MyComment() {
     const { isLogin, nickname, id } = useSelector((item: reduxState) => item.user);
     const { _id } = useSelector((item: reduxState) => item.article);
     const { list } = useSelector((item: reduxState) => item.comment);
+    const dispatch = useDispatch();
 
     async function onSubmit(form: FormInstance) {
         if (!isLogin) {
@@ -29,16 +31,18 @@ function MyComment() {
         setSubmitting(true);
         await form.validateFields().then(async result => {
             const { commentContent } = result;
-
-            await axios.post('/comment/addComment', {
-                arctileId: _id,
-                content: commentContent,
+            const commentData = {
+                articleId: _id,
+                content: (commentContent as string),
                 author: {
                     id,
                     nickname,
                 },
+                avatar: nickname,
                 datetime: new Date().toLocaleString(),
-            }).then(result => {
+            };
+
+            await axios.post('/comment/addComment', commentData).then(result => {
                 const data: Response = result.data;
                 const { error, msg } = data;
 
@@ -50,6 +54,9 @@ function MyComment() {
                 }
 
                 message.success('Comment!');
+                const action = actions.commentAdd(commentData);
+                dispatch(action);
+                form.resetFields();
             }).catch(err => {
                 setSubmitting(false);
                 message.error('Please check network!');
