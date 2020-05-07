@@ -24,7 +24,7 @@ interface GetArticleListRequest {
  */
 interface GetArticleListResult extends Articles {
     author: Users[],
-    comments: Comments[],
+    comments?: Comments[],
 }
 
 /**

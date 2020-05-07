@@ -10,6 +10,7 @@ import Login from '../FastLogin/FastLogin';
 
 import { reduxState } from '../../interfaces/state';
 import { Response } from '../../interfaces/response';
+import { Comment as UploadComment } from '../../interfaces/comment';
 import { actions } from '../../redux/ducks/comment';
 
 import './comment.css';
@@ -17,7 +18,7 @@ import './comment.css';
 function MyComment() {
     const [isSubmitting, setSubmitting] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
-    const { isLogin, nickname, id } = useSelector((item: reduxState) => item.user);
+    const { isLogin, nickname, id, url, bio } = useSelector((item: reduxState) => item.user);
     const { _id } = useSelector((item: reduxState) => item.article);
     const { list } = useSelector((item: reduxState) => item.comment);
     const dispatch = useDispatch();
@@ -31,13 +32,10 @@ function MyComment() {
         setSubmitting(true);
         await form.validateFields().then(async result => {
             const { commentContent } = result;
-            const commentData = {
+            const commentData: UploadComment = {
                 articleId: _id,
                 content: (commentContent as string),
-                author: {
-                    id,
-                    nickname,
-                },
+                authorId: id,
                 avatar: nickname,
                 datetime: new Date().toLocaleString(),
             };
@@ -54,7 +52,14 @@ function MyComment() {
                 }
 
                 message.success('Comment!');
-                const action = actions.commentAdd(commentData);
+                const action = actions.commentAdd(Object.assign({}, commentData, {
+                    author: [{
+                        id,
+                        nickname,
+                        url,
+                        bio,
+                    }]
+                }));
                 dispatch(action);
                 form.resetFields();
             }).catch(err => {

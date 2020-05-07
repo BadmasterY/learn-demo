@@ -41,7 +41,7 @@ function SystemSider(props: { callback?: Function }) {
             onCollapse={onCollapse}
         >
             <Menu
-                theme='dark'
+                // theme='dark'
                 selectedKeys={[initialSelect]}
                 onClick={changeSelect}
             >

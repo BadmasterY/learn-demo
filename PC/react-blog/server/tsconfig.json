@@ -1,12 +1,15 @@
 {
     "compilerOptions": {
-        "target": "ESNext",
-        "module": "CommonJs",
-        "outDir": "./dist",
+        "target": "es6",
+        "module": "commonjs",
+        "outDir": "dist",
         "rootDir": "./",
         "strict": true,
+        "sourceMap": true,
         "moduleResolution": "node",
         "esModuleInterop": true,
-        "experimentalDecorators": true
+        "allowSyntheticDefaultImports": true,
+        "experimentalDecorators": true,
+        "noImplicitAny": true,
     }
 }

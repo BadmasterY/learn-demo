@@ -1,3 +1,6 @@
+/**
+ * http 配置
+ */
 interface Http {
     host: string;
     port: number;
@@ -7,11 +10,17 @@ interface Http {
     ipv6Only: boolean;
 }
 
+/**
+ * 服务器配置
+ */
 interface Server {
     jsonLimit: string;
     formLimit: string;
 }
 
+/**
+ * 数据库集合配置
+ */
 interface DBReplocaSet {
     name: string;
     members: Array<{
@@ -20,9 +29,21 @@ interface DBReplocaSet {
     }>;
 }
 
+/**
+ * 初始化数据库配置
+ */
+interface InitDB {
+    username: string;
+    password: string;
+    position: string;
+    removed: number;
+    useState: number;
+}
+
+/**
+ * 数据库配置信息
+ */
 interface DB {
-    initUserName: string;
-    initPassWord: string;
     dbname: string;
     user: string;
     pass: string;
@@ -37,6 +58,9 @@ interface DB {
     replicaSet: DBReplocaSet;
 }
 
+/**
+ * schema 配置
+ */
 interface configSchema {
     runSetterOnQuery: boolean;
     timestamps: {
@@ -48,6 +72,7 @@ interface configSchema {
 export {
     Http,
     Server,
+    InitDB,
     DB,
     configSchema,
 }

@@ -1,3 +1,8 @@
 .comment-list .comment-content {
     text-indent: 0;
 }
+
+.comment-list .popover-nickname {
+    color: #000;
+    font-weight: 700;
+}

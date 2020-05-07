@@ -27,10 +27,7 @@ const Articles = createModel('articles', {
 const Comments = createModel('comments', {
     articleId: Schema.Types.ObjectId,
     title: String,
-    author: {
-        id: Schema.Types.ObjectId,
-        nickname: String,
-    },
+    authorId: Schema.Types.ObjectId,
     content: String,
     removed: Number,
     datetime: String,

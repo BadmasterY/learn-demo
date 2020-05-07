@@ -1,4 +1,5 @@
 import { Schema } from 'mongoose';
+import { Users, Comments } from './models';
 
 interface GetCommentsRequset {
     page: number;
@@ -6,15 +7,15 @@ interface GetCommentsRequset {
     query: object;
 }
 
-interface GetCommentsResponse {
-    id?: string;
+interface GetCommentsResult extends Comments {
+    author: Users[];
+}
+
+interface GetCommentsResponse extends Comments {
     author: {
         id: Schema.Types.ObjectId;
         nickname: string;
     };
-    content: string;
-    createTime?: string;
-    updatedAt?: string;
 }
 
 interface DeleteCommentRequest {
@@ -23,6 +24,7 @@ interface DeleteCommentRequest {
 
 export {
     GetCommentsRequset,
+    GetCommentsResult,
     GetCommentsResponse,
     DeleteCommentRequest,
 }

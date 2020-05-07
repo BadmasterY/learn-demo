@@ -46,7 +46,7 @@ function Articles() {
                 setData(content.articles);
             }
         }).catch(err => {
-            message.error('Please check networl!');
+            message.error('Please check network!');
             console.log(err);
         });
     }
@@ -114,6 +114,12 @@ function Articles() {
 
     return (
         <div className="system-articles">
+            <div className="button-box">
+                <Button type="primary" onClick={() => {
+                    setLoadding(true);
+                    loadArticles(initialPage, initialPageSize);
+                }}>Refresh</Button>
+            </div>
             <Table
                 className="articles-table"
                 loading={isLoading}

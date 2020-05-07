@@ -119,6 +119,12 @@ function Comments() {
 
     return (
         <div className="system-comments">
+            <div className="button-box">
+                <Button type="primary" onClick={() => {
+                    setLoadding(true);
+                    loadComments(initialPage, initialPageSize);
+                }}>Refresh</Button>
+            </div>
             <Table
                 className="users-table"
                 loading={isLoading}

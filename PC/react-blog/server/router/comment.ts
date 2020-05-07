@@ -7,6 +7,7 @@ import { Response } from '../interfaces/response';
 import { Comments } from '../interfaces/models';
 import {
     GetCommentsRequset,
+    GetCommentsResult,
     GetCommentsResponse,
     DeleteCommentRequest,
 } from '../interfaces/comments';
@@ -48,33 +49,35 @@ router.post('/getComments', async (ctx, next) => {
 
     if (dataType(allResult) === 'Array') {
         response.content = {
-            maxLength: (allResult as Comments[]).length,
+            maxLength: allResult.length,
         };
 
-        await comments.findAll(
+        await comments.aggregate([
+            { $match: { removed: 0, ...query } },
+            { $skip: skipSize },
+            { $limit: pageSize },
             {
-                removed: 0,
-                ...query
-            },
-            null,
-            {
-                skip: skipSize,
-                limit: pageSize
-            }).then(result => {
-                const commentArr = (result as Comments[]);
+                $lookup: {
+                    from: "users",
+                    localField: "authorId",
+                    foreignField: "_id",
+                    as: "author",
+                }
+            }
+        ]).then(result => {
+                const commentArr = (result as GetCommentsResult[]);
                 const comments: GetCommentsResponse[] = [];
 
-                for (let i = 0; i < commentArr.length; i++) {
-                    const item = commentArr[i];
-                    comments.push({
-                        id: item._id,
-                        author: item.author,
-                        content: item.content,
-                        createTime: item.createTime,
-                        updatedAt: item.updatedAt,
+                for(let i = 0; i < commentArr.length; i++) {
+                    comments[i] = Object.assign({}, commentArr[i], {
+                        id: commentArr[i]._id,
+                        author: {
+                            id: commentArr[i].authorId,
+                            nickname: commentArr[i].author[0].nickname,
+                        }
                     });
                 }
-
+                
                 response.error = 0;
                 response.content = {
                     comments,

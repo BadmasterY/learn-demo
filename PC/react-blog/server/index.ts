@@ -3,6 +3,9 @@ import Koa from 'koa';
 import KoaBody from 'koa-bodyparser';
 import cors from 'koa2-cors';
 import config from 'config';
+import staticServe from 'koa-static';
+import mount from 'koa-mount';
+import path from 'path';
 
 import { Http, Server } from './interfaces/config';
 import { routes } from './router';
@@ -17,6 +20,7 @@ app.use(KoaBody({
     jsonLimit: serverConfig.jsonLimit, // 控制body的parse转换大小 default 1mb
     formLimit: serverConfig.formLimit  //  控制你post的大小  default 56kb
 }));
+app.use(mount('/public', staticServe(path.join(__dirname, 'public'))));
 app.use(routes);
 
 app.on('error', error => {

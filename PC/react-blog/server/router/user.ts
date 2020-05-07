@@ -272,20 +272,15 @@ router.post('/getUserInfo', async (ctx, next) => {
     const response: Response = { error: 1 };
 
     const articleResult = await articles.findAll({ removed: 0, authorId: id });
-    const commentResult = await comments.findAll({ removed: 0 }, 'author');
+    const commentResult = await comments.findAll({ removed: 0, authorId: id });
 
-    if(dataType(articleResult) === 'Array' && dataType(commentResult) === 'Array') {
-        let comments = 0;
-        (commentResult as {author: { id: string}}[]).map(item => {
-            if(item.author.id == id) comments++;
-        });
-
+    if (dataType(articleResult) === 'Array' && dataType(commentResult) === 'Array') {
         response.error = 0;
         response.content = {
-            articles: (articleResult as []).length,
-            comments,
+            articles: articleResult.length,
+            comments: commentResult.length,
         }
-    }else {
+    } else {
         response.msg = '服务器异常!';
         console.log(`[User] ${getDate()} getUserInfo Error`);
     }

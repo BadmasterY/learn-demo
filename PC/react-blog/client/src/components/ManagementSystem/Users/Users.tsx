@@ -212,7 +212,7 @@ function Users() {
                     </Col>
                 </Row>
                 <Row>
-                    <Col span={24} style={{ textAlign: 'right' }}>
+                    <Col span={24} className="button-box">
                         <Button
                             type="primary"
                             onClick={searchByUsername}

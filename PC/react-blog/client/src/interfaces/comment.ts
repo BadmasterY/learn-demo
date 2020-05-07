@@ -1,13 +1,19 @@
-interface List {
+interface UploadComment {
     id?: string;
     articleId: string;
-    author: {
-        id: string;
-        nickname: string;
-    };
+    authorId: string;
     avatar: string;
     content: string;
     datetime: string;
+}
+
+interface List extends UploadComment {
+    author: {
+        id: string;
+        nickname: string;
+        bio: string;
+        url: string;
+    }[];
     createTime?: string;
     updatedAt?: string;
 }
@@ -26,3 +32,4 @@ interface CommentAction {
 export type Action = CommentAction;
 export type State = CommentState;
 export type Payload = CommentPayload;
+export type Comment = UploadComment;

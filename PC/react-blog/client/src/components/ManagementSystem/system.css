@@ -7,5 +7,24 @@
 .system-content {
     overflow-x: hidden;
     overflow-y: auto;
-    padding-top: 20px;
+    padding: 20px 35px 0 35px;
+}
+
+.system-content thead>tr>th {
+    padding: 16px;
+    background: #fafafa;
+    border-bottom: 1px solid #f0f0f0;
+    font-weight: 500;
+    color: rgba(0, 0, 0, .85);
+    transition: background .3s ease;
+}
+
+.system-content .button-box {
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.system .ant-layout-sider-zero-width-trigger {
+    background-color: rgba(255, 255, 255, 0.5);
+    color: #000;
 }

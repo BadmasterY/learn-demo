@@ -9,6 +9,7 @@ import Articles from './Articles/Articles';
 import Comments from './Comments/Comments';
 import Users from './Users/Users';
 import Footer from './Footer/Footer';
+import Setting from './Setting/Setting';
 
 import { reduxState } from '../../interfaces/state';
 import { system } from '../../config/default.json';
@@ -58,7 +59,7 @@ function System() {
                                 }
                                 {
                                     selectItem === 'setting' ?
-                                        <>Setting</> : ''
+                                        <Setting /> : ''
                                 }
                                 <Footer />
                             </Content>

@@ -5,9 +5,9 @@ import { md5 } from '../../utils/md5';
 
 import config from 'config';
 
-import { DB } from '../../interfaces/config';
+import { InitDB } from '../../interfaces/config';
 
-const dbConfig: DB = config.get('db');
+const initConfig: InitDB = config.get('initDB');
 
 /**
  * 转换为 objectId
@@ -26,18 +26,12 @@ async function onConectedFn(users: Dao) {
     const result = (await users.findAll() as Users[]);
     if (result.length === 0) {
         const {
-            initUserName: username,
-            initPassWord: password,
-        } = dbConfig;
-        
-        await users.save({ 
-            username, 
-            password: md5(password),
-            position: "管理员",
-            removed: 0,
-            useState: 1,
-        });
-        
+            username,
+            password,
+        } = initConfig;
+
+        await users.save(Object.assign({}, initConfig, { password: md5(password) }));
+
         console.log(`[DB] Init username: ${username}`);
         console.log(`[DB] Init password: ${password}`);
     }

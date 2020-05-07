@@ -1,6 +1,6 @@
 import Router from 'koa-router';
 
-import { articles } from '../db';
+import { articles, comments } from '../db';
 
 import { getDate, dataType } from '../utils/util';
 import { Response } from '../interfaces/response';
@@ -17,6 +17,7 @@ import {
     GetArticlesResponse,
     DeleteRequest,
 } from '../interfaces/articles';
+import { Users } from '../interfaces/models';
 
 const router = new Router();
 
@@ -127,6 +128,18 @@ router.post('/getArticle', async (ctx, next) => {
 
     const response: Response = { error: 1 };
 
+    const commentsResult = await comments.aggregate([
+        { $match: { removed: 0, articleId: toObjectId(id) } },
+        {
+            $lookup: {
+                from: "users",
+                localField: "authorId",
+                foreignField: "_id",
+                as: "author",
+            }
+        },
+    ]);
+
     await articles.aggregate([
         { $match: { removed: 0, _id: toObjectId(id) } },
         {
@@ -137,14 +150,6 @@ router.post('/getArticle', async (ctx, next) => {
                 as: "author",
             }
         },
-        {
-            $lookup: {
-                from: "comments",
-                localField: "_id",
-                foreignField: "articleId",
-                as: "comments",
-            }
-        }
     ])
         .then(result => {
             const getResult = (result as GetResult[]);
@@ -158,7 +163,8 @@ router.post('/getArticle', async (ctx, next) => {
                         url,
                         nickname,
                         username,
-                    }
+                    },
+                    comments: commentsResult,
                 });
                 response.content = res;
             } else if (getResult.length === 0) {

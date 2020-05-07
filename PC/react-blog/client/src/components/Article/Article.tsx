@@ -49,8 +49,7 @@ function Article() {
 
     useEffect(() => {
         if (isLoading) {
-            const { location } = history;
-            const { search } = location;
+            const { search } = history.location;
             getArticle(search);
         }
     });

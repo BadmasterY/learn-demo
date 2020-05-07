@@ -86,10 +86,12 @@ interface ArticlesResponse extends BaseResponse {
 
 interface CommentsItem {
     id: string;
+    authorId: string;
     author: {
         id: string;
         nickname: string;
     };
+    avatar: string;
     content: string;
     createTime: string;
     updatedAt: string;

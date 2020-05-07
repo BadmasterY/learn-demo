@@ -2,37 +2,49 @@
   "name": "react-blog-server",
   "version": "0.0.1",
   "main": "index.ts",
-  "bin": "index.ts",
+  "bin": "dist/index.js",
   "author": "Mr.",
   "license": "MIT",
+  "pkg": {
+    "scripts": [
+      "config/*.json"
+    ],
+    "assets": [
+      "public/**/*"
+    ]
+  },
   "scripts": {
     "start": "ts-node index.ts",
     "debug": "DEBUG='*' ts-node index.ts",
     "serve": "ts-node-dev index.ts",
-    "build": "pkg package.json --out-path ./dist"
+    "build": "tsc && pkg package.json --out-path ./build"
   },
   "dependencies": {
-    "@types/config": "^0.0.36",
-    "@types/koa": "^2.11.2",
-    "@types/koa-bodyparser": "^4.3.0",
-    "@types/koa-router": "^7.4.0",
-    "@types/koa2-cors": "^2.0.1",
-    "@types/mongoose": "^5.7.7",
-    "@types/node": "^12.12.31",
     "config": "^3.3.0",
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.3.0",
+    "koa-mount": "^4.0.0",
     "koa-router": "^8.0.8",
+    "koa-static": "^5.0.0",
     "koa2-cors": "^2.0.6",
-    "mongoose": "^5.9.6",
-    "ts-node": "^8.8.1",
-    "ts-node-dev": "^1.0.0-pre.44",
-    "typescript": "^3.8.3"
+    "mongoose": "^5.9.6"
   },
   "devDependencies": {
+    "@types/config": "^0.0.36",
+    "@types/koa": "^2.11.2",
+    "@types/koa-bodyparser": "^4.3.0",
+    "@types/koa-mount": "^4.0.0",
+    "@types/koa-router": "^7.4.0",
+    "@types/koa-static": "^4.0.1",
+    "@types/koa2-cors": "^2.0.1",
+    "@types/mongoose": "^5.7.7",
+    "@types/node": "^12.12.31",
     "@typescript-eslint/eslint-plugin": "^2.25.0",
     "@typescript-eslint/parser": "^2.25.0",
     "eslint": "^6.8.0",
-    "pkg": "^4.4.4"
+    "pkg": "4.4.4",
+    "ts-node": "^8.8.1",
+    "ts-node-dev": "^1.0.0-pre.44",
+    "typescript": "^3.8.3"
   }
 }

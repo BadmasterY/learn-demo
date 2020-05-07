@@ -11,9 +11,14 @@
         "jsonLimit": "30mb",
         "formLimit": "5mb"
     },
+    "initDB": {
+        "username": "admin",
+        "password": "admin",
+        "position": "管理员",
+        "removed": 0,
+        "useState": 1
+    },
     "db": {
-        "initUserName": "admin",
-        "initPassWord": "admin",
         "dbname": "react-blog",
         "user": "",
         "pass": "",
