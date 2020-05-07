@@ -21,6 +21,8 @@ interface DBReplocaSet {
 }
 
 interface DB {
+    initUserName: string;
+    initPassWord: string;
     dbname: string;
     user: string;
     pass: string;

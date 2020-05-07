@@ -1,4 +1,13 @@
 import mongoose from 'mongoose';
+import { Dao } from './Dao'
+import { Users } from '../../interfaces/models';
+import { md5 } from '../../utils/md5';
+
+import config from 'config';
+
+import { DB } from '../../interfaces/config';
+
+const dbConfig: DB = config.get('db');
 
 /**
  * 转换为 objectId
@@ -8,6 +17,27 @@ function toObjectId(str: string | number) {
     return mongoose.Types.ObjectId(str);
 }
 
+/**
+ * 初始化连接方法
+ * 用于创建初始账号
+ * @param users 用户实例
+ */
+async function onConectedFn(users: Dao) {
+    const result = (await users.findAll() as Users[]);
+    if (result.length === 0) {
+        const {
+            initUserName: username,
+            initPassWord: password,
+        } = dbConfig;
+        
+        await users.save({ username, password: md5(password) });
+        
+        console.log(`[DB] Init username: ${username}`);
+        console.log(`[DB] Init password: ${password}`);
+    }
+}
+
 export {
     toObjectId,
+    onConectedFn,
 };

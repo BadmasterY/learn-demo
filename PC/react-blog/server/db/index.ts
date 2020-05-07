@@ -5,12 +5,13 @@
 import { connectMongoDB, closeMongoDB } from './base/Mongo';
 import { Users, Articles, Comments } from './models';
 import { Dao } from './base/Dao';
-
-connectMongoDB();
+import { onConectedFn } from './base/Plugin';
 
 const users = new Dao(Users);
 const articles = new Dao(Articles);
 const comments = new Dao(Comments);
+
+connectMongoDB(onConectedFn.bind(null, users));
 
 export {
     users,

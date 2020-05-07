@@ -12,6 +12,8 @@
         "formLimit": "5mb"
     },
     "db": {
+        "initUserName": "admin",
+        "initPassWord": "admin",
         "dbname": "react-blog",
         "user": "",
         "pass": "",

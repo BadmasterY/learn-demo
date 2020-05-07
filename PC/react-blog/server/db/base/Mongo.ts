@@ -77,7 +77,7 @@ function getMongoDBUri() {
 /**
  * 链接数据库
  */
-function connectMongoDB() {
+function connectMongoDB(onConectedFn = () => {}) {
     // 创建链接池, 使用 connect 创建
     // 同时由于 mongoose 存在操作缓存, 不需要等待链接成功就可以使用
     // 当然这样也不会造成错误, 因为 mongoose 会等到链接成功时再执行
@@ -88,6 +88,7 @@ function connectMongoDB() {
     // 链接成功时触发
     db.on('connected', function () {
         console.log(`[DB] Mongoose connected to ${getMongoDBUri()}`);
+        onConectedFn();
     });
 
     // 发生异常时触发
