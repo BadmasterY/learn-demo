@@ -18,7 +18,7 @@ function toObjectId(str: string | number) {
 }
 
 /**
- * 初始化连接方法
+ * 初始化连接方法  
  * 用于创建初始账号
  * @param users 用户实例
  */
@@ -30,7 +30,13 @@ async function onConectedFn(users: Dao) {
             initPassWord: password,
         } = dbConfig;
         
-        await users.save({ username, password: md5(password) });
+        await users.save({ 
+            username, 
+            password: md5(password),
+            position: "管理员",
+            removed: 0,
+            useState: 1,
+        });
         
         console.log(`[DB] Init username: ${username}`);
         console.log(`[DB] Init password: ${password}`);
