@@ -84,11 +84,12 @@ router.post('/getArticleList', async (ctx, next) => {
                 const getResult = (result as GetResult[]);
                 const resResult: GetResponse[] = [];
                 for (let i = 0; i < getResult.length; i++) {
-                    const { nickname, username, bio, url } = getResult[i].author[0];
+                    const { nickname, username, bio, url, avatarUrl } = getResult[i].author[0];
                     let res: GetResponse = Object.assign({}, getResult[i], {
                         author: {
                             bio,
                             url,
+                            avatarUrl,
                             nickname,
                             username,
                         }
@@ -156,11 +157,12 @@ router.post('/getArticle', async (ctx, next) => {
 
             if (getResult.length === 1) {
                 response.error = 0;
-                const { nickname, username, bio, url } = getResult[0].author[0];
+                const { nickname, username, bio, avatarUrl, url } = getResult[0].author[0];
                 const res: GetResponse = Object.assign({}, getResult[0], {
                     author: {
                         bio,
                         url,
+                        avatarUrl,
                         nickname,
                         username,
                     },

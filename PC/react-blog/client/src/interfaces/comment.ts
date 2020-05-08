@@ -10,6 +10,7 @@ interface UploadComment {
 interface List extends UploadComment {
     author: {
         id: string;
+        avatarUrl?: string;
         nickname: string;
         bio: string;
         url: string;

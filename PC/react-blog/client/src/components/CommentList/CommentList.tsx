@@ -10,6 +10,7 @@ interface Props {
         author: {
             id: string;
             nickname: string;
+            avatarUrl?: string;
             url: string;
             bio: string;
         }[];
@@ -36,7 +37,12 @@ function CommentList(props: Props) {
                             <Popover style={{ maxWidth: '80px' }} placement="top" content={
                                 <div style={{ textAlign: 'center' }}>
                                     <div>
-                                        <Avatar shape="square" size={64}>{avatar}</Avatar>
+                                        {
+                                            author[0].avatarUrl && author[0].avatarUrl !== '' ?
+                                                <Avatar src={`/user/${author[0].avatarUrl}`} shape="square" size={64} />
+                                                :
+                                                <Avatar shape="square" size={64}>{avatar}</Avatar>
+                                        }
                                     </div>
                                     <div style={{ fontWeight: 700 }}>{author[0].nickname}</div>
                                     <div style={{ color: 'rgba(0,0,0,0.3)', fontSize: '.8em' }}>{author[0].bio}</div>
@@ -49,7 +55,12 @@ function CommentList(props: Props) {
                                     }</div>
                                 </div>
                             }>
-                                <Avatar>{avatar}</Avatar>
+                                {
+                                    author[0].avatarUrl && author[0].avatarUrl !== '' ?
+                                        <Avatar src={`/user/${author[0].avatarUrl}`} />
+                                        :
+                                        <Avatar >{avatar}</Avatar>
+                                }
                             </Popover>}
                         content={<p className="comment-content">{content}</p>}
                         datetime={datetime}

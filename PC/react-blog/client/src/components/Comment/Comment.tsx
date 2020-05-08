@@ -56,6 +56,7 @@ function MyComment() {
                     author: [{
                         id,
                         nickname,
+                        avatarUrl,
                         url,
                         bio,
                     }]

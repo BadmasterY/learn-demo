@@ -34,6 +34,7 @@ interface GetArticleListResponse extends Articles {
     author: {
         bio: string;
         url: string;
+        avatarUrl: string;
         nickname: string;
         username: string;
     }
