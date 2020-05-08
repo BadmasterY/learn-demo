@@ -9,6 +9,7 @@ import { Schema } from 'mongoose';
 const Users = createModel('users', {
     url: String,
     bio: String,
+    avatarUrl: String,
     nickname: String,
     username: String,
     password: String,

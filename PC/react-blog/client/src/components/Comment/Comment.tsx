@@ -18,7 +18,7 @@ import './comment.css';
 function MyComment() {
     const [isSubmitting, setSubmitting] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
-    const { isLogin, nickname, id, url, bio } = useSelector((item: reduxState) => item.user);
+    const { isLogin, nickname, avatarUrl, id, url, bio } = useSelector((item: reduxState) => item.user);
     const { _id } = useSelector((item: reduxState) => item.article);
     const { list } = useSelector((item: reduxState) => item.comment);
     const dispatch = useDispatch();
@@ -46,7 +46,7 @@ function MyComment() {
 
                 setSubmitting(false);
 
-                if(error === 1) {
+                if (error === 1) {
                     message.error(msg);
                     return;
                 }
@@ -83,7 +83,10 @@ function MyComment() {
             {list.length > 0 && <List comments={list} />}
             <Comment
                 avatar={
-                    <Avatar size="large">{isLogin ? nickname : 'User'}</Avatar>
+                    avatarUrl && avatarUrl !== '' ?
+                        <Avatar src={`/user/${avatarUrl}`} size="large" />
+                        :
+                        < Avatar size="large">{isLogin ? nickname : 'User'}</Avatar>
                 }
                 content={
                     <Editor

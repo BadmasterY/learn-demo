@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, message, Row, Col, Button, Form, Input, Modal } from 'antd';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { Table, message, Row, Col, Button, Form, Input } from 'antd';
 import axios from 'axios';
 
 import { showDeleteFn } from '../Delete/Delete';
@@ -11,7 +10,6 @@ import './users.css';
 
 const { initialPageSize, columns } = system;
 const initialData: any[] = [];
-const { confirm } = Modal;
 
 function Users() {
     const [dataSource, setData] = useState(initialData);

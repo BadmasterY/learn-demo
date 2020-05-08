@@ -13,6 +13,11 @@ router.use('/user', Users);
 router.use('/article', Article);
 router.use('/comment', Comment);
 
+// TODO: 更优雅的路由
+router.get('/*', ctx => {
+    ctx.response.redirect('/');
+});
+
 const routes = router.routes();
 
 export {

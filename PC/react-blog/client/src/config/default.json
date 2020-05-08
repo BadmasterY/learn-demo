@@ -1,5 +1,6 @@
 {
     "blogName": "BAD TIME",
+    "localName": "react-blog",
     "header": [
         {
             "key": "home",
@@ -15,6 +16,9 @@
     "content": {
         "pageSize": 10,
         "pageSizeOptions": ["10", "20", "50"]
+    },
+    "user": {
+        "maxImageSize": 2
     },
     "login": {
         "useVideo": false,

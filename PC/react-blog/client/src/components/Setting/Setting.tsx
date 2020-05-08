@@ -1,18 +1,24 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Avatar, Form, Input, Button, message } from 'antd';
+import { Avatar, Upload, Form, Input, Button, message } from 'antd';
+import { EditOutlined } from '@ant-design/icons'
+import { RcFile } from 'antd/lib/upload';
 import axios from 'axios';
 
 import { Action, Payload } from '../../interfaces/user';
 import { UserRes } from '../../interfaces/response';
 import { reduxState } from '../../interfaces/state';
 import { actions } from '../../redux/ducks/user';
+import { user as UserConfig } from '../../config/default.json';
+import { RcCustomRequestOptions } from 'antd/lib/upload/interface';
 
 import './setting.css';
 
+const { maxImageSize } = UserConfig;
+
 function Setting() {
-    const { isLogin, id, bio, url, nickname, username, position } = useSelector((state: reduxState) => state.user);
+    const { isLogin, id, bio, url, nickname, username, avatarUrl, position } = useSelector((state: reduxState) => state.user);
     const [form] = Form.useForm();
     const [isUpdate, setUpdate] = useState(false);
     const dispacth = useDispatch();
@@ -27,7 +33,7 @@ function Setting() {
         setUpdate(true);
         await form.validateFields().then(async result => {
             const pyload: Payload = result;
-            await axios.post('/user/update', {id, ...result}).then(result => {
+            await axios.post('/user/update', { id, ...result }).then(result => {
                 const data: UserRes = result.data;
                 setUpdate(false);
 
@@ -50,6 +56,44 @@ function Setting() {
         });
     }
 
+    function beforeUpload(file: RcFile) {
+        const isJPGorPNG = file.type === 'image/jpeg' || file.type === 'image/png';
+
+        if (!isJPGorPNG) {
+            message.error('You can only upload JPG/PNG file!');
+            return false;
+        }
+
+        const isLt2M = file.size / 1024 / 1024 < maxImageSize;
+
+        if (!isLt2M) {
+            message.error(`Image must smaller than ${maxImageSize}MB!`);
+            return false;
+        }
+
+        return true;
+    }
+
+    async function uploadFn(options: RcCustomRequestOptions) {
+        const { file, filename } = options;
+
+        const formData = new FormData();
+        formData.append('userId', id);
+        formData.append('file', file);
+        formData.append('filename', filename);
+
+        await axios.post('/user/uploadAvatar', formData).then(result => {
+            console.log(result);
+        }).catch(err => {
+            message.error('Please check network!');
+            console.log(err);
+        })
+    }
+
+    function onUploadChange() {
+
+    }
+
     return (
         <div className="setting-box" key={id}>
             {
@@ -64,9 +108,24 @@ function Setting() {
                             label="Avatar"
                             name="avatar"
                         >
-                            <Avatar shape="square" size="large">
-                                {nickname}
-                            </Avatar>
+                            <Upload
+                                showUploadList={false}
+                                beforeUpload={beforeUpload}
+                                customRequest={uploadFn}
+                                onChange={onUploadChange}
+                            >
+                                {
+                                    avatarUrl && avatarUrl !== '' ?
+                                        <Avatar src={`/user/${avatarUrl}`} shape="square" size={64} />
+                                        :
+                                        <Avatar shape="square" size={64}>
+                                            {nickname}
+                                        </Avatar>
+                                }
+                                <div className="avatar-text">
+                                    <EditOutlined />
+                                </div>
+                            </Upload>
                         </Form.Item>
                         <Form.Item
                             label="Username"

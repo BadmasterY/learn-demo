@@ -39,6 +39,11 @@ interface UserInfoRequest {
     id: string;
 }
 
+interface UserUploadAvatar {
+    userId: string;
+    filename: string;
+}
+
 export {
     UserList as List,
     GetUsersRequest as GetRequest,
@@ -47,4 +52,5 @@ export {
     RegisterUserRequest as RegisterRequest,
     ResetpassUserRequest as ResetpassRequest,
     UserInfoRequest,
+    UserUploadAvatar,
 }

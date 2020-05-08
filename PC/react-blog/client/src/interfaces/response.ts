@@ -70,6 +70,7 @@ interface ArticleResponse extends BaseResponse {
 }
 
 interface ArticlesItem {
+    key?: string;
     id: string;
     title: string;
     author: string;
@@ -85,6 +86,7 @@ interface ArticlesResponse extends BaseResponse {
 }
 
 interface CommentsItem {
+    key?: string;
     id: string;
     authorId: string;
     author: {

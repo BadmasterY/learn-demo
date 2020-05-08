@@ -1,3 +1,6 @@
+import fs from 'fs';
+import path from 'path';
+
 import { ArticleContent } from '../interfaces/articles';
 
 const dataType = (data: any) => {
@@ -20,8 +23,26 @@ const parser = (data: ArticleContent) => {
 
 };
 
+/**
+ * 自动创建目录
+ * @param dirname 目录
+ */
+const mkdirsSync = (dirname: string) => {
+    if (fs.existsSync(dirname)) {
+        return true;
+    } else {
+        if (mkdirsSync(path.dirname(dirname))) {
+            fs.mkdirSync(dirname);
+            return true;
+        }else {
+            return false;
+        }
+    }
+}
+
 export {
     dataType,
     getDate,
     parser,
+    mkdirsSync,
 }

@@ -1,10 +1,13 @@
 import Router from 'koa-router';
+import fs from 'fs';
+import path from 'path';
 
 import { users, articles, comments } from '../db';
 
-import { getDate, dataType } from '../utils/util';
+import { getDate, dataType, mkdirsSync } from '../utils/util';
 import { Response } from '../interfaces/response';
 import { Users } from '../interfaces/models';
+import { Avatar } from '../interfaces/config'
 import {
     List as UserList,
     RegisterRequest as Register,
@@ -13,10 +16,15 @@ import {
     DeleteRequest,
     UpdateRequest,
     UserInfoRequest,
+    UserUploadAvatar,
 } from '../interfaces/users';
 
-const router = new Router();
+import config from 'config';
 
+const router = new Router();
+const avatarConfig: Avatar = config.get('avatar');
+
+// 登录
 router.post('/login', async (ctx, next) => {
     const { username, password } = ctx.request.body;
 
@@ -26,7 +34,7 @@ router.post('/login', async (ctx, next) => {
     await users.findOne({ username }).then(result => {
         if (result) {
             if (typeof result == 'object') {
-                const { _id, url, bio, nickname, username, position, useState, removed } = (result as Users);
+                const { _id, url, bio, nickname, username, avatarUrl, position, useState, removed } = (result as Users);
                 if (useState === 1 && removed === 0) {
                     if ((result as Users).password === password) {
                         response.error = 0;
@@ -34,6 +42,7 @@ router.post('/login', async (ctx, next) => {
                             id: _id,
                             url,
                             bio,
+                            avatarUrl,
                             nickname,
                             username,
                             position,
@@ -58,6 +67,7 @@ router.post('/login', async (ctx, next) => {
     ctx.response.body = response;
 });
 
+// 更新数据
 router.post('/update', async (ctx, next) => {
     const update: Users = ctx.request.body;
     const { id } = update;
@@ -86,12 +96,14 @@ router.post('/update', async (ctx, next) => {
     ctx.response.body = response;
 });
 
+// 注册
 router.post('/register', async (ctx, next) => {
     const register: Register = ctx.request.body;
     const { username } = register;
     const user: Users = Object.assign({
         url: '',
         bio: '',
+        avatarUrl: '',
         position: '用户',
         removed: 0,
         useState: 1,
@@ -122,6 +134,7 @@ router.post('/register', async (ctx, next) => {
     ctx.response.body = response;
 });
 
+// 重置密码
 router.post('/resetPassword', async (ctx, next) => {
     const reset: Reset = ctx.request.body;
     const { id, oldpass, newpass } = reset;
@@ -162,6 +175,7 @@ router.post('/resetPassword', async (ctx, next) => {
     ctx.response.body = response;
 });
 
+// 获取用户列表
 router.post('/getUserList', async (ctx, next) => {
     const getUsers: GetRequest = ctx.request.body;
     const { page, pageSize, query } = getUsers;
@@ -213,6 +227,7 @@ router.post('/getUserList', async (ctx, next) => {
     ctx.response.body = response;
 });
 
+// 删除用户
 router.post('/deleteUser', async (ctx, next) => {
     const deleteUser: DeleteRequest = ctx.request.body;
     const { id } = deleteUser;
@@ -238,6 +253,7 @@ router.post('/deleteUser', async (ctx, next) => {
     ctx.response.body = response;
 });
 
+// 更新用户数据
 router.post('/updateUser', async (ctx, next) => {
     const updateUser: UpdateRequest = ctx.request.body;
     const { id, updateUserData } = updateUser;
@@ -253,7 +269,7 @@ router.post('/updateUser', async (ctx, next) => {
             response.error = 0;
         } else {
             response.msg = '更新失败!';
-            console.log(`[User] ${getDate()} login error:`, response.msg);
+            console.log(`[User] ${getDate()} updateUser error:`, response.msg);
         }
     }).catch(err => {
         response.msg = '更新失败, 请稍后重试!';
@@ -263,6 +279,7 @@ router.post('/updateUser', async (ctx, next) => {
     ctx.response.body = response;
 });
 
+// 在用户页面, 获取用户信息
 router.post('/getUserInfo', async (ctx, next) => {
     const updateUser: UserInfoRequest = ctx.request.body;
     const { id } = updateUser;
@@ -286,6 +303,81 @@ router.post('/getUserInfo', async (ctx, next) => {
     }
 
     ctx.response.body = response;
+});
+
+// 上传头像
+router.post('/uploadAvatar', async (ctx, next) => {
+    const files = ctx.request.files;
+    const uploadData: UserUploadAvatar = ctx.request.body;
+    const { userId: id } = uploadData;
+
+    console.log(`[User] ${getDate()} uploadAvatar: ${id}`);
+
+    const response: Response = { error: 1 };
+
+    if (files) {
+        let isCreated = false;
+        const filePath = path.join('./', `${avatarConfig.dirName}/${id}`);
+        if (!fs.existsSync(filePath)) {
+            isCreated = mkdirsSync(filePath);
+        } else {
+            isCreated = true;
+        }
+
+        if (isCreated) {
+            const { file } = files;
+            const suffix = file.name.split('.')[1];
+            const savePath = `${filePath}/avatar.${suffix}`;
+            console.log(savePath);
+            fs.renameSync(file.path, savePath); // 写入文件, 并修改位置
+
+            await users.updateOne({ _id: id }, { avatarUrl: savePath }).then(result => {
+                const { ok } = (result as { ok: number });
+
+                if (ok === 1) {
+                    response.error = 0;
+                    response.content = {
+                        avatarUrl: savePath,
+                    }
+                } else {
+                    response.msg = '更新失败!';
+                    console.log(`[User] ${getDate()} uploadAvatar Error:`, response.msg);
+                }
+            }).catch(err => {
+                response.msg = '更新失败, 请稍后重试!';
+                console.log(`[User] ${getDate()} uploadAvatar Error:`, err);
+            });
+        } else {
+            response.msg = '服务器异常!';
+        }
+    } else {
+        response.msg = '文件获取异常!';
+    }
+
+    ctx.response.body = response;
+});
+
+// 获取头像
+router.get('/avatars/*', ctx => {
+    const { url } = ctx.request;
+
+    let urlArr = url.split('/');
+    const tempArr: string[] = [];
+    urlArr.shift(); // 第一个为空字符串
+    urlArr.shift();
+    const newUrl = urlArr.join('/');
+    const filePath = path.join('./', `${newUrl}`);
+
+    fs.access(filePath, fs.constants.F_OK, (err) => {
+        if (err) {
+            console.log(`[User] getAvatar Error:`, err);
+            return;
+        }
+    });
+
+    const readStream = fs.createReadStream(filePath);
+
+    ctx.body = readStream;
 });
 
 export default router.routes();

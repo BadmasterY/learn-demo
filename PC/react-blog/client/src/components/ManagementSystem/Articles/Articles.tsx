@@ -42,8 +42,14 @@ function Articles() {
             }
 
             if (content) {
-                setTotal(content.maxLength);
-                setData(content.articles);
+                const { articles, maxLength } = content;
+                const data: ArticlesItem[] = [];
+
+                setTotal(maxLength);
+                for(let i = 0; i< articles.length; i++) {
+                    data[i] = Object.assign({}, articles[i], { key: articles[i].id });
+                }
+                setData(data);
             }
         }).catch(err => {
             message.error('Please check network!');

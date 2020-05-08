@@ -69,10 +69,18 @@ interface configSchema {
     }
 }
 
+/**
+ * 头像配置
+ */
+interface Avatar {
+    dirName: string;
+}
+
 export {
     Http,
     Server,
     InitDB,
     DB,
     configSchema,
+    Avatar,
 }

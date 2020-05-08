@@ -6,23 +6,23 @@
   "author": "Mr.",
   "license": "MIT",
   "pkg": {
-    "scripts": [
-      "config/*.json"
-    ],
     "assets": [
-      "public/**/*"
+      "dist/public/**/*",
+      "config/*.*"
     ]
   },
   "scripts": {
     "start": "ts-node index.ts",
     "debug": "DEBUG='*' ts-node index.ts",
     "serve": "ts-node-dev index.ts",
-    "build": "tsc && pkg package.json --out-path ./build"
+    "build-ts": "tsc",
+    "build-app": "pkg package.json --out-path ./build",
+    "build": "yarn build-ts && yarn build-app"
   },
   "dependencies": {
     "config": "^3.3.0",
     "koa": "^2.11.0",
-    "koa-bodyparser": "^4.3.0",
+    "koa-body": "^4.1.1",
     "koa-mount": "^4.0.0",
     "koa-router": "^8.0.8",
     "koa-static": "^5.0.0",

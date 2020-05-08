@@ -2,6 +2,7 @@ interface UserState {
     id: string;
     bio: string;
     url: string;
+    avatarUrl?: string;
     nickname: string;
     username: string;
     position: string;

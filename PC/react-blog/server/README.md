@@ -14,8 +14,8 @@ yarn serve // 开发模式
 yarn build // 检查 ./dist
 ```
 
-### 设置
-调整数据库及其他相关设置移步 `config/default.json`。
+### 配置
+调整数据库及其他相关配置移步 `config/default.json`。
 
 ```
 // default.json 目录结构

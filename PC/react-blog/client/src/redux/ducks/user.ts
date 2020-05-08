@@ -13,6 +13,7 @@ const initialState: State = {
     id: '', // key
     bio: '',
     url: '',
+    avatarUrl: '',
     nickname: '',
     username: '',
     position: '',

@@ -10,6 +10,7 @@ interface modelBase {
 interface Users extends modelBase {
     url: string;
     bio: string;
+    avatarUrl: string;
     nickname: string;
     username: string;
     password: string;

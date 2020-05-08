@@ -6,9 +6,10 @@ import axios from 'axios';
 
 import Register from '../Register/Register';
 import { reduxState } from '../../interfaces/state';
+import { Data as LoginData } from '../../interfaces/localstorage';
 import { Action, Payload } from '../../interfaces/user';
 import { UserRes } from '../../interfaces/response';
-import { blogName, login } from '../../config/default.json';
+import { blogName, localName, login } from '../../config/default.json';
 import { actions } from '../../redux/ducks/user';
 import { md5 } from '../../utils/md5';
 
@@ -18,6 +19,7 @@ const { useVideo, useBackground, noBackground, randomBackgroundSize } = login;
 const num = Math.floor(Math.random() * randomBackgroundSize);
 
 function Login() {
+    const [autoLogin, setAutoLogin] = useState(false);
     const [isLogging, setLoging] = useState(false);
     const [form] = Form.useForm();
     const [showRegister, setRegister] = useState(false);
@@ -26,7 +28,21 @@ function Login() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (isLogin) history.push('/');
+        if (isLogin) {
+            history.goBack();
+        } else {
+            const localItem = localStorage.getItem(localName);
+            if (localItem !== null) {
+                const loginData: LoginData = JSON.parse(localItem);
+                const { username, password, isLogin } = loginData;
+                form.setFields([{touched: true, validating: false, errors: [], name: ['username', 'password']}])
+                form.setFieldsValue({ username, password });
+                if (isLogin && !autoLogin) {
+                    setAutoLogin(true);
+                    login();
+                }
+            }
+        }
     });
 
     // 登录逻辑
@@ -44,8 +60,13 @@ function Login() {
                     return;
                 }
                 message.success('Login success!');
+                localStorage.setItem(localName, JSON.stringify({
+                    username,
+                    password,
+                    isLogin: true,
+                }));
                 if (typeof data.content === 'object') {
-                    const payload: Payload = Object.assign({}, data.content, {isLogin: true});
+                    const payload: Payload = Object.assign({}, data.content, { isLogin: true });
                     const action: Action = actions.userLogin(payload);
                     // 触发 user login
                     dispatch(action);
@@ -132,11 +153,13 @@ function Login() {
                         :
                         'Login'
                 }</Button>
-                <Button
-                    className="login-register"
-                    type="link"
-                    onClick={showFn}
-                >register now!</Button>
+                <div className="login-register-box">
+                    <Button
+                        className="login-register"
+                        type="link"
+                        onClick={showFn}
+                    >register now!</Button>
+                </div>
             </Form>
             <Modal
                 visible={showRegister}

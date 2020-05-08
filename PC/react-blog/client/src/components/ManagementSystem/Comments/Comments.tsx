@@ -42,9 +42,16 @@ function Comments() {
 
             if (content) {
                 const { maxLength, comments } = content;
+                const data: CommentsItem[] = [];
 
                 setTotal(maxLength);
-                setData(comments);
+                for(let i = 0; i < comments.length; i++) {
+                    data[i] = Object.assign({}, comments[i], {
+                        key: comments[i].id,
+                    });
+                }
+
+                setData(data);
             }
         }).catch(err => {
             message.error('Please check network!');

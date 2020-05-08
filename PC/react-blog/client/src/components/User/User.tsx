@@ -13,6 +13,7 @@ import {
     Statistic, 
     Divider,
     Modal,
+    Tooltip,
     message,
 } from 'antd';
 import axios from 'axios';
@@ -27,7 +28,7 @@ import './user.css';
 const { Title, Paragraph } = Typography;
 
 function User() {
-    const { isLogin, id, username, nickname, bio, url, position } = useSelector((item: reduxState) => item.user);
+    const { isLogin, id, username, nickname, avatarUrl, bio, url, position } = useSelector((item: reduxState) => item.user);
     const [ firstLoad, setFirstLoad ] = useState(true);
     const [ loading, setLoading ] = useState(true);
     const [ resetPass, setResetPass ] = useState(false);
@@ -92,7 +93,16 @@ function User() {
                     <Row gutter={[16, 16]}>
                         <Col xs={24} sm={12} md={8} lg={6} xxl={4}>
                     <Typography className="user-sider">
-                        <Avatar size={200} shape="square">{nickname}</Avatar>
+                        <Link to="/setting">
+                            <Tooltip title="change avatar">
+                                {
+                                    avatarUrl && avatarUrl!=='' ?
+                                        <Avatar src={`/user/${avatarUrl}`} size={200} shape="square" />
+                                        :
+                                        <Avatar size={200} shape="square">{nickname}</Avatar>
+                                }
+                            </Tooltip>
+                        </Link>
                         <Title level={3} className="user-nickname">{nickname}</Title>
                         <Title level={4} id="user-name" className="user-name">{username}</Title>
                         <Paragraph>{bio}</Paragraph>

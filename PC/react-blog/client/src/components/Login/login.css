@@ -57,8 +57,11 @@
     background: rgba(255, 255, 255, 0.1);
 }
 
+.login-register-box {
+    text-align: right;
+}
+
 .login-register {
-    float: right;
     color: rgba(0,0,0,0.3);
     padding: 0;
 }

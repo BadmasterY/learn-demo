@@ -3,9 +3,11 @@ import { Layout, Menu, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { blogName, header } from '../../config/default.json';
+import { blogName, localName, header } from '../../config/default.json';
 import { reduxState } from '../../interfaces/state';
 import { actions } from '../../redux/ducks/user';
+import { Data as LoginData } from '../../interfaces/localstorage';
+
 import './header.css';
 
 const { Header } = Layout;
@@ -19,6 +21,18 @@ function MyHeader() {
         dispatch(action);
 
         message.success('Logout success!');
+
+        const localItem = localStorage.getItem(localName);
+        if(localItem !== null) {
+            const loginData: LoginData = JSON.parse(localItem);
+            const { username, password } = loginData;
+
+            localStorage.setItem(localName, JSON.stringify({
+                username,
+                password,
+                isLogin: false,
+            }));
+        }
     }
 
     return (
