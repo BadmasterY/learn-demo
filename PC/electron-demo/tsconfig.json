@@ -1,0 +1,16 @@
+{
+    "exclude": [],
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "outDir": "./",
+        "rootDir": "./",
+        "strict": true,
+        "sourceMap": true,
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "experimentalDecorators": true,
+        "noImplicitAny": true,
+    }
+}

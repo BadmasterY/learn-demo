@@ -1,6 +1,7 @@
 ## PC端项目
 
 - `dynamic-form`: 可视化表单。
+- `electron-deom`: `Electron` 桌面开发框架 `demo`。
 - `mediasoup-api`: 中文文档(将移动至 `gitbook`)。
 - `mediasoup-demo`: `mediasoup` 相关 demo, 使用 `mediasoup-client` 与 `mediasoup`。
 - `mediasoup-many-demo`: 基于 `mediasoup-demo` 实现的多对多 demo。

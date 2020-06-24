@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electron demo</title>
+</head>
+<body>
+    <h1>Hello World!</h1>
+    We are using node <script>document.write(process.versions.node)</script>,
+    Chrome <script>document.write(process.versions.chrome)</script>,
+    and Electron <script>document.write(process.versions.electron)</script>.
+    <a href="#" id="drag">item</a>
+    <script>
+        // 浏览器监听快捷键
+        window.addEventListener('keyup', ev => { console.log(ev) },true);
+
+        // 添加拖拽
+        const drag = document.getElementById('drag');
+        drag.ondragstart = ev => {
+            ev.preventDefault();
+
+            // 需要在 render 进程中调度
+            // ipcRenderer.send('ondragstart', '/path/to/item');
+        };
+    </script>
+</body>
+</html>

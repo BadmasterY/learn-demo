@@ -1,0 +1,20 @@
+<html>
+    <body>
+        <script>
+            // 打印在线/不在线
+            const alertOnlineStatus = () => {
+                // onLine 仅在断开网络时返回 false
+                // 所以, 需要准确的监听需要手动实现
+                console.log(navigator.onLine ? 'online' : 'offline');
+            }
+
+            console.time('init online status:');
+
+            // 监听在线/不在线事件
+            window.addEventListener('online', alertOnlineStatus, true);
+            window.addEventListener('offline', alertOnlineStatus, true);
+
+            console.timeEnd('init online status:');
+        </script>
+    </body>
+</html>
