@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>获取显卡信息</title>
+    <style>
+        #txt {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="txt"></div>
+</body>
+<script>
+    window.onload = function () {
+        const txt = document.getElementById('txt');
+
+        const canvas = document.createElement('canvas');
+        const webgl = canvas.getContext('webgl');
+        // 使用 webgl 扩展接口
+        // https://developer.mozilla.org/zh-CN/docs/Web/API/WebGLRenderingContext/getExtension
+        const info = webgl.getExtension('WEBGL_debug_renderer_info');
+
+        const msg = webgl.getParameter(info.UNMASKED_RENDERER_WEBGL);
+
+        txt.innerText = msg;
+    }
+</script>
+
+</html>

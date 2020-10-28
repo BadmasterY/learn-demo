@@ -13,5 +13,6 @@
 - `webgl-demo`: `webgl` 学习过程中相关 demo。
 - `server-mongoose`: 基于 `mongoose`+`node` 的服务器实践。
 - `my-ts-with-node`: 基于 `typescript` + `node` 的服务器实践。
+- `get-gpu-info`: 基于 `webgl` 获取显卡信息。
 
-> 更新时间: 2020-6-24 19:06:17
+> 更新时间: 2020-10-28 17:17:42
