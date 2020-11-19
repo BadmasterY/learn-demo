@@ -15,5 +15,6 @@
 - `my-ts-with-node`: 基于 `typescript` + `node` 的服务器实践。
 - `get-gpu-info`: 基于 `webgl` 获取显卡信息。
 - `picture-in-picture`: 视频画中画。
+- `virtual-dom`: 基于 `React` 的 `Virtual DOM` 思考与实现的简易版虚拟 `DOM`。
 
-> 更新时间: 2020-10-30 13:44:27
+> 更新时间: 2020-11-19 17:00:55
