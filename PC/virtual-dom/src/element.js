@@ -1,7 +1,7 @@
 /**
  * createElement
  * @param {string} tagName root tag name
- * @param {{ id: string }} props prop types
+ * @param {{ id: string, key?: string }} props prop types
  * @param {(createElement|string)[]} children children
  */
 function createElement(tagName, props = {}, children = []) {
@@ -13,31 +13,36 @@ function createElement(tagName, props = {}, children = []) {
     this.tagName = tagName;
     this.props = props;
     this.children = children;
+    // save key
+    this.key = props.key;
 
     return this;
 }
 
 Object.assign(createElement.prototype, {
     /**
-     * render createelement  
+     * render element  
      * now use ReactDOM.render()
      */
     render() {
-        // create createelement by tagName
+        // create element by tagName
         let root = document.createElement(this.tagName);
 
         // set attributes
         for (const propName in this.props) {
+            // 'key' attribute is used with diff
+            if (propName === 'key') continue;
+
             const propValue = this.props[propName];
             root.setAttribute(propName, propValue);
         }
 
         // loop render
-        this.children.forEach((value) => {
-            const child = (value instanceof createElement) ?
-                value.render() : document.createTextNode(value);
+        this.children.forEach((child) => {
+            const childNode = (child instanceof createElement) ?
+                child.render() : document.createTextNode(child);
 
-            root.appendChild(child);
+            root.appendChild(childNode);
         });
 
         return root;

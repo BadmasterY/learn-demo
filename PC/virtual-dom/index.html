@@ -11,10 +11,26 @@
             margin: 0;
             padding: 0;
         }
+        #old, #new {
+            width: calc(50% - 5px);
+            float: left;
+            min-height: 98px;
+            background-color: #eee;
+        }
+        #old {
+            margin-right: 10px;
+        }
+        #btn-box {
+            text-align: center;
+        }
     </style>
 </head>
 
 <body>
+    <div id="old"></div>
+    <div id="new"></div>
+    <div id="btn-box"><button id="btn">add</button></div>
+    <script src="./node_modules/uuid/dist/umd/uuid.min.js"></script>
     <script type="module" src="./index.js"></script>
 </body>
 

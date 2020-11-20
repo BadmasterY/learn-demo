@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "http-server"
+    "start": "http-server -o"
   },
   "author": "BadmasterY (Mr.)",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
-    "http-server": "^0.12.3"
+    "http-server": "^0.12.3",
+    "uuid": "^8.3.1"
   }
 }
