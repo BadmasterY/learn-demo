@@ -1,4 +1,5 @@
 import creteElement from './src/element.js';
+import diff from './src/diff.js';
 
 window.onload = function () {
     // console.log('Hello world!');
@@ -25,6 +26,10 @@ window.onload = function () {
         switch(flag) {
             case 'add':
                 add();
+                flag = 'diff';
+                break;
+            case 'diff':
+                diffFn();
                 flag = 'update';
                 break;
             case 'update':
@@ -41,13 +46,20 @@ window.onload = function () {
         const ul = new creteElement('ul', { class: 'list', key: rootKey }, [
             new creteElement('li', { class: 'item', key: '1' }, ['Item 1']),
             new creteElement('li', { class: 'item', key: '3' }, ['Item 3']),
-            new creteElement('li', { class: 'item', key: '2' }, ['Item 2']),
+            new creteElement('li', { class: 'item', key: '2' }, ['Update Item 2']),
         ]);
         newTree = ul;
 
         console.log(oldTree, newTree);
 
         newDiv.appendChild(ul.render());
+    }
+
+    function diffFn() {
+        const patches = diff(oldTree, newTree);
+        console.log('diff');
+        console.log(patches);
+        return patches;
     }
 
     function update() {
