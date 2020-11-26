@@ -6,25 +6,26 @@ import createElement from './element.js';
  * Time complexity: `O(n)`
  * @param {createElement} oldTree tree
  * @param {createElement} newTree tree
- * @returns {{[number]: {type: number, content?: string, moves?: any[]}[]}} move or insert, the diff
+ * @returns {{[number]: {type: number, content?: string, props?: { [string]: any }, node?: string|createElement, moves?: any[]}[]}} move or insert, the diff
  */
 function diff(oldTree, newTree) {
-    let index = 0; // tree node index
+    let current = { index: 0 }; // tree node index
     const patches = {}; // diff
     // DFS
-    dfs(oldTree, newTree, index, patches);
+    dfs(oldTree, newTree, current, patches);
     return patches;
 }
 
 /**
- * DFS, pre order algorithm(?)
+ * DFS, pre order algorithm
  * @param {createElement} oldNode pre update node
  * @param {createElement} newNode after update node
- * @param {number} index tree node index
- * @param {{[number]: {type: number, content: any}[]}} patches diff
+ * @param {number} current tree node index
+ * @param {{[number]: {type: number, content?: string, props?: { [string]: any }, node?: string|createElement, moves?: any[]}[]}} patches diff
  */
-function dfs(oldNode, newNode, index, patches) {
+function dfs(oldNode, newNode, current, patches) {
     const currentPatches = [];
+    const index = current.index;
 
     if (newNode === null) {
         // no needs to do anything, all removed!
@@ -48,7 +49,7 @@ function dfs(oldNode, newNode, index, patches) {
         if (propsPatches) {
             currentPatches.push({
                 type: types.PROPS,
-                content: propsPatches,
+                props: propsPatches,
             });
         }
         // ignore, not to do anything
@@ -56,7 +57,7 @@ function dfs(oldNode, newNode, index, patches) {
         diffChildren(
             oldNode.children,
             newNode.children,
-            index,
+            current,
             patches,
             currentPatches,
         );
@@ -66,7 +67,7 @@ function dfs(oldNode, newNode, index, patches) {
     else {
         currentPatches.push({
             type: types.REPLACE,
-            content: newNode,
+            node: newNode,
         });
     }
 
@@ -117,23 +118,21 @@ function diffProps(oldNode, newNode) {
  * @param {{[number]: {type: number, content: any}[]}} patches 
  * @param {{type: number, content: any}[]} currentPatches 
  */
-function diffChildren(oldChildren, newChildren, index, patches, currentPatches) {
+function diffChildren(oldChildren, newChildren, current, patches, currentPatches) {
     const { moves, children } = diffList(oldChildren, newChildren, 'key');
-
-    console.log(moves, children);
 
     if (moves.length) {
         currentPatches.push({ type: types.REORDER, moves });
     }
 
     let leftNode = null;
-    let currentNodeIndex = index;
+    // let currentNodeIndex = index;
     oldChildren.forEach((child, i) => {
         const newChild = children[i];
-        currentNodeIndex = (leftNode && leftNode.count)
-            ? currentNodeIndex + leftNode.count + 1
-            : currentNodeIndex + 1;
-        dfs(child, newChild, currentNodeIndex, patches);
+        current.index = leftNode?.count
+            ? current.index + leftNode.count + 1
+            : current.index + 1;
+        dfs(child, newChild, current, patches);
         leftNode = child;
     });
 }
@@ -156,7 +155,7 @@ function diffList(oldList, newList, key = 'key') {
 
     const oldLength = oldList.length;
 
-    // first check old list: if removed or not
+    // first: check old list: if removed or not
     for (let i = 0; i < oldLength; i++) {
         const item = oldList[i];
         const itemKey = getKey(item, key);
@@ -180,12 +179,12 @@ function diffList(oldList, newList, key = 'key') {
     // don't modify children!
     const simulateList = [].concat(children);
 
-    // secound remove items no longer exist
+    // secound: remove items no longer exist
     // like while(){...}
     for (let i = 0; i < simulateList.length;) {
         if (simulateList[i] === null) {
             // remove item, type '0'
-            moves.push({ index: i, type: 0 });
+            moves.push({ index: i, type: types.REMOVE });
             // remove simulateList[i], and modify simulate list
             simulateList.splice(i, 1);
         } else {
@@ -198,7 +197,7 @@ function diffList(oldList, newList, key = 'key') {
 
     const newLength = newList.length;
 
-    // third insert new items, check with new list
+    // third: insert new items, check with new list
     while (i < newLength) {
         const item = newList[i];
         const itemKey = getKey(item, key);
@@ -214,37 +213,37 @@ function diffList(oldList, newList, key = 'key') {
                 // new item, inesrt
                 if (!oldMap.has(itemKey)) {
                     // insert new item, type '1'
-                    moves.push({ index: i, item, type: 1 });
+                    moves.push({ index: i, item, type: types.INSERT });
                 } else {
                     // if remove current simulateItem make item in right place
                     // then just remove it
                     const nextSimulateItemKey = getKey(simulateList[j + 1], key);
                     if (nextSimulateItemKey === itemKey) {
                         // remove item, type '0'
-                        moves.push({ index: i, type: 0 });
+                        moves.push({ index: i, type: types.REMOVE });
                         // remove simulateList[i], and modify simulate list
                         simulateList.splice(j, 1);
                         j++ // after removing, current j is right, just jump to next one
                     } else {
                         // insert new item, type '1'
-                        moves.push({ index: i, item, type: 1 });
+                        moves.push({ index: i, item, type: types.INSERT });
                     }
                 }
             }
         } else {
             // insert new item, type '1'
-            moves.push({ index: i, item, type: 1 });
+            moves.push({ index: i, item, type: types.INSERT });
         }
 
         i++;
     }
 
-    // end if j is not remove to the end, remove all the rest item
+    // end: if j is not remove to the end, remove all the rest item
     let k = simulateList.length - j;
     while (j++ < simulateList.length) {
         k--;
         // remove item, type '0'
-        moves.push({ index: k + i, type: 0 });
+        moves.push({ index: k + i, type: types.REMOVE });
     }
 
     return {

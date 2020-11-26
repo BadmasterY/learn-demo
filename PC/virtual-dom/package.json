@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "http-server -o"
+    "start": "npx http-server -o"
   },
   "author": "BadmasterY (Mr.)",
   "license": "MIT",

@@ -15,8 +15,6 @@ function createElement(tagName, props = {}, children = []) {
     this.children = children;
     // save key
     this.key = props.key;
-
-    return this;
 }
 
 Object.assign(createElement.prototype, {
@@ -31,7 +29,7 @@ Object.assign(createElement.prototype, {
         // set attributes
         for (const propName in this.props) {
             // 'key' attribute is used with diff
-            if (propName === 'key') continue;
+            // if (propName === 'key') continue;
 
             const propValue = this.props[propName];
             root.setAttribute(propName, propValue);

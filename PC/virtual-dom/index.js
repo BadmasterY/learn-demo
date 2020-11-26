@@ -1,5 +1,6 @@
 import creteElement from './src/element.js';
 import diff from './src/diff.js';
+import patch from './src/patch.js';
 
 window.onload = function () {
     // console.log('Hello world!');
@@ -16,11 +17,15 @@ window.onload = function () {
         new creteElement('li', { class: 'item', key: '1' }, ['Item 1']),
         new creteElement('li', { class: 'item', key: '2' }, ['Item 2']),
         new creteElement('li', { class: 'item', key: '3' }, ['Item 3']),
+        new creteElement('li', { class: 'item', key: '4' }, ['Item 4']),
     ]);
     let oldTree = ul;
     let newTree = null;
+    let patches = null;
 
-    oldDiv.appendChild(ul.render());
+    const ulNode = ul.render();
+
+    oldDiv.appendChild(ulNode);
 
     btn.addEventListener('click', e => {
         switch(flag) {
@@ -44,9 +49,10 @@ window.onload = function () {
 
     function add() {
         const ul = new creteElement('ul', { class: 'list', key: rootKey }, [
-            new creteElement('li', { class: 'item', key: '1' }, ['Item 1']),
+            new creteElement('li', { class: 'item', key: '1' }, ['Update Item 1']),
             new creteElement('li', { class: 'item', key: '3' }, ['Item 3']),
-            new creteElement('li', { class: 'item', key: '2' }, ['Update Item 2']),
+            new creteElement('li', { class: 'item', key: '4', test: 'hhhh' }, ['Item 4']),
+            new creteElement('li', { class: 'item', key: '2' }, ['Item 2']),
         ]);
         newTree = ul;
 
@@ -56,14 +62,17 @@ window.onload = function () {
     }
 
     function diffFn() {
-        const patches = diff(oldTree, newTree);
-        console.log('diff');
+        patches = diff(oldTree, newTree);
+        alert('View console!');
         console.log(patches);
         return patches;
     }
 
     function update() {
         console.log('update');
+        patch(ulNode, patches);
         newDiv.innerHTML = '';
+        oldTree = newTree;
+        newTree = null;
     }
 }
