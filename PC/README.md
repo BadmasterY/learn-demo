@@ -16,5 +16,6 @@
 - `get-gpu-info`: 基于 `webgl` 获取显卡信息。
 - `picture-in-picture`: 视频画中画。
 - `virtual-dom`: 基于 `React` 的 `Virtual DOM` 思考与实现的简易版虚拟 `DOM`。
+- `mask`: 基于 `CSS3` 的 `mask` 属性实现的遮罩效果。
 
-> 更新时间: 2020-11-19 17:00:55
+> 更新时间: 2020-12-02 15:42:35
