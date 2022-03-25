@@ -13,7 +13,7 @@
   "author": "Mr.",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^9.0.5",
+    "electron": "^13.6.6",
     "typescript": "^3.9.5"
   }
 }
