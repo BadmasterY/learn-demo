@@ -7,4 +7,4 @@
 
 [mediasoup-client 自翻译中文文档](https://yuzhoujie95.gitbook.io/mediasoup-client-zh-cn/)
 
-有关 `meidiasoup` 的中文文档正在路上...
+有关 [`meidiasoup` 的中文文档](https://www.yuque.com/u239523/kw98np)
