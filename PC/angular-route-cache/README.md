@@ -18,5 +18,5 @@ abstract  class  RouteReuseStrategy {
 ```
 
 ### 参考文章
-[解析Angular路由组件缓存复用和实现问题](https://www.jianshu.com/p/caade8ad46fa)
-[使用 Angular RouteReuseStrategy 缓存（路由）组件的实例代码](https://www.yisu.com/zixun/158120.html)
+- [解析Angular路由组件缓存复用和实现问题](https://www.jianshu.com/p/caade8ad46fa)
+- [使用 Angular RouteReuseStrategy 缓存（路由）组件的实例代码](https://www.yisu.com/zixun/158120.html)
