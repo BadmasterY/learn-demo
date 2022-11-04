@@ -3,6 +3,16 @@ import {
   DetachedRouteHandle,
   RouteReuseStrategy,
 } from '@angular/router';
+import { Subject, Observable } from 'rxjs';
+
+export class RouteMsg {
+  url: string = '';
+  type: string = '';
+  constructor(type: string, url: string) {
+    this.type = type;
+    this.url = url;
+  }
+}
 
 /**
  * 路由拦截器
@@ -11,6 +21,34 @@ export class RouterService implements RouteReuseStrategy {
   constructor() {}
 
   public static handlers: { [key: string]: DetachedRouteHandle | null } = {};
+  public static routeText$ = new Subject<RouteMsg>();
+
+  /**
+   * 路由变更监听器
+   */
+  public static getRouteText(): Observable<RouteMsg> {
+    return RouterService.routeText$.asObservable();
+  }
+
+  /**
+   * 清除单个路由缓存
+   * @param path 路径
+   */
+  public static deleteRouteSnapshot(path: string): void {
+    const name = path.replace(/\//g, '_');
+    if (RouterService.handlers[name]) {
+      delete RouterService.handlers[name];
+    }
+  }
+
+  /**
+   * 清除全部路由缓存
+   */
+  public static clear(): void {
+    for (let key in RouterService.handlers) {
+      delete RouterService.handlers[key];
+    }
+  }
 
   /** 使用route的path作为快照的key */
   getRouteUrl(route: ActivatedRouteSnapshot) {
@@ -44,6 +82,10 @@ export class RouterService implements RouteReuseStrategy {
   // 路由离开时调用, 返回 true 调用 store
   shouldDetach(route: ActivatedRouteSnapshot): boolean {
     console.log('shouldDetach: ', route);
+
+    RouterService.routeText$.next(
+      new RouteMsg('detach', route.routeConfig?.path || '')
+    );
     if (route.routeConfig?.path !== 'login') {
       return false;
     }
@@ -61,13 +103,16 @@ export class RouterService implements RouteReuseStrategy {
   }
 
   /**
-  * 路由被导航 如果此方法返回 true 则触发 retrieve 方法 
-  * 
-  * 如果返回 false 这个组件将会被重新创建
-  */
+   * 路由被导航 如果此方法返回 true 则触发 retrieve 方法
+   *
+   * 如果返回 false 这个组件将会被重新创建
+   */
   shouldAttach(route: ActivatedRouteSnapshot): boolean {
     console.log('shouldAttach: ', route);
 
+    RouterService.routeText$.next(
+      new RouteMsg('attach', route.routeConfig?.path || '')
+    );
     return !!RouterService.handlers[this.getRouteUrl(route)];
   }
 }
