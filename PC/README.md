@@ -18,5 +18,6 @@
 - `virtual-dom`: 基于 `React` 的 `Virtual DOM` 思考与实现的简易版虚拟 `DOM`。
 - `mask`: 基于 `CSS3` 的 `mask` 属性实现的遮罩效果。
 - `angular-route-cache`: 基于 `RouteReuseStrategy` 的 `angular` 路由缓存实现。
+- `vite-demo`: 简易的 `vite demo`
 
-> 更新时间: 2022-11-03 14:16:11
+> 更新时间: 2023-01-31 14:37:57
