@@ -19,5 +19,7 @@
 - `mask`: 基于 `CSS3` 的 `mask` 属性实现的遮罩效果。
 - `angular-route-cache`: 基于 `RouteReuseStrategy` 的 `angular` 路由缓存实现。
 - `vite-demo`: 简易的 `vite demo`
+- `lazy-load`: 懒加载
+- `virtual-list`: 虚拟列表
 
-> 更新时间: 2023-01-31 14:37:57
+> 更新时间: 2023-01-31 15:06:55
